@@ -1,0 +1,94 @@
+
+- **** PARSER
+- Split in pipes
+- Add spaces
+- Expander
+- Quote handling
+- Split command
+- Builtin check
+
+- **** Executor
+
+The following is a brief description of the shell’s operation when it reads and executes a command. Basically, the shell does the following:
+
+Reads its input from a file (see Shell Scripts), from a string supplied
+as an argument to the -c invocation option (see Invoking Bash), or from the user’s terminal.
+
+Breaks the input into words and operators, obeying the quoting rules described in Quoting.
+These tokens are separated by metacharacters. Alias expansion is performed by this step (see Aliases).
+
+/*operator
+
+		A control operator or a redirection operator. See Redirections, for a list of redirection operators.
+		Operators contain at least one unquoted metacharacter.*/
+
+/*control operator
+
+		A token that performs a control function. It is a newline or one of
+		the following: ‘||’, ‘&&’, ‘&’, ‘;’, ‘;;’, ‘;&’, ‘;;&’, ‘|’, ‘|&’, ‘(’, or ‘)’.*/
+
+
+/*word
+
+		A sequence of characters treated as a unit by the shell. Words may not include unquoted metacharacters.*/
+
+/*metacharacter
+
+		A character that, when unquoted, separates words. A metacharacter is a space, tab, newline,
+		or one of the following characters: ‘|’, ‘&’, ‘;’, ‘(’, ‘)’, ‘<’, or ‘>’.*/
+
+
+Parses the tokens into simple and compound commands (see Shell Commands).
+
+Performs the various shell expansions (see Shell Expansions), breaking the expanded
+tokens into lists of filenames (see Filename Expansion) and commands and arguments.
+
+Performs any necessary redirections (see Redirections) and removes the
+redirection operators and their operands from the argument list.
+
+Executes the command (see Executing Commands).
+
+Optionally waits for the command to complete and collects its exit status (see Exit Status).
+
+
+Regra gramatical do Bash:
+
+cmd [arg]* [ | cmd [arg]* ]*
+[ [> filename] [< filename] [ > filename] [>> filename] [>> filename] ]*
+
+>
+>>
+<
+<<
+|
+
+echo   >redic             "fabio \nvalli \n" > redic2 vieira | ls -la kelvin |           >redic1            echo          kelvin fabio oil ola
+CMD->REDI
+
+	LAXER: cria linked list com os TOkens
+echo kelvin > kelvin | wc -c
+CMD->ARG->REDI->PIPE->CMD->ARG->NULL
+
+
+
+	Parser: cria a tabela de comandos com base nos PIPES
+echo  > kelvin  kelvin> fabio > test
+ROOT
+NUM_OF_PIPES	| CMD  | ARGS               | IN     | OUT
+0		    	| echo | kelvin             | STDIN0 | FABIO3
+1				| wc   |  -c                | STDIN1 | STDOUT1
+2
+3
+4
+NOT HANDLE &;(){}*\
+
+
+#include <unistd.h>
+int execve(const char *pathname, char *const argv[],
+		   char *const envp[]);
+
+char	*argv[] = {"/usr/bin/echo", "fabio \nva$USERlli \n","vieira" NULL};
+char	**argv = {"/usr/bin/ls", "-la","kelvin" NULL};
+int val = execve(argv[0], argv, env);
+
+echo; "fabio ola ola1 ola"
