@@ -9,6 +9,14 @@
 
 - **** Executor
 
+before executing you must check access:
+    R_OK: verifica se o arquivo pode ser lido.
+    W_OK: verifica se o arquivo pode ser gravado.
+    X_OK: verifica se o arquivo pode ser executado.
+    F_OK: verifica se o arquivo existe.
+    A função        access recebe dois argumentos: o primeiro é uma string que contém o nome do arquivo ou diretório a ser verificado,
+                    e o segundo é um inteiro que especifica o tipo de operação a ser verificada.
+
 The following is a brief description of the shell’s operation when it reads and executes a command. Basically, the shell does the following:
 
 Reads its input from a file (see Shell Scripts), from a string supplied

@@ -6,25 +6,13 @@
 /*   By: kfaustin <kfaustin@student.42porto.>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/26 13:09:22 by kfaustin          #+#    #+#             */
-/*   Updated: 2023/04/29 18:59:00 by kfaustin         ###   ########.fr       */
+/*   Updated: 2023/05/03 15:44:13 by kfaustin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include "../../includes/minishell.h"
 
 // If ok true else false
-/*bool	check_pipes(char *input)
-{
-	int		len;
-
-	len = ft_strlen(input);
-	if (*input == '|' || input[len - 1] == '|')
-	{
-		ft_putstr_fd("Error: Invalid pipes syntax", 2);
-		return (false);
-	}
-
-}*/
 
 static void	is_inside_quotes(char *ptr, char c)
 {
@@ -60,7 +48,6 @@ bool	check_invalid_operator(char *input)
 				putstr_fd_bool("Error: Invalid operator (||)\n", 2, false);
 			if (((i + 1) < len) && input[i] == '&' && input[i + 1] == '&')
 				putstr_fd_bool("Error: Invalid operator (&&)\n", 2, false);
-
 		}
 	}
 }
