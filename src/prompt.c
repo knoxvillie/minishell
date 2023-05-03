@@ -6,7 +6,7 @@
 /*   By: kfaustin <kfaustin@student.42porto.>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 10:34:08 by kfaustin          #+#    #+#             */
-/*   Updated: 2023/05/03 10:37:43 by kfaustin         ###   ########.fr       */
+/*   Updated: 2023/05/03 16:11:42 by kfaustin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,10 @@ static void	prompt_prompt(t_root *root)
 	free (tmp3);
 	free (tmp1);
 }
+
+// Returns true if key is in env, else false.
+// The mais usage of this func is to check if the PATH was unset, because bash continues to display PATH after unset.
+bool	is_key_in_env()
 
 char	*display_prompt(t_root *root)
 {
