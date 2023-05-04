@@ -6,7 +6,7 @@
 /*   By: kfaustin <kfaustin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 11:29:44 by kfaustin          #+#    #+#             */
-/*   Updated: 2023/05/04 14:01:12 by kfaustin         ###   ########.fr       */
+/*   Updated: 2023/05/04 15:14:08 by kfaustin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ typedef struct s_root
 	char	*user;
 	char	*s_manager;
 	char	*home;
-	char	*path;
+	char	*p_path;
 	t_env	*list;
 }		t_root;
 
@@ -57,7 +57,7 @@ void	init_env_node(t_env **node, char *key, char *value);
 void	stack_env_list(t_root *root, t_env *node);
 // * list_handle.c
 char	*get_value_from_key(t_env *header, char *key);
-bool	is_key_in_env(t_env *env, char *str);
+bool	is_key_in_env(t_env *env, char *key);
 bool	abs_string_cmp(char *s1, char *s2);
 // * utils.c
 void	put_string_exit(char *str, int flag);

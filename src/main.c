@@ -6,7 +6,7 @@
 /*   By: kfaustin <kfaustin@student.42porto.>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 10:57:37 by kfaustin          #+#    #+#             */
-/*   Updated: 2023/05/04 14:27:46 by kfaustin         ###   ########.fr       */
+/*   Updated: 2023/05/04 14:32:18 by kfaustin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ int	main(int argc, char **argv, char **env)
 	//builtin_unset(root.list, "OUTRAVAR");
 	//printf("\n\n\n UNSET\n");
 	printf("\n\n\n PULANDO LINHAS \n");
-	builtin_export(&root, "CAVALO=");
+	builtin_export(&root, "CAVaLO = ");
 	while (root.list)
 	{
 		printf("%s - %s\n", root.list->key, root.list->value);

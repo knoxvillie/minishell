@@ -39,3 +39,8 @@ bool	is_key_in_env(t_env *env, char *key)
 	}
 	return (false);
 }
+
+void	table_path(t_root *root)
+{
+
+}
