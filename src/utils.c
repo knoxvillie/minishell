@@ -12,7 +12,7 @@
 
 #include "../includes/minishell.h"
 
-void	putstring_exit(char *str, int flag)
+void	put_string_exit(char *str, int flag)
 {
 	ft_putstr_fd(str, 2);
 	exit(flag);

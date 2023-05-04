@@ -6,7 +6,7 @@
 /*   By: kfaustin <kfaustin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 11:29:44 by kfaustin          #+#    #+#             */
-/*   Updated: 2023/05/03 15:03:04 by kfaustin         ###   ########.fr       */
+/*   Updated: 2023/05/04 10:32:42 by kfaustin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,8 +56,10 @@ void	init_env_node(t_env **node, char *key, char *value);
 void	stack_env_list(t_root *root, t_env *node);
 // * list_handle.c
 char	*get_value_from_key(t_env *header, char *key);
+bool	is_key_in_env(t_env *env, char *str);
+bool	abs_string_cmp(char *s1, char *s2);
 // * utils.c
-void	putstring_exit(char *str, int flag);
+void	put_string_exit(char *str, int flag);
 void	free_t_env(t_env *list);
 void	free_t_root(t_root *root);
 bool	check_syntax_prompt(char *input);

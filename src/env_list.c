@@ -6,7 +6,7 @@
 /*   By: kfaustin <kfaustin@student.42porto.>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/19 10:27:09 by kfaustin          #+#    #+#             */
-/*   Updated: 2023/04/19 16:01:59 by kfaustin         ###   ########.fr       */
+/*   Updated: 2023/05/04 10:33:19 by kfaustin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	init_env_node(t_env **node, char *key, char *value)
 {
 	*node = (t_env *)malloc(sizeof(t_env));
 	if (!(*node))
-		putstring_exit("Error: Malloc of *node fails\n", 1);
+		put_string_exit("Error: Malloc of *node fails\n", 1);
 	(*node)->key = key;
 	(*node)->value = value;
 	(*node)->next = NULL;
@@ -57,7 +57,7 @@ void	env_to_list(t_root *root, char **env)
 	t_env	*node;
 
 	if (!env)
-		putstring_exit("Error: env is NULL\n", 1);
+		put_string_exit("Error: env is NULL\n", 1);
 	i = -1;
 	root->list = NULL;
 	while (env[++i])

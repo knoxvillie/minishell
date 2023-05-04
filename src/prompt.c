@@ -6,7 +6,7 @@
 /*   By: kfaustin <kfaustin@student.42porto.>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 10:34:08 by kfaustin          #+#    #+#             */
-/*   Updated: 2023/05/03 16:11:42 by kfaustin         ###   ########.fr       */
+/*   Updated: 2023/05/04 10:33:37 by kfaustin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,10 +74,6 @@ static void	prompt_prompt(t_root *root)
 	free (tmp1);
 }
 
-// Returns true if key is in env, else false.
-// The mais usage of this func is to check if the PATH was unset, because bash continues to display PATH after unset.
-bool	is_key_in_env()
-
 char	*display_prompt(t_root *root)
 {
 	// user, s_manager and home only updates once.
@@ -88,12 +84,10 @@ char	*display_prompt(t_root *root)
 		root->home = get_value_from_key(root->list, "HOME");
 		s_manager_prompt(root);
 	}
-	// path is always updating
-	// Quando unset PATH temos que melhorar o codigo, penso em simplismente parar de exibir o path
 	root->path = getcwd(NULL, 0);
 	path_prompt(root);
 	if (!root->path)
-		putstring_exit("Error: Path prompt is NULL\n", 1);
+		put_string_exit("Error: Path prompt is NULL\n", 1);
 	prompt_prompt(root);
 	return (root->prompt);
 }
