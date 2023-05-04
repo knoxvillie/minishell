@@ -6,7 +6,7 @@
 /*   By: kfaustin <kfaustin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 11:29:44 by kfaustin          #+#    #+#             */
-/*   Updated: 2023/05/04 10:32:42 by kfaustin         ###   ########.fr       */
+/*   Updated: 2023/05/04 14:01:12 by kfaustin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ typedef struct s_root
 
 // *** BUILTINS ***
 void	builtin_unset(t_env *env, char *str);
+void	builtin_export(t_root *root, char *str);
 
 // *** Functions ***
 void	ft_parser(char *input);

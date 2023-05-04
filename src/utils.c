@@ -6,7 +6,7 @@
 /*   By: kfaustin <kfaustin@student.42porto.>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/13 12:12:39 by kfaustin          #+#    #+#             */
-/*   Updated: 2023/05/03 14:52:28 by kfaustin         ###   ########.fr       */
+/*   Updated: 2023/05/04 12:59:08 by kfaustin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,4 +39,16 @@ void	free_t_root(t_root *root)
 	free (root->s_manager);
 	free (root->home);
 	free (root->path);
+}
+
+bool	abs_string_cmp(char *s1, char *s2)
+{
+	int		len_s1;
+	int		len_s2;
+
+	len_s1 = (int)ft_strlen(s1);
+	len_s2 = (int) ft_strlen(s2);
+	if ((len_s1 == len_s2) && !ft_strncmp(s1, s2, len_s1))
+		return (true);
+	return (false);
 }

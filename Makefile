@@ -28,9 +28,11 @@ LEXER	= syntax.c
 
 BUILDIR	= ./src/builtins/
 UNSET	= unset/unset.c
+EXPORT	= export/export.c
 
 OBJ		=	$(addprefix $(SRCDIR), $(SRC:.c=.o)) \
-			$(addprefix $(BUILDIR), $(UNSET:.c=.o))
+			$(addprefix $(BUILDIR), $(UNSET:.c=.o)) \
+			$(addprefix $(BUILDIR), $(EXPORT:.c=.o))
 			#$(addprefix $(LEXERDIR), $(LEXER:.c=.o))
 
 
