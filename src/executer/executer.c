@@ -6,7 +6,7 @@
 /*   By: kfaustin <kfaustin@student.42porto.>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/05 11:00:11 by kfaustin          #+#    #+#             */
-/*   Updated: 2023/05/05 12:04:39 by kfaustin         ###   ########.fr       */
+/*   Updated: 2023/05/05 14:30:51 by kfaustin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,21 +46,32 @@ bool	check_builtin(char *cmd)
 	return (false);
 }
 
-void	execute_single_cmd(t_msh *data)
+static void	execute_single_cmd(t_msh *data, char *path_cmd)
 {
 	int		pid;
+	char	*cmd[] = {"ls", "-al", NULL};
+	char	*env[] = {NULL};
 
+	(void)data;
 	pid = fork();
 	if (pid == 0)
 	{
 		//signals and redirect is handle here
 		//if(check_builtin(data->lst_cmd->argList[0])) > Check is builtin
-		execve()
+		execve(path_cmd, cmd, env);
 	}
 }
 
 void	do_execute(t_msh *data)
 {
-	char	*
-	if (number_of_pipes(data->lst_cmd) == 0)
+	char	*path_cmd;
+
+	path_cmd = check_access(data->ppt->list, "ls");
+	if (!path_cmd)
+		return ;
+	/*if (number_of_pipes(data->lst_cmd) == 0)
+	{
+	}*/
+	execute_single_cmd(data, path_cmd);
+	free (path_cmd);
 }

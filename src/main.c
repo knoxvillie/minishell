@@ -6,7 +6,7 @@
 /*   By: kfaustin <kfaustin@student.42porto.>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 10:57:37 by kfaustin          #+#    #+#             */
-/*   Updated: 2023/05/04 14:32:18 by kfaustin         ###   ########.fr       */
+/*   Updated: 2023/05/05 14:27:27 by kfaustin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,17 +19,22 @@ int	main(int argc, char **argv, char **env)
 	char	*input;
 	t_root	root;
 	t_env	*header;
+	t_msh	*data;
 
 	(void)argc;
 	(void)argv;
 	(void)env;
 	(void)input;
 	(void)header;
+	(void)data;
 
 	env_to_list(&root, env);
+	data = (t_msh *)malloc(sizeof(t_msh));
+	data->lst_cmd = NULL;
+	data->ppt = &root;
 	root.prompt = NULL;
 	root.n_exec = 0;
-	/*while (1)
+	while (1)
 	{
 		input = readline(display_prompt(&root));
 		if (!input)
@@ -38,16 +43,17 @@ int	main(int argc, char **argv, char **env)
 			free (input);
 			break ;
 		}
-		if (!(*input))
+	/*	if (!(*input))
 		{
 			printf("%s", input);
 			continue ;
-		}
-		printf("%s\n", input);
+		}*/
+		//printf("%s\n", input);
+		do_execute(data);
 		free (input);
-		free (root.path);
-	}*/
-	header = root.list;
+		free (root.p_path);
+	}
+	/*header = root.list;
 	while (root.list)
 	{
 		printf("%s - %s\n", root.list->key, root.list->value);
@@ -63,7 +69,7 @@ int	main(int argc, char **argv, char **env)
 		printf("%s - %s\n", root.list->key, root.list->value);
 		root.list = root.list->next;
 	}
-	root.list = header;
+	root.list = header;*/
 	free_t_env(root.list);
 	//free_t_root(&root);
 	return (0);

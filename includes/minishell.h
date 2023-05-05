@@ -6,7 +6,7 @@
 /*   By: kfaustin <kfaustin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 11:29:44 by kfaustin          #+#    #+#             */
-/*   Updated: 2023/05/05 11:46:20 by kfaustin         ###   ########.fr       */
+/*   Updated: 2023/05/05 12:14:42 by kfaustin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,4 +73,6 @@ void	free_t_root(t_root *root);
 bool	check_syntax_prompt(char *input);
 // * prompt.c
 char	*display_prompt(t_root *root);
+char	*check_access(t_env *env, char *cmd);
+void	do_execute(t_msh *data);
 #endif

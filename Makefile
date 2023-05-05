@@ -26,13 +26,17 @@ SRC		= env_list.c list_handle.c main.c prompt.c utils.c
 LEXERDIR= ./src/lexer/
 LEXER	= syntax.c
 
+EXECDIR	= ./src/executer/
+EXEC	= access.c executer.c
+
 BUILDIR	= ./src/builtins/
 UNSET	= unset/unset.c
 EXPORT	= export/export.c
 
 OBJ		=	$(addprefix $(SRCDIR), $(SRC:.c=.o)) \
 			$(addprefix $(BUILDIR), $(UNSET:.c=.o)) \
-			$(addprefix $(BUILDIR), $(EXPORT:.c=.o))
+			$(addprefix $(BUILDIR), $(EXPORT:.c=.o)) \
+			$(addprefix $(EXECDIR), $(EXEC:.c=.o))
 			#$(addprefix $(LEXERDIR), $(LEXER:.c=.o))
 
 
