@@ -5,69 +5,62 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: kfaustin <kfaustin@student.42porto.>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/05/04 14:51:46 by kfaustin          #+#    #+#             */
-/*   Updated: 2023/05/04 15:56:33 by kfaustin         ###   ########.fr       */
+/*   Created: 2023/05/05 11:00:11 by kfaustin          #+#    #+#             */
+/*   Updated: 2023/05/05 12:04:39 by kfaustin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-static char	*path_plus_cmd(char *path, char *cmd)
+int	number_of_pipes(t_sCom *data)
 {
-	char	*str;
-	char	*tmp;
+	short	i;
+	t_sCom	*tmp;
 
-	tmp = ft_strjoin(path, "/");
-	str = ft_strjoin(tmp, cmd);
-	free (tmp);
-	return (str);
-}
-
-static char	*check_access_continue(char **table_path, char *cmd)
-{
-	int		i;
-	char	*str;
-
-	if (access(cmd, X_OK) == 0)
-		return (cmd);
+	tmp = data;
 	i = 0;
-	while (table_path[i])
+	while (tmp->next)
 	{
-		str = path_plus_cmd(table_path[i], cmd);
-		if (access(str, F_OK) == 0)
-			return (str); // You have to free the str.
-		free (str);
+		tmp = tmp->next;
+		i++;
 	}
-	return (NULL);
-
+	return (i);
 }
 
-// Fuc prototype may change when the parser is done
-char	*check_access(t_root *root, char *cmd)
+bool	check_builtin(char *cmd)
 {
-	int		i;
-	char	*str;
-	char	*path;
-	char	**table_path;
+	if (abs_string_cmp(cmd, "echo"))
+		return (true);
+	if (abs_string_cmp(cmd, "cd"))
+		return (true);
+	if (abs_string_cmp(cmd, "pwd"))
+		return (true);
+	if (abs_string_cmp(cmd, "export"))
+		return (true);
+	if (abs_string_cmp(cmd, "unset"))
+		return (true);
+	if (abs_string_cmp(cmd, "env"))
+		return (true);
+	if (abs_string_cmp(cmd, "exit"))
+		return (true);
+	return (false);
+}
 
-	i = -1;
-	path = get_value_from_key(root->list, "PATH");
-	if (!path)
-	{
-		printf("minishell: %s: No such file or directory", cmd); //CHANGE
-		return (NULL);
-	}
-	if (access(cmd, X_OK) == 0)
-		return (cmd);
-	table_path = ft_split(path, ':');
-	free (path);
-	while (table_path[++i])
-	{
-		str = path_plus_cmd(table_path[i], cmd);
-		if (access(str, F_OK) == 0)
-			return (str);
-		free (str);
-	}
+void	execute_single_cmd(t_msh *data)
+{
+	int		pid;
 
-	return (NULL);
+	pid = fork();
+	if (pid == 0)
+	{
+		//signals and redirect is handle here
+		//if(check_builtin(data->lst_cmd->argList[0])) > Check is builtin
+		execve()
+	}
+}
+
+void	do_execute(t_msh *data)
+{
+	char	*
+	if (number_of_pipes(data->lst_cmd) == 0)
 }

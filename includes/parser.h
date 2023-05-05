@@ -6,7 +6,7 @@
 /*   By: kfaustin <kfaustin@student.42porto.>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/21 14:14:58 by kfaustin          #+#    #+#             */
-/*   Updated: 2023/04/21 14:29:41 by kfaustin         ###   ########.fr       */
+/*   Updated: 2023/05/05 11:39:26 by kfaustin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,13 +32,14 @@
 
 //echo  > kelvin  > kelvin > kelvin > kelvin > kelvin > kelvin > kelvin > kelvin kelvin fabio valli vieira > fabio > test
 //echo  > kelvin  kelvin fabio valli vieira > fabio > test
+
 typedef struct s_sCom {
-    int     id;
-    t_list  **lstOfWords;
-    char    **argList;
-    int     numOfArg;
-    t_list  **lstOfRedirIn;
-    t_list  **lstOfRedirOut;
+	int				id; //not needed
+	char			**argList;
+	int				numOfArg; //not needed
+	t_list			**lstOfRedirIn;
+	t_list			**lstOfRedirOut;
+	struct s_sCom	*next; //t_sCom *next; I'll use to check the numbers of pipes
 } t_sCom;
 
 typedef struct s_redir {

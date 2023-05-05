@@ -6,7 +6,7 @@
 /*   By: kfaustin <kfaustin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 11:29:44 by kfaustin          #+#    #+#             */
-/*   Updated: 2023/05/04 15:14:08 by kfaustin         ###   ########.fr       */
+/*   Updated: 2023/05/05 11:46:20 by kfaustin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,13 @@ typedef struct s_root
 	char	*p_path;
 	t_env	*list;
 }		t_root;
+
+// This is the super class
+typedef struct s_msh
+{
+	t_root	*ppt;
+	t_sCom	*lst_cmd;
+}		t_msh;
 
 // *** BUILTINS ***
 void	builtin_unset(t_env *env, char *str);

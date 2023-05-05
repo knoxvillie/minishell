@@ -6,7 +6,7 @@
 /*   By: kfaustin <kfaustin@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/19 10:37:33 by kfaustin          #+#    #+#             */
-/*   Updated: 2023/05/04 10:15:58 by kfaustin         ###   ########.fr       */
+/*   Updated: 2023/05/05 11:00:00 by kfaustin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,9 +38,4 @@ bool	is_key_in_env(t_env *env, char *key)
 		env = env->next;
 	}
 	return (false);
-}
-
-void	table_path(t_root *root)
-{
-
 }
