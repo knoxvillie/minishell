@@ -6,7 +6,7 @@
 /*   By: kfaustin <kfaustin@student.42porto.>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 10:57:37 by kfaustin          #+#    #+#             */
-/*   Updated: 2023/05/05 14:27:27 by kfaustin         ###   ########.fr       */
+/*   Updated: 2023/05/05 16:04:30 by kfaustin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,63 +14,49 @@
 
 extern int	exit_status;
 
+void	init_data(t_msh *data, char **env)
+{
+	env_to_list(data->ppt, env);
+}
+
+void	free_over(t_msh *data)
+{
+	free_t_env(data->ppt->list);
+	free_t_ppt(data->ppt);
+	free (data);
+}
+
+void	printf_env(t_env *env)
+{
+	while (env)
+	{
+		printf("%s - %s\n", env->key, env->value);
+		env = env->next;
+	}
+}
+
 int	main(int argc, char **argv, char **env)
 {
 	char	*input;
-	t_root	root;
-	t_env	*header;
 	t_msh	*data;
 
 	(void)argc;
 	(void)argv;
-	(void)env;
-	(void)input;
-	(void)header;
-	(void)data;
-
-	env_to_list(&root, env);
 	data = (t_msh *)malloc(sizeof(t_msh));
-	data->lst_cmd = NULL;
-	data->ppt = &root;
-	root.prompt = NULL;
-	root.n_exec = 0;
+	data = (t_msh *)ft_memset(data, 0, sizeof(t_msh));
+	init_data(data, env);
 	while (1)
 	{
-		input = readline(display_prompt(&root));
-		if (!input)
+		input = readline(display_prompt(data->ppt));
+		if (!input || !*input)
 		{
 			ft_putstr_fd("exit\n", STDOUT_FILENO);
 			free (input);
 			break ;
 		}
-	/*	if (!(*input))
-		{
-			printf("%s", input);
-			continue ;
-		}*/
-		//printf("%s\n", input);
 		do_execute(data);
 		free (input);
-		free (root.p_path);
 	}
-	/*header = root.list;
-	while (root.list)
-	{
-		printf("%s - %s\n", root.list->key, root.list->value);
-		root.list = root.list->next;
-	}
-	root.list = header;
-	//builtin_unset(root.list, "OUTRAVAR");
-	//printf("\n\n\n UNSET\n");
-	printf("\n\n\n PULANDO LINHAS \n");
-	builtin_export(&root, "CAVaLO = ");
-	while (root.list)
-	{
-		printf("%s - %s\n", root.list->key, root.list->value);
-		root.list = root.list->next;
-	}
-	root.list = header;*/
-	free_t_env(root.list);
-	//free_t_root(&root);
+	free_over(data);
 	return (0);
 }

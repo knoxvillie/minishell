@@ -6,7 +6,7 @@
 /*   By: kfaustin <kfaustin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 11:29:44 by kfaustin          #+#    #+#             */
-/*   Updated: 2023/05/05 12:14:42 by kfaustin         ###   ########.fr       */
+/*   Updated: 2023/05/05 16:08:13 by kfaustin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,34 +34,35 @@ struct s_env
 	t_env	*next;
 };
 
-typedef struct s_root
+typedef struct s_ppt
 {
 	int		n_exec;
 	char	*prompt;
 	char	*user;
 	char	*s_manager;
 	char	*home;
-	char	*p_path;
+	char	*path;
 	t_env	*list;
-}		t_root;
+}		t_ppt;
 
 // This is the super class
 typedef struct s_msh
 {
-	t_root	*ppt;
+	t_ppt	*ppt;
 	t_sCom	*lst_cmd;
+	char	**env;
 }		t_msh;
 
 // *** BUILTINS ***
 void	builtin_unset(t_env *env, char *str);
-void	builtin_export(t_root *root, char *str);
+void	builtin_export(t_ppt *root, char *str);
 
 // *** Functions ***
 void	ft_parser(char *input);
 // * env_list.c
-void	env_to_list(t_root *root, char **env);
+void	env_to_list(t_ppt *root, char **env);
 void	init_env_node(t_env **node, char *key, char *value);
-void	stack_env_list(t_root *root, t_env *node);
+void	stack_env_list(t_ppt *root, t_env *node);
 // * list_handle.c
 char	*get_value_from_key(t_env *header, char *key);
 bool	is_key_in_env(t_env *env, char *key);
@@ -69,10 +70,10 @@ bool	abs_string_cmp(char *s1, char *s2);
 // * utils.c
 void	put_string_exit(char *str, int flag);
 void	free_t_env(t_env *list);
-void	free_t_root(t_root *root);
+void	free_t_ppt(t_ppt *root);
 bool	check_syntax_prompt(char *input);
 // * prompt.c
-char	*display_prompt(t_root *root);
+char	*display_prompt(t_ppt *root);
 char	*check_access(t_env *env, char *cmd);
 void	do_execute(t_msh *data);
 #endif

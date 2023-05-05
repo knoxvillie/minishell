@@ -32,13 +32,13 @@ void	free_t_env(t_env *list)
 	}
 }
 
-void	free_t_root(t_root *root)
+void	free_t_ppt(t_ppt *root)
 {
 	free (root->prompt);
 	free (root->user);
 	free (root->s_manager);
 	free (root->home);
-	free (root->p_path);
+	free (root->path);
 }
 
 bool	abs_string_cmp(char *s1, char *s2)

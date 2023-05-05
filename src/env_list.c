@@ -6,7 +6,7 @@
 /*   By: kfaustin <kfaustin@student.42porto.>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/19 10:27:09 by kfaustin          #+#    #+#             */
-/*   Updated: 2023/05/04 10:33:19 by kfaustin         ###   ########.fr       */
+/*   Updated: 2023/05/05 16:14:11 by kfaustin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,23 +33,24 @@ void	init_env_node(t_env **node, char *key, char *value)
 	(*node)->next = NULL;
 }
 
-void	stack_env_list(t_root *root, t_env *node)
+void	stack_env_list(t_ppt *root, t_env *node)
 {
 	t_env	*header;
 
+	(void)header;
+	header = root->list;
 	if (!root->list)
 	{
 		root->list = node;
 		return ;
 	}
-	header = root->list;
-	while (root->list->next != NULL)
+	while (root->list->next)
 		root->list = root->list->next;
 	root->list->next = node;
-	root->list = header;
+	//root->list = header;
 }
 
-void	env_to_list(t_root *root, char **env)
+void	env_to_list(t_ppt *root, char **env)
 {
 	int		i;
 	char	*key;
@@ -59,7 +60,7 @@ void	env_to_list(t_root *root, char **env)
 	if (!env)
 		put_string_exit("Error: env is NULL\n", 1);
 	i = -1;
-	root->list = NULL;
+	root = (t_ppt *)malloc(sizeof(t_ppt));
 	while (env[++i])
 	{
 		init_key_value(&key, &value, env[i]);

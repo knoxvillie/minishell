@@ -12,7 +12,7 @@
 
 # include "../includes/minishell.h"
 
-static void	s_manager_prompt(t_root *root)
+static void	s_manager_prompt(t_ppt *root)
 {
 	int		i;
 	int		j;
@@ -29,35 +29,35 @@ static void	s_manager_prompt(t_root *root)
 	root->s_manager = tmp;
 }
 
-static void	path_prompt(t_root *root)
+static void	path_prompt(t_ppt *root)
 {
 	int		len_path;
 	int		len_home;
 	char	*tmp;
 
-	len_path = (int)ft_strlen(root->p_path);
+	len_path = (int)ft_strlen(root->path);
 	len_home = (int)ft_strlen(root->home);
-	if ((len_home == len_path) && !(ft_strncmp(root->home, root->p_path, len_home)))
+	if ((len_home == len_path) && !(ft_strncmp(root->home, root->path, len_home)))
 	{
-		free (root->p_path);
-		root->p_path = ft_strdup("~");
+		free (root->path);
+		root->path = ft_strdup("~");
 		return ;
 	}
-	if ((len_home < len_path) && !(ft_strncmp(root->home, root->p_path, len_home)))
+	if ((len_home < len_path) && !(ft_strncmp(root->home, root->path, len_home)))
 	{
-		tmp = ft_substr(root->p_path, len_home, (len_path - len_home));
-		free (root->p_path);
-		root->p_path = ft_strjoin("~", tmp);
+		tmp = ft_substr(root->path, len_home, (len_path - len_home));
+		free (root->path);
+		root->path = ft_strjoin("~", tmp);
 		free (tmp);
 		return ;
 	}
-	if ((len_home > len_path) && !ft_strncmp(root->p_path, root->home, len_path))
+	if ((len_home > len_path) && !ft_strncmp(root->path, root->home, len_path))
 		return ;
-	free (root->p_path);
-	root->p_path = NULL;
+	free (root->path);
+	root->path = NULL;
 }
 
-static void	prompt_prompt(t_root *root)
+static void	prompt_prompt(t_ppt *root)
 {
 	char	*tmp1;
 	char	*tmp2;
@@ -68,13 +68,13 @@ static void	prompt_prompt(t_root *root)
 	tmp3 = ft_strjoin(tmp1, tmp2);
 	free (tmp1);
 	free (tmp2);
-	tmp1 = ft_strjoin(root->p_path, "$ ");
+	tmp1 = ft_strjoin(root->path, "$ ");
 	root->prompt = ft_strjoin(tmp3, tmp1);
 	free (tmp3);
 	free (tmp1);
 }
 
-char	*display_prompt(t_root *root)
+char	*display_prompt(t_ppt *root)
 {
 	// user, s_manager and home only updates once.
 	if (!root->n_exec)
@@ -84,9 +84,10 @@ char	*display_prompt(t_root *root)
 		root->home = get_value_from_key(root->list, "HOME");
 		s_manager_prompt(root);
 	}
-	root->p_path = getcwd(NULL, 0);
+	free (root->path);
+	root->path = getcwd(NULL, 0);
 	path_prompt(root);
-	if (!root->p_path)
+	if (!root->path)
 		put_string_exit("Error: Path prompt is NULL\n", 1);
 	prompt_prompt(root);
 	return (root->prompt);

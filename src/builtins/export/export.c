@@ -38,7 +38,7 @@ static bool	check_syntax_var_equal(char *str)
 }
 
 // str must be handled before the func to prevent unclosed quotes: ARG='kelvin"
-void	builtin_export(t_root *root, char *str)
+void	builtin_export(t_ppt *root, char *str)
 {
 	char	**table;
 	char	*value;
