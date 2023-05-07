@@ -6,7 +6,7 @@
 /*   By: kfaustin <kfaustin@student.42porto.>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 10:50:56 by kfaustin          #+#    #+#             */
-/*   Updated: 2023/05/04 14:28:23 by kfaustin         ###   ########.fr       */
+/*   Updated: 2023/05/07 11:01:59 by kfaustin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ static bool	check_syntax_var_equal(char *str)
 }
 
 // str must be handled before the func to prevent unclosed quotes: ARG='kelvin"
-void	builtin_export(t_ppt *root, char *str)
+void	builtin_export(t_msh *root, char *str)
 {
 	char	**table;
 	char	*value;
@@ -50,7 +50,7 @@ void	builtin_export(t_ppt *root, char *str)
 	value = table[1];
 	if (!value)
 		value = ft_strdup("\0");
-	init_env_node(&node, table[0], value);
-	stack_env_list(root, node);
+	node = init_env_node(table[0], value);
+	root->ppt->list = stack_env_list(root->ppt->list, node);
 	free (table);
 }

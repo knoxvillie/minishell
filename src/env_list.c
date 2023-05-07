@@ -6,7 +6,7 @@
 /*   By: kfaustin <kfaustin@student.42porto.>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/19 10:27:09 by kfaustin          #+#    #+#             */
-/*   Updated: 2023/05/05 16:14:11 by kfaustin         ###   ########.fr       */
+/*   Updated: 2023/05/07 10:25:06 by kfaustin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,34 +23,32 @@ static void	init_key_value(char **key, char **value, char *str)
 	*value = ft_substr(str, (i + 1), ft_strlen(str) - i);
 }
 
-void	init_env_node(t_env **node, char *key, char *value)
+t_env	*init_env_node(char *key, char *value)
 {
-	*node = (t_env *)malloc(sizeof(t_env));
-	if (!(*node))
+	t_env	*node;
+	node = (t_env *)malloc(sizeof(t_env));
+	if (!node)
 		put_string_exit("Error: Malloc of *node fails\n", 1);
-	(*node)->key = key;
-	(*node)->value = value;
-	(*node)->next = NULL;
+	node->key = key;
+	node->value = value;
+	node->next = NULL;
+	return (node);
 }
 
-void	stack_env_list(t_ppt *root, t_env *node)
+t_env	*stack_env_list(t_env *var, t_env *node)
 {
 	t_env	*header;
 
-	(void)header;
-	header = root->list;
-	if (!root->list)
-	{
-		root->list = node;
-		return ;
-	}
-	while (root->list->next)
-		root->list = root->list->next;
-	root->list->next = node;
-	//root->list = header;
+	header = var;
+	if (var == NULL)
+		return (node);
+	while (var->next != NULL)
+		var = var->next;
+	var->next = node;
+	return (header);
 }
 
-void	env_to_list(t_ppt *root, char **env)
+t_msh	*env_to_list(t_msh *data, char **env)
 {
 	int		i;
 	char	*key;
@@ -60,11 +58,11 @@ void	env_to_list(t_ppt *root, char **env)
 	if (!env)
 		put_string_exit("Error: env is NULL\n", 1);
 	i = -1;
-	root = (t_ppt *)malloc(sizeof(t_ppt));
 	while (env[++i])
 	{
 		init_key_value(&key, &value, env[i]);
-		init_env_node(&node, key, value);
-		stack_env_list(root, node);
+		node = init_env_node(key, value);
+		data->ppt->list = stack_env_list(data->ppt->list, node);
 	}
+	return (data);
 }

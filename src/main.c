@@ -6,7 +6,7 @@
 /*   By: kfaustin <kfaustin@student.42porto.>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 10:57:37 by kfaustin          #+#    #+#             */
-/*   Updated: 2023/05/05 16:04:30 by kfaustin         ###   ########.fr       */
+/*   Updated: 2023/05/07 09:53:03 by kfaustin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,12 @@
 
 extern int	exit_status;
 
-void	init_data(t_msh *data, char **env)
+static t_msh	*init_data(t_msh *data, char **env)
 {
-	env_to_list(data->ppt, env);
+	data->ppt = (t_ppt *)malloc(sizeof(t_ppt));
+	data->lst_cmd = (t_sCom *)malloc(sizeof(t_sCom));
+	env_to_list(data, env);
+	return (data);
 }
 
 void	free_over(t_msh *data)
@@ -44,7 +47,7 @@ int	main(int argc, char **argv, char **env)
 	(void)argv;
 	data = (t_msh *)malloc(sizeof(t_msh));
 	data = (t_msh *)ft_memset(data, 0, sizeof(t_msh));
-	init_data(data, env);
+	data = init_data(data, env);
 	while (1)
 	{
 		input = readline(display_prompt(data->ppt));
