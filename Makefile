@@ -23,8 +23,8 @@ RM		= rm -rf
 SRCDIR	= ./src/
 SRC		= env_list.c list_handle.c main.c prompt.c utils.c
 
-LEXERDIR= ./src/lexer/
-LEXER	= syntax.c
+PARSERDIR= ./src/parser/
+PARSER	= parser.c parser_utils.c
 
 EXECDIR	= ./src/executer/
 EXEC	= access.c executer.c
@@ -36,8 +36,8 @@ EXPORT	= export/export.c
 OBJ		=	$(addprefix $(SRCDIR), $(SRC:.c=.o)) \
 			$(addprefix $(BUILDIR), $(UNSET:.c=.o)) \
 			$(addprefix $(BUILDIR), $(EXPORT:.c=.o)) \
-			$(addprefix $(EXECDIR), $(EXEC:.c=.o))
-			#$(addprefix $(LEXERDIR), $(LEXER:.c=.o))
+			$(addprefix $(EXECDIR), $(EXEC:.c=.o)) \
+			$(addprefix $(PARSERDIR), $(PARSER:.c=.o))
 
 
 # Libft

@@ -22,10 +22,27 @@
 # include <unistd.h>
 
 // * Includes Header *
-# include "parser.h"
+
 
 // * Macros *
 typedef struct s_env	t_env;
+
+typedef struct s_sCom {
+    int				id; //not needed
+    char			**argList; //arglist[0] arglist;
+    t_list          *lstArg;
+    int				numOfArg; //not needed
+    t_list			*lstOfRedirIn;
+    t_list			*lstOfRedirOut;
+//    int ft_stdin = STDIN_FILENO;
+//    int ft_stdout = STDOUT_FILENO;
+    struct s_sCom	*next; //t_sCom *next; I'll use to check the numbers of pipes
+} t_sCom;
+
+typedef struct s_redir {
+    int     type;
+    char    *filename;
+} t_redir;
 
 struct s_env
 {
@@ -57,7 +74,7 @@ typedef struct s_msh
 void	builtin_unset(t_msh *data, char *str);
 void	builtin_export(t_msh *root, char *str);
 // *** Functions ***
-void	ft_parser(char *input);
+//void	ft_parser(char *input);
 // * env_list.c
 t_msh	*env_to_list(t_msh *data, char **env);
 t_env	*init_env_node(char *key, char *value);

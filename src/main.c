@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+#include "../includes/parser.h"
 
 extern int	exit_status;
 
@@ -59,7 +60,14 @@ int	main(int argc, char **argv, char **env)
 			free (input);
 			break ;
 		}
-		do_execute(data);
+        //Still needs leak check. next thing to do and some hardcore test.
+        if (ft_parse(input, data))
+        {
+            //in case of error
+            free (input);
+            break ;
+        }
+//		do_execute(data);
 		free (input);
 	}
 	free_over(data);

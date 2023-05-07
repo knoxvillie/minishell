@@ -22,7 +22,8 @@
 # define DQUOTE 5
 # define SQUOTE 6
 # define WSPACE " \t\r\n\v"
-# define METACH "|&;()<>"
+# define METACH "|<>"
+# define UNSUPMETACH "&;()*{}\\"
 
 
 //Command table is an array of struct SimpleCommands(sCom)  -  Simple Commands as said by GNU manual:
@@ -33,30 +34,18 @@
 //echo  > kelvin  > kelvin > kelvin > kelvin > kelvin > kelvin > kelvin > kelvin kelvin fabio valli vieira > fabio > test
 //echo  > kelvin  kelvin fabio valli vieira > fabio > test
 
-typedef struct s_sCom {
-	int				id; //not needed
-	char			**argList;
-	int				numOfArg; //not needed
-	t_list			**lstOfRedirIn;
-	t_list			**lstOfRedirOut;
-	struct s_sCom	*next; //t_sCom *next; I'll use to check the numbers of pipes
-} t_sCom;
 
-typedef struct s_redir {
-    int     type;
-    char    *filename;
-} t_redir;
 
-typedef struct s_word {
-    char *word;
-} t_word;
+t_sCom	*ft_lstlastsCom(t_sCom *lst);
+t_sCom	*ft_lstnewsCom(void);
+void	ft_lstadd_backsCom(t_sCom **lst, t_sCom *new);
 
-typedef struct s_tokens
-{
-	char	*cmd;
-	char	*flag;
-	char	*complement;
-	char	**tokens;
-}		t_tokens;
+int redirout(t_msh	*data, char **str);
+int redirin(t_msh	*data, char **str);
+int get_token_pipe(t_msh	*data, char **str);
+void get_token_dsq(t_msh	*data, char **str);
+void get_token_word(t_msh	*data, char **str);
+int ft_parse(char	*input, t_msh	*data);
+
 
 #endif
