@@ -50,12 +50,12 @@ static char	*check_access_continue(char *path, char *cmd)
 }
 
 // Fuc prototype may change when the parser is done
-char	*check_access(t_env *env, char *cmd)
+char	*check_access(t_msh *data, char *cmd)
 {
 	char	*str;
 	char	*path;
 
-	path = get_value_from_key(env, "PATH");
+	path = get_value_from_key(data->ppt->list, "PATH");
 	if (!path)
 	{
 		free (path);

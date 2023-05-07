@@ -38,6 +38,8 @@ void	printf_env(t_env *env)
 	}
 }
 
+
+
 int	main(int argc, char **argv, char **env)
 {
 	char	*input;

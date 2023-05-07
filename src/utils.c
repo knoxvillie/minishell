@@ -6,7 +6,7 @@
 /*   By: kfaustin <kfaustin@student.42porto.>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/13 12:12:39 by kfaustin          #+#    #+#             */
-/*   Updated: 2023/05/05 14:28:13 by kfaustin         ###   ########.fr       */
+/*   Updated: 2023/05/07 12:12:46 by kfaustin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,3 +52,23 @@ bool	abs_string_cmp(char *s1, char *s2)
 		return (true);
 	return (false);
 }
+
+/*int		size_of_list(t_env *node)
+{
+	int		i;
+	t_env	*tmp;
+
+	i = 0;
+	tmp = node;
+	while (tmp)
+	{
+		tmp = tmp->next;
+		i++;
+	}
+	return (i);
+}
+
+void	update_env_table(t_msh *data)
+{
+
+}*/

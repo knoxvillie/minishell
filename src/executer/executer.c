@@ -66,7 +66,7 @@ void	do_execute(t_msh *data)
 {
 	char	*path_cmd;
 
-	path_cmd = check_access(data->ppt->list, "ls");
+	path_cmd = check_access(data, "ls");
 	if (!path_cmd)
 		return ;
 	/*if (number_of_pipes(data->lst_cmd) == 0)

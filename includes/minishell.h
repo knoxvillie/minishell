@@ -6,7 +6,7 @@
 /*   By: kfaustin <kfaustin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 11:29:44 by kfaustin          #+#    #+#             */
-/*   Updated: 2023/05/07 11:00:46 by kfaustin         ###   ########.fr       */
+/*   Updated: 2023/05/07 11:40:31 by kfaustin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,6 @@ typedef struct s_msh
 // *** BUILTINS ***
 void	builtin_unset(t_msh *data, char *str);
 void	builtin_export(t_msh *root, char *str);
-
 // *** Functions ***
 void	ft_parser(char *input);
 // * env_list.c
@@ -74,6 +73,6 @@ void	free_t_ppt(t_ppt *root);
 bool	check_syntax_prompt(char *input);
 // * prompt.c
 char	*display_prompt(t_ppt *root);
-char	*check_access(t_env *env, char *cmd);
+char	*check_access(t_msh *data, char *cmd);
 void	do_execute(t_msh *data);
 #endif
