@@ -46,6 +46,8 @@ int get_token_pipe(t_msh	*data, char **str);
 void get_token_dsq(t_msh	*data, char **str);
 void get_token_word(t_msh	*data, char **str);
 int ft_parse(char	*input, t_msh	*data);
+void	free_lst(t_list **lst);
+void	free_lstsCom(t_sCom **lst);
 
 
 #endif

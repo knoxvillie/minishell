@@ -18,7 +18,7 @@ extern int	exit_status;
 static t_msh	*init_data(t_msh *data, char **env)
 {
 	data->ppt = (t_ppt *)malloc(sizeof(t_ppt));
-	data->lst_cmd = (t_sCom *)malloc(sizeof(t_sCom));
+//	data->lst_cmd = (t_sCom *)malloc(sizeof(t_sCom));
 	env_to_list(data, env);
 	return (data);
 }
@@ -68,6 +68,7 @@ int	main(int argc, char **argv, char **env)
             break ;
         }
 //		do_execute(data);
+        free_lstsCom(&(data->lst_cmd));
 		free (input);
 	}
 	free_over(data);

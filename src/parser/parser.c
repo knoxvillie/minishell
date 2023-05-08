@@ -13,6 +13,44 @@
 #include "../../includes/minishell.h"
 # include "../../includes/parser.h"
 
+//Print function for Ctable (Command Table)
+void print_lstCtable(t_msh *data)
+{
+    t_sCom *lst;
+    int i;
+
+    i = 0;
+    lst = data->lst_cmd;
+    while (lst)
+    {
+        printf("Simple command number %d\n", i);
+        printf("List of args\n");
+        while(lst->lstArg)
+        {
+            printf("%s\n",(char *)(lst->lstArg->content));
+            lst->lstArg = lst->lstArg->next;
+        }
+        printf("List of redir out\n");
+        while(lst->lstOfRedirOut)
+        {
+            t_redir *tmp = (t_redir *)(lst->lstOfRedirOut->content);
+            printf("%d\n",tmp->type);
+            printf("%s\n",tmp->filename);
+            lst->lstOfRedirOut = lst->lstOfRedirOut->next;
+        }
+        printf("List of redir in\n");
+        while(lst->lstOfRedirIn)
+        {
+            t_redir *tmp1 = (t_redir *)(lst->lstOfRedirIn->content);
+            printf("%d\n",tmp1->type);
+            printf("%s\n",tmp1->filename);
+            lst->lstOfRedirIn = lst->lstOfRedirIn->next;
+        }
+        i++;
+        lst = lst->next;
+    }
+}
+
 bool	check_unclosed_quotes(char *input)
 {
     char	inside_q;
@@ -71,49 +109,14 @@ int ft_parse(char	*input, t_msh	*data){
         if (get_token(data, &str))
             return (1);
     }
+    print_lstCtable(data);
     //verificar se há um node a mais que o numero de pipes e se estes estao preenchidos.
     //caso nao seja valido
     return (0);
 }
 
 
-//Print function for Ctable (Command Table)
-//void print_lstCtable(t_msh *data)
-//{
-//    t_sCom *lst;
-//    int i;
-//
-//    i = 0;
-//    lst = data->lst_cmd;
-//    while (lst)
-//    {
-//        printf("Simple command number %d\n", i);
-//        printf("List of args\n");
-//        while(lst->lstArg)
-//        {
-//            printf("%s\n",(char *)(lst->lstArg->content));
-//            lst->lstArg = lst->lstArg->next;
-//        }
-//        printf("List of redir out\n");
-//        while(lst->lstOfRedirOut)
-//        {
-//            t_redir *tmp = (t_redir *)(lst->lstOfRedirOut->content);
-//            printf("%d\n",tmp->type);
-//            printf("%s\n",tmp->filename);
-//            lst->lstOfRedirOut = lst->lstOfRedirOut->next;
-//        }
-//        printf("List of redir in\n");
-//        while(lst->lstOfRedirIn)
-//        {
-//            t_redir *tmp1 = (t_redir *)(lst->lstOfRedirIn->content);
-//            printf("%d\n",tmp1->type);
-//            printf("%s\n",tmp1->filename);
-//            lst->lstOfRedirIn = lst->lstOfRedirIn->next;
-//        }
-//        i++;
-//        lst = lst->next;
-//    }
-//}
+
 
 //Main to test the parsing
 //int main(int argc, char **argv)

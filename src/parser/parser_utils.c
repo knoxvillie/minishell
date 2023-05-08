@@ -47,6 +47,37 @@ void	ft_lstadd_backsCom(t_sCom **lst, t_sCom *new)
         temp->next = new;
     }
 }
+void	free_lst(t_list **lst)
+{
+    t_list	*next;
+
+    if (lst == NULL)
+        return ;
+    while (*lst)
+    {
+        next = (*lst)->next;
+        free((*lst)->content);
+        free(*lst);
+        *lst = next;
+    }
+}
+
+void	free_lstsCom(t_sCom **lst)
+{
+    t_sCom	*next;
+
+    if (lst == NULL)
+        return ;
+    while (*lst)
+    {
+        next = (*lst)->next;
+        free_lst(&((*lst)->lstArg));
+        free_lst(&((*lst)->lstOfRedirIn));
+        free_lst(&((*lst)->lstOfRedirOut));
+        free(*lst);
+        *lst = next;
+    }
+}
 
 int jump_dq_and_sq(char **str, int i)
 {
