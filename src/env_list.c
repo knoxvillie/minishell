@@ -6,7 +6,7 @@
 /*   By: kfaustin <kfaustin@student.42porto.>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/19 10:27:09 by kfaustin          #+#    #+#             */
-/*   Updated: 2023/05/07 10:25:06 by kfaustin         ###   ########.fr       */
+/*   Updated: 2023/05/08 11:50:48 by kfaustin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ t_msh	*env_to_list(t_msh *data, char **env)
 	if (!env)
 		put_string_exit("Error: env is NULL\n", 1);
 	i = -1;
+	data->ppt->list = NULL;
 	while (env[++i])
 	{
 		init_key_value(&key, &value, env[i]);

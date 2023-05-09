@@ -6,7 +6,7 @@
 /*   By: kfaustin <kfaustin@student.42porto.>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/05 11:00:11 by kfaustin          #+#    #+#             */
-/*   Updated: 2023/05/05 14:30:51 by kfaustin         ###   ########.fr       */
+/*   Updated: 2023/05/08 15:17:05 by kfaustin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,32 +46,27 @@ bool	check_builtin(char *cmd)
 	return (false);
 }
 
-static void	execute_single_cmd(t_msh *data, char *path_cmd)
+static void	execute_single_cmd(t_msh *data, char *path_cmd, char **var)
 {
-	int		pid;
-	char	*cmd[] = {"ls", "-al", NULL};
-	char	*env[] = {NULL};
-
 	(void)data;
-	pid = fork();
-	if (pid == 0)
-	{
-		//signals and redirect is handle here
-		//if(check_builtin(data->lst_cmd->argList[0])) > Check is builtin
-		execve(path_cmd, cmd, env);
-	}
+	//signals and redirect is handle here
+	//if(check_builtin(data->lst_cmd->argList[0])) > Check is builtin
+	execve(path_cmd, var, NULL);
 }
 
-void	do_execute(t_msh *data)
+void	do_execute(t_msh *data, char *input)
 {
 	char	*path_cmd;
+	char	**var;
+	pid_t	pid;
 
-	path_cmd = check_access(data, "ls");
+	var = ft_split(input, ' ');
+	path_cmd = check_access(data, var[0]);
 	if (!path_cmd)
 		return ;
-	/*if (number_of_pipes(data->lst_cmd) == 0)
-	{
-	}*/
-	execute_single_cmd(data, path_cmd);
+	pid = fork();
+	if (pid == 0)
+		execute_single_cmd(data, path_cmd, var);
+	waitpid(pid, NULL, 0);
 	free (path_cmd);
 }

@@ -6,7 +6,7 @@
 /*   By: kfaustin <kfaustin@student.42porto.>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 10:34:08 by kfaustin          #+#    #+#             */
-/*   Updated: 2023/05/04 14:47:14 by kfaustin         ###   ########.fr       */
+/*   Updated: 2023/05/08 16:03:12 by kfaustin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,7 @@ static void	prompt_prompt(t_ppt *root)
 	char	*tmp2;
 	char	*tmp3;
 
+	free (root->prompt);
 	tmp1 = ft_strjoin(root->user, "@");
 	tmp2 = ft_strjoin(root->s_manager, ":");
 	tmp3 = ft_strjoin(tmp1, tmp2);
@@ -77,7 +78,7 @@ static void	prompt_prompt(t_ppt *root)
 char	*display_prompt(t_ppt *root)
 {
 	// user, s_manager and home only updates once.
-	if (!root->n_exec)
+	if (root->n_exec == 0)
 	{
 		root->user = get_value_from_key(root->list, "USER");
 		root->s_manager = get_value_from_key(root->list, "SESSION_MANAGER");
@@ -90,5 +91,6 @@ char	*display_prompt(t_ppt *root)
 	if (!root->path)
 		put_string_exit("Error: Path prompt is NULL\n", 1);
 	prompt_prompt(root);
+	root->n_exec++;
 	return (root->prompt);
 }

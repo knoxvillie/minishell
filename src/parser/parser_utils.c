@@ -37,7 +37,7 @@ void	ft_lstadd_backsCom(t_sCom **lst, t_sCom *new)
 {
     t_sCom	*temp;
 
-    if (!lst || !new)
+    if (!lst || !new) //lst nunca vai ser nulo aqui.
         return ;
     if (*lst == NULL)
         *lst = new;

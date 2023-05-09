@@ -6,7 +6,7 @@
 /*   By: kfaustin <kfaustin@student.42porto.>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/21 14:14:58 by kfaustin          #+#    #+#             */
-/*   Updated: 2023/05/05 11:39:26 by kfaustin         ###   ########.fr       */
+/*   Updated: 2023/05/08 11:24:40 by kfaustin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,12 +40,11 @@ t_sCom	*ft_lstlastsCom(t_sCom *lst);
 t_sCom	*ft_lstnewsCom(void);
 void	ft_lstadd_backsCom(t_sCom **lst, t_sCom *new);
 
-int redirout(t_msh	*data, char **str);
-int redirin(t_msh	*data, char **str);
-int get_token_pipe(t_msh	*data, char **str);
-void get_token_dsq(t_msh	*data, char **str);
-void get_token_word(t_msh	*data, char **str);
-int ft_parse(char	*input, t_msh	*data);
-
+int redirout(t_msh *data, char **str);
+int redirin(t_msh *data, char **str);
+int get_token_pipe(t_msh *data, char **str);
+void get_token_dsq(t_msh *data, char **str);
+void get_token_word(t_msh *data, char **str);
+int ft_parse(t_msh *data, char *input);
 
 #endif

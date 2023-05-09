@@ -6,7 +6,7 @@
 /*   By: kfaustin <kfaustin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 11:29:44 by kfaustin          #+#    #+#             */
-/*   Updated: 2023/05/07 11:40:31 by kfaustin         ###   ########.fr       */
+/*   Updated: 2023/05/08 15:16:53 by kfaustin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,9 @@
 # include <readline/history.h>
 # include <stdbool.h>
 # include <unistd.h>
+# include <sys/types.h>
+# include <sys/wait.h>
+
 
 // * Includes Header *
 
@@ -28,10 +31,8 @@
 typedef struct s_env	t_env;
 
 typedef struct s_sCom {
-    int				id; //not needed
     char			**argList; //arglist[0] arglist;
     t_list          *lstArg;
-    int				numOfArg; //not needed
     t_list			*lstOfRedirIn;
     t_list			*lstOfRedirOut;
 //    int ft_stdin = STDIN_FILENO;
@@ -91,5 +92,5 @@ bool	check_syntax_prompt(char *input);
 // * prompt.c
 char	*display_prompt(t_ppt *root);
 char	*check_access(t_msh *data, char *cmd);
-void	do_execute(t_msh *data);
+void	do_execute(t_msh *data, char *input);
 #endif

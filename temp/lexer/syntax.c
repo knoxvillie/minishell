@@ -6,7 +6,7 @@
 /*   By: kfaustin <kfaustin@student.42porto.>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/26 13:09:22 by kfaustin          #+#    #+#             */
-/*   Updated: 2023/05/03 15:44:13 by kfaustin         ###   ########.fr       */
+/*   Updated: 2023/05/08 11:17:18 by kfaustin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,21 +14,21 @@
 
 // If ok true else false
 
-static void	is_inside_quotes(char *ptr, char c)
+/*static void	is_inside_quotes(char *ptr, char c)
 {
 	if ((c == '\'' || c == '\"') && !(*ptr))
 		*ptr = c;
 	else if (*ptr && (*ptr == c))
 		*ptr = '\0';
-}
+}*/
 
-static bool	putstr_fd_bool(char *str, int fd, bool status)
+/*static bool	putstr_fd_bool(char *str, int fd, bool status)
 {
 	ft_putstr_fd(str, fd);
 	return (status);
-}
+}*/
 
-bool	check_invalid_operator(char *input)
+/*bool	check_invalid_operator(char *input)
 {
 	char	inside_q;
 	int		i;
@@ -50,7 +50,7 @@ bool	check_invalid_operator(char *input)
 				putstr_fd_bool("Error: Invalid operator (&&)\n", 2, false);
 		}
 	}
-}
+}*/
 
 bool	check_unclosed_quotes(char *input)
 {
@@ -78,7 +78,7 @@ bool	check_unclosed_quotes(char *input)
 }
 
 // Be sure that input and *input is not false
-bool	check_syntax_prompt(char *input)
+/*bool	check_syntax_prompt(char *input)
 {
 	if (!check_unclosed_quotes(input))
 	{
@@ -86,7 +86,7 @@ bool	check_syntax_prompt(char *input)
 		return (false);
 	}
 	return (true);
-}
+}*/
 
 /*
 bool	check_unclosed_quotes(char *input)
@@ -109,7 +109,7 @@ bool	check_unclosed_quotes(char *input)
 	return (false);
 }*/
 
-void    get_token(t_list **cTable, char **str) {
+/*void    get_token(t_list **cTable, char **str) {
     t_sCom *sCom;
     char *tmp;
 
@@ -160,7 +160,7 @@ t_list  *parse(char	*input){
         get_token(&cTable, &str);
     }
     return (cTable);
-}
+}*/
 
 
 //create a function that read the input from main and create a linked list using the function from libft with each token.

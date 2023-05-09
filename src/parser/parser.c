@@ -6,12 +6,24 @@
 /*   By: kfaustin <kfaustin@student.42porto.>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/21 14:25:58 by kfaustin          #+#    #+#             */
-/*   Updated: 2023/05/03 10:41:40 by kfaustin         ###   ########.fr       */
+/*   Updated: 2023/05/08 14:27:52 by kfaustin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 # include "../../includes/parser.h"
+
+/*==288062== Conditional jump or move depends on uninitialised value(s)
+==288062==    at 0x4027F1: ft_lstlastsCom (parser_utils.c:15)
+==288062==    by 0x4028E4: ft_lstadd_backsCom (parser_utils.c:46)
+==288062==    by 0x402775: ft_parse (parser.c:68)
+==288062==    by 0x40162E: main_loop (main.c:45)
+==288062==    by 0x4016B1: main (main.c:74)
+==288062==  Uninitialised value was created by a heap allocation
+==288062==    at 0x483B7F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==288062==    by 0x401729: init_data (main.c:61)
+==288062==    by 0x4016A4: main (main.c:73)
+==288062==*/
 
 bool	check_unclosed_quotes(char *input)
 {
@@ -55,9 +67,31 @@ int    get_token(t_msh	*data, char **str)
     return (0);
 }
 
-int ft_parse(char	*input, t_msh	*data){
+int ft_parse(t_msh *data, char *input){
+
+	char *str;
+
+	str = input;
+	if (!check_unclosed_quotes(input))
+	{
+		ft_putstr_fd("Error: Unclosed quotes found\n", 2);
+		return (1);
+	}
+	ft_lstadd_backsCom(&(data->lst_cmd), ft_lstnewsCom());
+	while (*str)
+	{
+		if (get_token(data, &str))
+			return (1);
+	}
+	//verificar se há um node a mais que o numero de pipes e se estes estao preenchidos.
+	//caso nao seja valido
+	return (0);
+}
+
+/*int ft_parse(t_msh *data, char *input){
 
     char *str;
+	t_sCom	*new_node;
 
     str = input;
     if (!check_unclosed_quotes(input))
@@ -65,17 +99,22 @@ int ft_parse(char	*input, t_msh	*data){
         ft_putstr_fd("Error: Unclosed quotes found\n", 2);
         return (1);
     }
-    ft_lstadd_backsCom(&(data->lst_cmd), ft_lstnewsCom());
-    while (*str)
+	(void)str;
+	data->lst_cmd = NULL; //
+	new_node = ft_lstnewsCom();
+	//ft_lstadd_backsCom(&(data->lst_cmd), ft_lstnewsCom());
+	ft_lstadd_backsCom(&(data->lst_cmd), new_node);
+	data->lst_cmd->lstArg->content = input;
+
+	*//*while (*str)
     {
         if (get_token(data, &str))
             return (1);
-    }
+    }*//*
     //verificar se há um node a mais que o numero de pipes e se estes estao preenchidos.
     //caso nao seja valido
     return (0);
-}
-
+}*/
 
 //Print function for Ctable (Command Table)
 //void print_lstCtable(t_msh *data)
@@ -134,17 +173,6 @@ int ft_parse(char	*input, t_msh	*data){
 //        printf("incorrect number of args\n");
 //    return (0);
 //}
-
-
-
-
-
-
-
-
-
-
-
 
 /*void	ft_parser(t_tokens *parser, char *str)
 {
