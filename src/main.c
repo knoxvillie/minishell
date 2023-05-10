@@ -54,6 +54,7 @@ int	main(int argc, char **argv, char **env)
 	while (1)
 	{
 		input = readline(display_prompt(data->ppt));
+        //needs to check if input is empty. In this case just continue to next cicle of the while.
 		if (!input || !*input)
 		{
 			ft_putstr_fd("exit\n", STDOUT_FILENO);
