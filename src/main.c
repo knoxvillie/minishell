@@ -6,7 +6,7 @@
 /*   By: kfaustin <kfaustin@student.42porto.>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 10:57:37 by kfaustin          #+#    #+#             */
-/*   Updated: 2023/05/08 16:07:59 by kfaustin         ###   ########.fr       */
+/*   Updated: 2023/05/07 09:53:03 by kfaustin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,12 +15,18 @@
 
 extern int	exit_status;
 
+static t_msh	*init_data(t_msh *data, char **env)
+{
+	data->ppt = (t_ppt *)malloc(sizeof(t_ppt));
+//	data->lst_cmd = (t_sCom *)malloc(sizeof(t_sCom));
+	env_to_list(data, env);
+	return (data);
+}
+
 void	free_over(t_msh *data)
 {
 	free_t_env(data->ppt->list);
 	free_t_ppt(data->ppt);
-	free (data->ppt);
-	free (data->lst_cmd);
 	free (data);
 }
 
@@ -33,50 +39,38 @@ void	printf_env(t_env *env)
 	}
 }
 
-bool	main_loop(t_msh *data)
-{
-	char	*input;
 
-	input = readline(display_prompt(data->ppt));
-	if (*input == 'X')
-	{
-		ft_putstr_fd("exit\n", STDOUT_FILENO);
-		free (input);
-		return (false);
-	}
-	/*if (ft_parse(data, input))
-	{
-		free (input);
-		return (false);
-	}
-	do_execute(data, input);*/
-	printf("%s\n", input);
-	free (input);
-	return (true);
-}
-
-static void	init_data(t_msh *data, char **env)
-{
-	data->ppt = (t_ppt *)malloc(sizeof(t_ppt));
-	data->ppt->n_exec = 0;
-	data->ppt->path = NULL;
-	data->ppt->prompt = NULL;
-	data->lst_cmd = (t_sCom *)malloc(sizeof(t_sCom));
-	env_to_list(data, env);
-	//return (data);
-}
 
 int	main(int argc, char **argv, char **env)
 {
+	char	*input;
 	t_msh	*data;
 
 	(void)argc;
 	(void)argv;
 	data = (t_msh *)malloc(sizeof(t_msh));
-	init_data(data, env);
-	//data = init_data(data, env);
-	while (main_loop(data))
-		;
+	data = (t_msh *)ft_memset(data, 0, sizeof(t_msh));
+	data = init_data(data, env);
+	while (1)
+	{
+		input = readline(display_prompt(data->ppt));
+		if (!input || !*input)
+		{
+			ft_putstr_fd("exit\n", STDOUT_FILENO);
+			free (input);
+			break ;
+		}
+        //Still needs leak check. next thing to do and some hardcore test.
+        if (ft_parse(input, data))
+        {
+            //in case of error
+            free (input);
+            break ;
+        }
+//		do_execute(data);
+        free_lstsCom(&(data->lst_cmd));
+		free (input);
+	}
 	free_over(data);
 	return (0);
 }
