@@ -6,7 +6,7 @@
 /*   By: kfaustin <kfaustin@student.42porto.>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/21 14:25:58 by kfaustin          #+#    #+#             */
-/*   Updated: 2023/05/03 10:41:40 by kfaustin         ###   ########.fr       */
+/*   Updated: 2023/05/10 14:40:10 by kfaustin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,10 +93,32 @@ int    get_token(t_msh	*data, char **str)
     return (0);
 }
 
-int ft_parse(char	*input, t_msh	*data){
+void	init_arglist(t_msh *data, int num)
+{
+	short	i;
+	t_list	*node;
 
-    char *str;
+	data->lst_cmd->argList = NULL;
+	i = 0;
+	node = data->lst_cmd->lstArg;
+	data->lst_cmd->argList = (char **)malloc(sizeof(char *) * (num + 1));
+	if (!data->lst_cmd->argList)
+		ft_putstr_fd("Error: Malloc of argList is null", 2);
+	while (i < num)
+	{
+		data->lst_cmd->argList[i] = node->content;
+		i++;
+		node = node->next;
+	}
+	data->lst_cmd->argList[i] = NULL;
+}
 
+int ft_parse(char *input, t_msh *data){
+
+    char	*str;
+	int		num;
+
+	num = 0;
     str = input;
     if (!check_unclosed_quotes(input))
     {
@@ -108,15 +130,14 @@ int ft_parse(char	*input, t_msh	*data){
     {
         if (get_token(data, &str))
             return (1);
+		num++;
     }
-    print_lstCtable(data);
+    //print_lstCtable(data);
     //verificar se há um node a mais que o numero de pipes e se estes estao preenchidos.
     //caso nao seja valido
+	init_arglist(data, num);
     return (0);
 }
-
-
-
 
 //Main to test the parsing
 //int main(int argc, char **argv)

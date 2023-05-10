@@ -6,7 +6,7 @@
 /*   By: kfaustin <kfaustin@student.42porto.>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/13 12:12:39 by kfaustin          #+#    #+#             */
-/*   Updated: 2023/05/07 12:12:46 by kfaustin         ###   ########.fr       */
+/*   Updated: 2023/05/10 15:56:13 by kfaustin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,19 @@ bool	abs_string_cmp(char *s1, char *s2)
 	if ((len_s1 == len_s2) && !ft_strncmp(s1, s2, len_s1))
 		return (true);
 	return (false);
+}
+
+void	free_table(char **table)
+{
+	int	i;
+
+	i = 0;
+	while(table[i])
+	{
+		free (table[i]);
+		i++;
+	}
+	free (table);
 }
 
 /*int		size_of_list(t_env *node)

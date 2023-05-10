@@ -6,7 +6,7 @@
 /*   By: kfaustin <kfaustin@student.42porto.>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/05 11:00:11 by kfaustin          #+#    #+#             */
-/*   Updated: 2023/05/08 15:17:05 by kfaustin         ###   ########.fr       */
+/*   Updated: 2023/05/10 15:41:25 by kfaustin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,27 +46,27 @@ bool	check_builtin(char *cmd)
 	return (false);
 }
 
-static void	execute_single_cmd(t_msh *data, char *path_cmd, char **var)
+static void	execute_single_cmd(t_msh *data, char *path_cmd)
 {
-	(void)data;
+	char	**cmd;
+
+	cmd = data->lst_cmd->argList;
 	//signals and redirect is handle here
 	//if(check_builtin(data->lst_cmd->argList[0])) > Check is builtin
-	execve(path_cmd, var, NULL);
+	execve(path_cmd, cmd, NULL);
 }
 
-void	do_execute(t_msh *data, char *input)
+void	do_execute(t_msh *data)
 {
 	char	*path_cmd;
-	char	**var;
 	pid_t	pid;
 
-	var = ft_split(input, ' ');
-	path_cmd = check_access(data, var[0]);
+	path_cmd = check_access(data, data->lst_cmd->argList[0]);
 	if (!path_cmd)
 		return ;
 	pid = fork();
 	if (pid == 0)
-		execute_single_cmd(data, path_cmd, var);
+		execute_single_cmd(data, path_cmd);
 	waitpid(pid, NULL, 0);
 	free (path_cmd);
 }

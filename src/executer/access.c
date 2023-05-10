@@ -6,7 +6,7 @@
 /*   By: kfaustin <kfaustin@student.42porto.>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 14:51:46 by kfaustin          #+#    #+#             */
-/*   Updated: 2023/05/04 15:56:33 by kfaustin         ###   ########.fr       */
+/*   Updated: 2023/05/10 15:57:27 by kfaustin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,13 +39,13 @@ static char	*check_access_continue(char *path, char *cmd)
 		str = path_plus_cmd(table_path[i], cmd);
 		if (access(str, F_OK) == 0)
 		{
+			free_table(table_path);
 			free (table_path);
 			return (str); // You have to free the str.
 		}
 		free (str);
-		free (table_path[i]);
 	}
-	free (table_path);
+	free_table(table_path);
 	return (NULL);
 }
 

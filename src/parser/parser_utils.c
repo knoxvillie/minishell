@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parser_utils.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: kfaustin <kfaustin@student.42porto.>       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/05/10 10:39:42 by kfaustin          #+#    #+#             */
+/*   Updated: 2023/05/10 14:51:30 by kfaustin         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 //
 // Created by fvalli-v on 07-05-2023.
 //
@@ -209,5 +221,6 @@ void get_token_word(t_msh *data, char **str)
     }
     tmp[i] = '\0';
     if (i != 0)
-        ft_lstadd_back(&(sCom->lstArg), ft_lstnew(tmp));
+		ft_lstadd_back(&(sCom->lstArg), ft_lstnew(tmp));
+	//printf("%s\n", (char *)sCom->lstArg->content);
 }
