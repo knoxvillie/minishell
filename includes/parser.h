@@ -48,5 +48,7 @@ void	get_token_word(t_msh	*data, char **str);
 int		ft_parse(char	*input, t_msh	*data);
 void	free_lst(t_list **lst);
 void	free_lstsCom(t_sCom **lst);
+int check_node_empty(t_sCom *lst);
+int check_nbr_pipes(t_sCom *lst);
 
 #endif

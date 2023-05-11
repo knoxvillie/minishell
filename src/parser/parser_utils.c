@@ -91,6 +91,41 @@ void	free_lstsCom(t_sCom **lst)
     }
 }
 
+
+
+int check_node_empty(t_sCom *lst)
+{
+    t_sCom *temp;
+
+    temp = lst;
+    if (temp->lstArg == NULL && temp->lstOfRedirIn == NULL && temp->lstOfRedirOut == NULL)
+        return (1);
+    else
+        return (0);
+}
+
+int check_nbr_pipes(t_sCom *lst)
+{
+    t_sCom *temp;
+    temp = lst;
+    if (check_node_empty(temp))
+    {
+        printf("syntax error near unexpected token `|\'\n");
+        return (1);
+    }
+    temp = temp->next;
+    while (temp != NULL)
+    {
+        if (check_node_empty(temp))
+        {
+            printf("pipe handling only between commands\n");
+            return (1);
+        }
+        temp = temp->next;
+    }
+    return (0);
+}
+
 int jump_dq_and_sq(char **str, int i)
 {
     if (**str == '\"')

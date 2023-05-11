@@ -6,7 +6,7 @@
 /*   By: kfaustin <kfaustin@student.42porto.>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/21 14:25:58 by kfaustin          #+#    #+#             */
-/*   Updated: 2023/05/10 14:40:10 by kfaustin         ###   ########.fr       */
+/*   Updated: 2023/05/03 10:41:40 by kfaustin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,34 +17,41 @@
 void print_lstCtable(t_msh *data)
 {
     t_sCom *lst;
+//    t_sCom *head;
     int i;
 
     i = 0;
     lst = data->lst_cmd;
+//    lst = data->lst_cmd;
+//    head = data->lst_cmd;
+    t_list *tmp;
     while (lst)
     {
         printf("Simple command number %d\n", i);
         printf("List of args\n");
-        while(lst->lstArg)
+        tmp = lst->lstArg;
+        while(tmp)
         {
-            printf("%s\n",(char *)(lst->lstArg->content));
-            lst->lstArg = lst->lstArg->next;
+            printf("%s\n",(char *)(tmp->content));
+            tmp = tmp->next;
         }
         printf("List of redir out\n");
-        while(lst->lstOfRedirOut)
+        tmp = lst->lstOfRedirOut;
+        while(tmp)
         {
-            t_redir *tmp = (t_redir *)(lst->lstOfRedirOut->content);
-            printf("%d\n",tmp->type);
-            printf("%s\n",tmp->filename);
-            lst->lstOfRedirOut = lst->lstOfRedirOut->next;
+            t_redir *temp = (t_redir *)(tmp->content);
+            printf("%d\n",temp->type);
+            printf("%s\n",temp->filename);
+            tmp = tmp->next;
         }
         printf("List of redir in\n");
-        while(lst->lstOfRedirIn)
+        tmp = lst->lstOfRedirIn;
+        while(tmp)
         {
-            t_redir *tmp1 = (t_redir *)(lst->lstOfRedirIn->content);
-            printf("%d\n",tmp1->type);
-            printf("%s\n",tmp1->filename);
-            lst->lstOfRedirIn = lst->lstOfRedirIn->next;
+            t_redir *temp1 = (t_redir *)(tmp->content);
+            printf("%d\n",temp1->type);
+            printf("%s\n",temp1->filename);
+            tmp = tmp->next;
         }
         i++;
         lst = lst->next;
@@ -132,9 +139,9 @@ int ft_parse(char *input, t_msh *data){
             return (1);
 		num++;
     }
-    //print_lstCtable(data);
-    //verificar se há um node a mais que o numero de pipes e se estes estao preenchidos.
-    //caso nao seja valido
+    print_lstCtable(data);
+    if (check_nbr_pipes(data->lst_cmd))
+        return (1);
 	init_arglist(data, num);
     return (0);
 }
