@@ -6,7 +6,7 @@
 /*   By: kfaustin <kfaustin@student.42porto.>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 10:57:37 by kfaustin          #+#    #+#             */
-/*   Updated: 2023/05/10 15:41:43 by kfaustin         ###   ########.fr       */
+/*   Updated: 2023/05/11 10:27:05 by kfaustin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,6 @@ static t_msh	*init_data(t_msh *data, char **env)
 	data->ppt->n_exec = 0;
 	data->ppt->path = NULL;
 	data->ppt->prompt = NULL;
-	//data->lst_cmd = (t_sCom *)malloc(sizeof(t_sCom));
 	env_to_list(data, env);
 	return (data);
 }
@@ -62,23 +61,22 @@ static bool	main_loop(t_msh *data)
 		return (false);
 	}
 	do_execute(data);
-	//free_table(data->lst_cmd->argList); Ta foda dar free nisso, tu tentas dar free nestas func de baixo ai.
+	free_table(data->lst_cmd->argList);
 	free_lstsCom(&(data->lst_cmd));
 	free (input);
 	return (true);
 }
 
-int	main(int argc, char **argv, char **env)
+int main(int argc, char **argv, char **env)
 {
-	t_msh	*data;
+	t_msh *data;
 
-	(void)argc;
-	(void)argv;
-	data = (t_msh *)malloc(sizeof(t_msh));
-	data = (t_msh *)ft_memset(data, 0, sizeof(t_msh));
+	(void) argc;
+	(void) argv;
+	data = (t_msh *) malloc(sizeof(t_msh));
+	data = (t_msh *) ft_memset(data, 0, sizeof(t_msh));
 	data = init_data(data, env);
-	while (main_loop(data))
-		;
+	while (main_loop(data));
 	free_over(data);
 	return (0);
 }

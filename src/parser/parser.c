@@ -6,7 +6,7 @@
 /*   By: kfaustin <kfaustin@student.42porto.>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/21 14:25:58 by kfaustin          #+#    #+#             */
-/*   Updated: 2023/05/03 10:41:40 by kfaustin         ###   ########.fr       */
+/*   Updated: 2023/05/11 10:33:13 by kfaustin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,44 +106,45 @@ void	init_arglist(t_msh *data, int num)
 	t_list	*node;
 
 	data->lst_cmd->argList = NULL;
-	i = 0;
 	node = data->lst_cmd->lstArg;
 	data->lst_cmd->argList = (char **)malloc(sizeof(char *) * (num + 1));
-	if (!data->lst_cmd->argList)
+	if (!data->lst_cmd->argList) {
 		ft_putstr_fd("Error: Malloc of argList is null", 2);
+	}
+	i = 0;
 	while (i < num)
 	{
-		data->lst_cmd->argList[i] = node->content;
+		data->lst_cmd->argList[i] = ft_strdup((char *)node->content);
 		i++;
 		node = node->next;
 	}
 	data->lst_cmd->argList[i] = NULL;
 }
 
-int ft_parse(char *input, t_msh *data){
-
-    char	*str;
-	int		num;
+int ft_parse(char *input, t_msh *data)
+{
+	char	*str;
+	int		num; // mudar num dpois para nao incluir redirects.
 
 	num = 0;
-    str = input;
-    if (!check_unclosed_quotes(input))
-    {
-        ft_putstr_fd("Error: Unclosed quotes found\n", 2);
-        return (1);
-    }
-    ft_lstadd_backsCom(&(data->lst_cmd), ft_lstnewsCom());
-    while (*str)
-    {
-        if (get_token(data, &str))
-            return (1);
+	str = input;
+	if (!check_unclosed_quotes(input))
+	{
+		ft_putstr_fd("Error: Unclosed quotes found\n", 2);
+		return (1);
+	}
+	ft_lstadd_backsCom(&(data->lst_cmd), ft_lstnewsCom());
+	while (*str)
+	{
+		if (get_token(data, &str))
+			return (1);
 		num++;
-    }
-    print_lstCtable(data);
-    if (check_nbr_pipes(data->lst_cmd))
-        return (1);
+	}
+	print_lstCtable(data);
+	if (check_nbr_pipes(data->lst_cmd))
+		return (1);
 	init_arglist(data, num);
-    return (0);
+	return (0);
 }
 
 //Main to test the parsing
@@ -165,17 +166,6 @@ int ft_parse(char *input, t_msh *data){
 //        printf("incorrect number of args\n");
 //    return (0);
 //}
-
-
-
-
-
-
-
-
-
-
-
 
 /*void	ft_parser(t_tokens *parser, char *str)
 {

@@ -40,7 +40,6 @@ static char	*check_access_continue(char *path, char *cmd)
 		if (access(str, F_OK) == 0)
 		{
 			free_table(table_path);
-			free (table_path);
 			return (str); // You have to free the str.
 		}
 		free (str);

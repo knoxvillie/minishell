@@ -6,7 +6,7 @@
 /*   By: kfaustin <kfaustin@student.42porto.>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 10:39:42 by kfaustin          #+#    #+#             */
-/*   Updated: 2023/05/10 14:51:30 by kfaustin         ###   ########.fr       */
+/*   Updated: 2023/05/11 10:31:59 by kfaustin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,8 +78,8 @@ void	free_lstsCom(t_sCom **lst)
 {
     t_sCom	*next;
 
-    if (lst == NULL)
-        return ;
+	if (lst == NULL)
+		return ;
     while (*lst)
     {
         next = (*lst)->next;
@@ -257,5 +257,4 @@ void get_token_word(t_msh *data, char **str)
     tmp[i] = '\0';
     if (i != 0)
 		ft_lstadd_back(&(sCom->lstArg), ft_lstnew(tmp));
-	//printf("%s\n", (char *)sCom->lstArg->content);
 }
