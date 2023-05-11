@@ -6,7 +6,7 @@
 /*   By: kfaustin <kfaustin@student.42porto.>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/05 11:00:11 by kfaustin          #+#    #+#             */
-/*   Updated: 2023/05/10 15:41:25 by kfaustin         ###   ########.fr       */
+/*   Updated: 2023/05/11 15:36:43 by kfaustin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,25 @@ int	number_of_pipes(t_sCom *data)
 	return (i);
 }
 
-bool	check_builtin(char *cmd)
+static void	do_builtin(t_msh *data, char *cmd)
+{
+/*	if (abs_string_cmp(cmd, "echo"))
+	else if (abs_string_cmp(cmd, "cd"))
+	else if (abs_string_cmp(cmd, "pwd"))
+		;*/
+	if (abs_string_cmp(cmd, "export"))
+		builtin_export(data);
+	else if (abs_string_cmp(cmd, "unset"))
+		builtin_unset(data);
+	else if (abs_string_cmp(cmd, "env"))
+		builtin_env(data);
+	else if (abs_string_cmp(cmd, "pwd"))
+		builtin_pwd(data);
+	else
+		abs_string_cmp(cmd, "exit");
+}
+
+static bool	check_builtin(char *cmd)
 {
 	if (abs_string_cmp(cmd, "echo"))
 		return (true);
@@ -46,14 +64,38 @@ bool	check_builtin(char *cmd)
 	return (false);
 }
 
+/*static void execute_multiple_cmd(void)
+{
+	;
+}*/
+
 static void	execute_single_cmd(t_msh *data, char *path_cmd)
 {
 	char	**cmd;
 
-	cmd = data->lst_cmd->argList;
-	//signals and redirect is handle here
-	//if(check_builtin(data->lst_cmd->argList[0])) > Check is builtin
+	cmd = (char **)data->lst_cmd->argList;
 	execve(path_cmd, cmd, NULL);
+}
+
+static char	*execute_condition(t_msh *data)
+{
+	char	*cmd;
+	char	*path_cmd;
+
+	cmd = (char *)data->lst_cmd->argList[0];
+	if (check_builtin(cmd))
+	{
+		do_builtin(data, cmd);
+		return (NULL);
+	}
+	path_cmd = check_access(data, cmd);
+	if (!path_cmd)
+	{
+		ft_putstr_fd(cmd, 1);
+		ft_putstr_fd(": command not found\n", 1);
+		return (NULL);
+	}
+	return (path_cmd);
 }
 
 void	do_execute(t_msh *data)
@@ -61,9 +103,9 @@ void	do_execute(t_msh *data)
 	char	*path_cmd;
 	pid_t	pid;
 
-	path_cmd = check_access(data, data->lst_cmd->argList[0]);
+	path_cmd = execute_condition(data);
 	if (!path_cmd)
-		return ;
+			return ;
 	pid = fork();
 	if (pid == 0)
 		execute_single_cmd(data, path_cmd);

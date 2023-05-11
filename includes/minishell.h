@@ -6,7 +6,7 @@
 /*   By: kfaustin <kfaustin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 11:29:44 by kfaustin          #+#    #+#             */
-/*   Updated: 2023/05/10 15:38:37 by kfaustin         ###   ########.fr       */
+/*   Updated: 2023/05/11 15:36:21 by kfaustin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,7 @@ typedef struct s_ppt
 	char	*s_manager;
 	char	*home;
 	char	*path;
+	char	*abs_path;
 	t_env	*list;
 }		t_ppt;
 
@@ -72,8 +73,10 @@ typedef struct s_msh
 }		t_msh;
 
 // *** BUILTINS ***
-void	builtin_unset(t_msh *data, char *str);
-void	builtin_export(t_msh *root, char *str);
+void	builtin_unset(t_msh *data);
+void	builtin_export(t_msh *data);
+void	builtin_env(t_msh *data);
+void	builtin_pwd(t_msh *data);
 // *** Functions ***
 //void	ft_parser(char *input);
 // * env_list.c

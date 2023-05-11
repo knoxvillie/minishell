@@ -6,7 +6,7 @@
 /*   By: kfaustin <kfaustin@student.42porto.>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 10:57:37 by kfaustin          #+#    #+#             */
-/*   Updated: 2023/05/11 10:27:05 by kfaustin         ###   ########.fr       */
+/*   Updated: 2023/05/11 14:53:45 by kfaustin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ static t_msh	*init_data(t_msh *data, char **env)
 	data->ppt->n_exec = 0;
 	data->ppt->path = NULL;
 	data->ppt->prompt = NULL;
+	data->ppt->abs_path = NULL;
 	env_to_list(data, env);
 	return (data);
 }
@@ -49,7 +50,7 @@ static bool	main_loop(t_msh *data)
 	input = readline(display_prompt(data->ppt));
 	if (!input || !*input)
 	{
-		ft_putstr_fd(" exit\nexit\n", STDOUT_FILENO);
+		ft_putstr_fd("exit\nexit\n", STDOUT_FILENO);
 		free (input);
 		return (false);
 	}

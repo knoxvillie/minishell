@@ -58,10 +58,12 @@ static bool	check_unset_till_end(t_env *env, char *str, int len_str)
 }
 
 // Be sure that env is not null
-void	builtin_unset(t_msh *data, char *str)
+void	builtin_unset(t_msh *data)
 {
+	char	*str;
 	int		len_str;
 
+	str = (char *)data->lst_cmd->argList[1];
 	len_str = (int)ft_strlen(str);
 	if (check_unset_first_node(data->ppt->list, str, len_str))
 		return ;

@@ -6,7 +6,7 @@
 /*   By: kfaustin <kfaustin@student.42porto.>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 10:50:56 by kfaustin          #+#    #+#             */
-/*   Updated: 2023/05/07 11:01:59 by kfaustin         ###   ########.fr       */
+/*   Updated: 2023/05/11 11:00:07 by kfaustin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,19 +38,21 @@ static bool	check_syntax_var_equal(char *str)
 }
 
 // str must be handled before the func to prevent unclosed quotes: ARG='kelvin"
-void	builtin_export(t_msh *root, char *str)
+void	builtin_export(t_msh *data)
 {
 	char	**table;
 	char	*value;
+	char	*arg;
 	t_env	*node;
 
-	if (!check_syntax_var_equal(str))
+	arg = data->lst_cmd->argList[1];
+	if (!check_syntax_var_equal(arg))
 		return ;
-	table = ft_split(str, '=');
+	table = ft_split(arg, '=');
 	value = table[1];
 	if (!value)
 		value = ft_strdup("\0");
 	node = init_env_node(table[0], value);
-	root->ppt->list = stack_env_list(root->ppt->list, node);
+	data->ppt->list = stack_env_list(data->ppt->list, node);
 	free (table);
 }

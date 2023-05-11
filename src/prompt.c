@@ -6,7 +6,7 @@
 /*   By: kfaustin <kfaustin@student.42porto.>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 10:34:08 by kfaustin          #+#    #+#             */
-/*   Updated: 2023/05/08 16:03:12 by kfaustin         ###   ########.fr       */
+/*   Updated: 2023/05/11 14:54:22 by kfaustin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,9 @@ char	*display_prompt(t_ppt *root)
 		s_manager_prompt(root);
 	}
 	free (root->path);
-	root->path = getcwd(NULL, 0);
+	free (root->abs_path);
+	root->abs_path = getcwd(NULL, 0);
+	root->path = ft_strdup(root->abs_path);
 	path_prompt(root);
 	if (!root->path)
 		put_string_exit("Error: Path prompt is NULL\n", 1);

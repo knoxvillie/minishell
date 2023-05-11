@@ -6,7 +6,7 @@
 /*   By: kfaustin <kfaustin@student.42porto.>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/21 14:25:58 by kfaustin          #+#    #+#             */
-/*   Updated: 2023/05/11 10:33:13 by kfaustin         ###   ########.fr       */
+/*   Updated: 2023/05/11 15:59:17 by kfaustin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,7 +116,7 @@ void	init_arglist(t_msh *data, int num)
 	{
 		data->lst_cmd->argList[i] = ft_strdup((char *)node->content);
 		i++;
-		node = node->next;
+		node = node->next; //segfault pwd_
 	}
 	data->lst_cmd->argList[i] = NULL;
 }
@@ -140,7 +140,7 @@ int ft_parse(char *input, t_msh *data)
 			return (1);
 		num++;
 	}
-	print_lstCtable(data);
+	//print_lstCtable(data);
 	if (check_nbr_pipes(data->lst_cmd))
 		return (1);
 	init_arglist(data, num);

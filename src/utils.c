@@ -6,7 +6,7 @@
 /*   By: kfaustin <kfaustin@student.42porto.>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/13 12:12:39 by kfaustin          #+#    #+#             */
-/*   Updated: 2023/05/11 09:52:33 by kfaustin         ###   ########.fr       */
+/*   Updated: 2023/05/11 15:19:02 by kfaustin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ void	free_t_ppt(t_ppt *root)
 	free (root->s_manager);
 	free (root->home);
 	free (root->path);
+	free (root->abs_path);
 }
 
 bool	abs_string_cmp(char *s1, char *s2)

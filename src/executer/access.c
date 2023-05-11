@@ -6,7 +6,7 @@
 /*   By: kfaustin <kfaustin@student.42porto.>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 14:51:46 by kfaustin          #+#    #+#             */
-/*   Updated: 2023/05/10 15:57:27 by kfaustin         ###   ########.fr       */
+/*   Updated: 2023/05/11 13:04:45 by kfaustin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ char	*check_access(t_msh *data, char *cmd)
 	if (!path)
 	{
 		free (path);
-		printf("minishell: %s: No such file or directory", cmd); //CHANGE
+		printf("minishell: %s: No such file or directory\n", cmd); //CHANGE
 		return (NULL);
 	}
 	str = check_access_continue(path, cmd);
