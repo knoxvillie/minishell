@@ -6,7 +6,7 @@
 /*   By: kfaustin <kfaustin@student.42porto.>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/21 14:25:58 by kfaustin          #+#    #+#             */
-/*   Updated: 2023/05/03 10:41:40 by kfaustin         ###   ########.fr       */
+/*   Updated: 2023/05/11 09:44:02 by kfaustin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,7 +141,7 @@ int ft_parse(char *input, t_msh *data){
     }
     print_lstCtable(data);
     if (check_nbr_pipes(data->lst_cmd))
-        return (1);
+		return (1);
 	init_arglist(data, num);
     return (0);
 }
