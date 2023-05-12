@@ -6,7 +6,7 @@
 /*   By: kfaustin <kfaustin@student.42porto.>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 10:57:37 by kfaustin          #+#    #+#             */
-/*   Updated: 2023/05/11 14:53:45 by kfaustin         ###   ########.fr       */
+/*   Updated: 2023/05/12 19:03:51 by kfaustin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ void	free_over(t_msh *data)
 {
 	free_t_env(data->ppt->list);
 	free_t_ppt(data->ppt);
+	free_table(data->env);
 	free (data->ppt);
 	free (data);
 }
@@ -40,6 +41,7 @@ static t_msh	*init_data(t_msh *data, char **env)
 	data->ppt->prompt = NULL;
 	data->ppt->abs_path = NULL;
 	env_to_list(data, env);
+	init_env_table(data);
 	return (data);
 }
 

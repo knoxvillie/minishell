@@ -6,7 +6,7 @@
 /*   By: kfaustin <kfaustin@student.42porto.>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/13 12:12:39 by kfaustin          #+#    #+#             */
-/*   Updated: 2023/05/11 15:19:02 by kfaustin         ###   ########.fr       */
+/*   Updated: 2023/05/12 19:19:09 by kfaustin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ void	free_table(char **table)
 	int	i;
 
 	i = 0;
-	while(table[i])
+	while (table[i])
 	{
 		free (table[i]);
 		i++;
@@ -67,22 +67,57 @@ void	free_table(char **table)
 	free (table);
 }
 
-/*int		size_of_list(t_env *node)
+int	size_of_list(t_env *lst)
 {
-	int		i;
+	int		size;
 	t_env	*tmp;
 
-	i = 0;
-	tmp = node;
+	size = 0;
+	tmp = lst;
 	while (tmp)
 	{
+		size++;
+		tmp = tmp->next;
+	}
+	return (size);
+}
+
+static void	init_env_table_complement(t_msh *data, t_env *tmp)
+{
+	int		i;
+	int		j;
+	int		k;
+
+	i = 0;
+	while (tmp)
+	{
+		j = -1;
+		data->env[i] = (char *)malloc(sizeof(char)
+				* (ft_strlen(tmp->key) + ft_strlen(tmp->value) + 2));
+		while (tmp->key[++j])
+			data->env[i][j] = tmp->key[j];
+		data->env[i][j++] = '=';
+		k = 0;
+		while (tmp->value[k])
+			data->env[i][j++] = tmp->value[k++];
+		data->env[i][j] = '\0';
 		tmp = tmp->next;
 		i++;
 	}
-	return (i);
+	data->env[i] = NULL;
 }
 
-void	update_env_table(t_msh *data)
+void	init_env_table(t_msh *data)
 {
+	t_env	*tmp;
 
-}*/
+	data->env = (char **)malloc(sizeof(char *)
+			* (size_of_list(data->ppt->list) + 1));
+	if (!data->env)
+	{
+		ft_putstr_fd("Error: Env table malloc failed\n", 2);
+		return ;
+	}
+	tmp = data->ppt->list;
+	init_env_table_complement(data, tmp);
+}

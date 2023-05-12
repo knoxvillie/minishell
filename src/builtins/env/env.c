@@ -6,7 +6,7 @@
 /*   By: kfaustin <kfaustin@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 12:24:35 by kfaustin          #+#    #+#             */
-/*   Updated: 2023/05/11 12:29:14 by kfaustin         ###   ########.fr       */
+/*   Updated: 2023/05/12 16:07:16 by kfaustin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	builtin_env(t_msh *data)
 	while(node)
 	{
 		ft_putstr_fd(node->key, 1);
-		ft_putstr_fd(":", 1);
+		ft_putstr_fd("=", 1);
 		ft_putstr_fd(node->value, 1);
 		ft_putstr_fd("\n", 1);
 		node = node->next;

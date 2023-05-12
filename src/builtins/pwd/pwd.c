@@ -14,6 +14,7 @@
 
 void	builtin_pwd(t_msh *data)
 {
+
 	if (data->lst_cmd->argList[1])
 	{
 		ft_putstr_fd("pwd: too many arguments\n", 2);

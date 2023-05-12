@@ -6,7 +6,7 @@
 /*   By: kfaustin <kfaustin@student.42porto.>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/05 11:00:11 by kfaustin          #+#    #+#             */
-/*   Updated: 2023/05/11 15:36:43 by kfaustin         ###   ########.fr       */
+/*   Updated: 2023/05/12 19:07:58 by kfaustin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ static void	execute_single_cmd(t_msh *data, char *path_cmd)
 	char	**cmd;
 
 	cmd = (char **)data->lst_cmd->argList;
-	execve(path_cmd, cmd, NULL);
+	execve(path_cmd, cmd, data->env);
 }
 
 static char	*execute_condition(t_msh *data)
