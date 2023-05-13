@@ -64,9 +64,12 @@ static bool	main_loop(t_msh *data)
         free (input);
         return (true);
 	}
+//	do_redir(data);
+//	create_pipe(data); //pipe(data->fd[i])
 	do_execute(data);
 	free_lstsCom(&(data->lst_cmd));
 	free (input);
+	//close all pipes
 	return (true);
 }
 

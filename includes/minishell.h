@@ -29,15 +29,17 @@
 
 // * Macros *
 typedef struct s_env	t_env;
+typedef struct s_sCom	t_sCom;
 
 typedef struct s_sCom {
-    char			**argv;
-    t_list			*lstArg;
-    t_list			*lstOfRedirIn;
-    t_list			*lstOfRedirOut;
-//    int ft_stdin = STDIN_FILENO;
-//    int ft_stdout = STDOUT_FILENO;
-    struct s_sCom	*next; //t_sCom *next; I'll use to check the numbers of pipes
+	int		i;
+	char	**argv;
+	t_list	*lstArg;
+	t_list	*lstOfRedirIn;
+	t_list	*lstOfRedirOut;
+	int		ft_stdin;
+	int		ft_stdout;
+	t_sCom	*next; //t_sCom *next; I'll use to check the numbers of pipes
 } t_sCom;
 
 typedef struct s_redir {
@@ -67,6 +69,9 @@ typedef struct s_ppt
 // This is the super class
 typedef struct s_msh
 {
+	int		npipe;
+	int		nsCom;
+	int		**fd;
 	t_ppt	*ppt;
 	t_sCom	*lst_cmd;
 	char	**env;

@@ -74,7 +74,13 @@ static void	execute_single_cmd(t_msh *data, char *path_cmd)
 	char	**cmd;
 
 	cmd = (char **)data->lst_cmd->argv;
-	execve(path_cmd, cmd, data->env);
+	printf("ola\n");
+	if (execve(path_cmd, cmd, data->env) < 0)
+	{
+		printf("error on execve\n");
+		exit(1);
+	}
+		// msg erro + free all;
 }
 
 static char	*execute_condition(t_msh *data)
@@ -102,13 +108,26 @@ void	do_execute(t_msh *data)
 {
 	char	*path_cmd;
 	pid_t	pid;
+	int		i;
 
-	path_cmd = execute_condition(data);
-	if (!path_cmd)
+	i = 0;
+	while(data->lst_cmd)
+	{
+		path_cmd = execute_condition(data); //alterar data para data->lst_cmd
+		if (!path_cmd)
 			return ;
-	pid = fork();
-	if (pid == 0)
-		execute_single_cmd(data, path_cmd);
-	waitpid(pid, NULL, 0);
+		pid = fork();
+		if (pid == 0)
+		{
+//			do_pipe(data->lst_cmd); // fazer os dup e dup2 para conectar os processos pelos pipes.
+			execute_single_cmd(data, path_cmd); // alterar data para data->lst_cmd
+		}
+		data->lst_cmd = data->lst_cmd->next;
+	}
+	while (i < data->nsCom)
+	{
+		waitpid(-1, NULL, 0);
+		i++;
+	}
 	free (path_cmd);
 }

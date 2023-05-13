@@ -15,15 +15,16 @@
 static bool	do_cd(t_msh *data)
 {
 	char	*next_pwd;
-	char	*actual_pwd;
-	char	*old_pwd;
+	char	**actual_pwd;
+	char	**old_pwd;
 
-	next_pwd = ft_strdup(data->lst_cmd->argList[1]);
+	next_pwd = ft_strdup(data->lst_cmd->argv[1]);
 	if (chdir(next_pwd) != 0)
 	{
 		perror("chdir");
 		return (false);
 	}
+	actual_pwd = (char **)
 	actual_pwd = get_value_from_key(data->ppt->list, "PWD");
 	modify_value(data, "OLDPWD", actual_pwd);
 	modify_value(data, "PWD", next_pwd);

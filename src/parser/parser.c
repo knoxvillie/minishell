@@ -126,6 +126,7 @@ void	init_argv(t_msh *data)
     tmpsCom = data->lst_cmd;
     while (tmpsCom != NULL)
     {
+		//atualizar index de cada node no tmpsCom
         i = size_lstArg(tmpsCom);
         tmpArgLst = tmpsCom->lstArg;
         tmpsCom->argv = (char **)malloc(sizeof(char *) * (i + 1));
@@ -164,6 +165,7 @@ int ft_parse(char *input, t_msh *data)
 	if (check_nbr_pipes(data->lst_cmd))
 		return (1);
 	init_argv(data);
+	//preencher i da t_sCom e npipe e nsCom da t_msh
 	return (0);
 }
 

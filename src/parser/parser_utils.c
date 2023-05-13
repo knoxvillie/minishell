@@ -43,6 +43,8 @@ t_sCom	*ft_lstnewsCom(void)
 	new_node->argv = NULL;
     new_node->lstOfRedirIn = NULL;
     new_node->lstOfRedirOut = NULL;
+	new_node->ft_stdin = STDIN_FILENO;
+	new_node->ft_stdout = STDOUT_FILENO;
     return (new_node);
 }
 
