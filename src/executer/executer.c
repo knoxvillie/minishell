@@ -73,7 +73,7 @@ static void	execute_single_cmd(t_msh *data, char *path_cmd)
 {
 	char	**cmd;
 
-	cmd = (char **)data->lst_cmd->argList;
+	cmd = (char **)data->lst_cmd->argv;
 	execve(path_cmd, cmd, data->env);
 }
 
@@ -82,7 +82,7 @@ static char	*execute_condition(t_msh *data)
 	char	*cmd;
 	char	*path_cmd;
 
-	cmd = (char *)data->lst_cmd->argList[0];
+	cmd = (char *)data->lst_cmd->argv[0];
 	if (check_builtin(cmd))
 	{
 		do_builtin(data, cmd);

@@ -83,6 +83,7 @@ void	free_lstsCom(t_sCom **lst)
     while (*lst)
     {
         next = (*lst)->next;
+        free_table((*lst)->argv);
         free_lst(&((*lst)->lstArg));
         free_lst(&((*lst)->lstOfRedirIn));
         free_lst(&((*lst)->lstOfRedirOut));

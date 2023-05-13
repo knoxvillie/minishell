@@ -46,11 +46,11 @@ void	builtin_export(t_msh *data)
 	t_env	*node;
 
 	i = 0;
-	while (data->lst_cmd->argList[++i]) //problemas com espaços!
+	while (data->lst_cmd->argv[++i]) //problemas com espaços!
 	{
-		if (!check_syntax_var_equal(data->lst_cmd->argList[i]))
+		if (!check_syntax_var_equal(data->lst_cmd->argv[i]))
 			continue ;
-		table = ft_split(data->lst_cmd->argList[i], '=');
+		table = ft_split(data->lst_cmd->argv[i], '=');
 		value = table[1];
 		if (!value)
 			value = ft_strdup("\0");

@@ -31,7 +31,7 @@
 typedef struct s_env	t_env;
 
 typedef struct s_sCom {
-    char			**argList; //arglist[0] arglist;
+    char			**argv;
     t_list			*lstArg;
     t_list			*lstOfRedirIn;
     t_list			*lstOfRedirOut;
