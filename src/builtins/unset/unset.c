@@ -63,7 +63,7 @@ void	builtin_unset(t_msh *data)
 	char	*str;
 	int		len_str;
 
-	str = (char *)data->lst_cmd->argList[1];
+	str = (char *)data->lst_cmd->argv[1];
 	len_str = (int)ft_strlen(str);
 	if (check_unset_first_node(data->ppt->list, str, len_str))
 		return ;

@@ -62,7 +62,6 @@ static bool	main_loop(t_msh *data)
 		return (false);
 	}
 	do_execute(data);
-	free_table(data->lst_cmd->argList);
 	free_lstsCom(&(data->lst_cmd));
 	free (input);
 	return (true);

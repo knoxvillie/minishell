@@ -35,7 +35,7 @@
 //echo  > kelvin  kelvin fabio valli vieira > fabio > test
 
 
-
+void	init_argv(t_msh *data);
 t_sCom	*ft_lstlastsCom(t_sCom *lst);
 t_sCom	*ft_lstnewsCom(void);
 void	ft_lstadd_backsCom(t_sCom **lst, t_sCom *new);

@@ -100,33 +100,55 @@ int    get_token(t_msh	*data, char **str)
     return (0);
 }
 
-void	init_arglist(t_msh *data, int num)
+int size_lstArg(t_sCom *data)
 {
-	short	i;
-	t_list	*node;
+    t_list *tmp;
+    int		i;
 
-	data->lst_cmd->argList = NULL;
-	node = data->lst_cmd->lstArg;
-	data->lst_cmd->argList = (char **)malloc(sizeof(char *) * (num + 1));
-	if (!data->lst_cmd->argList) {
-		ft_putstr_fd("Error: Malloc of argList is null", 2);
-	}
-	i = 0;
-	while (i < num)
-	{
-		data->lst_cmd->argList[i] = ft_strdup((char *)node->content);
-		i++;
-		node = node->next; //segfault pwd_
-	}
-	data->lst_cmd->argList[i] = NULL;
+    tmp = data->lstArg;
+    if (!tmp)
+        return (0);
+    i = 0;
+    while (tmp != NULL)
+    {
+        tmp = tmp->next;
+        i++;
+    }
+    return (i);
+}
+
+void	init_argv(t_msh *data)
+{
+	int	i;
+	t_list	*tmpArgLst;
+    t_sCom  *tmpsCom;
+
+    tmpsCom = data->lst_cmd;
+    while (tmpsCom != NULL)
+    {
+        i = size_lstArg(tmpsCom);
+        tmpArgLst = tmpsCom->lstArg;
+        tmpsCom->argv = NULL;
+        tmpsCom->argv = (char **)malloc(sizeof(char *) * (i + 1));
+        if (!tmpsCom->argv) {
+            ft_putstr_fd("Error: Malloc of argList is null", 2);
+        }
+        i = 0;
+        while (tmpArgLst != NULL)
+        {
+            tmpsCom->argv[i] = ft_strdup((char *)tmpArgLst->content);
+            i++;
+            tmpArgLst = tmpArgLst->next;
+        }
+        tmpsCom->argv[i] = NULL;
+        tmpsCom = tmpsCom->next;
+    }
 }
 
 int ft_parse(char *input, t_msh *data)
 {
 	char	*str;
-	int		num; // mudar num dpois para nao incluir redirects.
 
-	num = 0;
 	str = input;
 	if (!check_unclosed_quotes(input))
 	{
@@ -138,12 +160,11 @@ int ft_parse(char *input, t_msh *data)
 	{
 		if (get_token(data, &str))
 			return (1);
-		num++;
 	}
 	//print_lstCtable(data);
 	if (check_nbr_pipes(data->lst_cmd))
 		return (1);
-	init_arglist(data, num);
+	init_argv(data);
 	return (0);
 }
 

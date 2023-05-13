@@ -45,7 +45,7 @@ void	builtin_export(t_msh *data)
 	char	*arg;
 	t_env	*node;
 
-	arg = data->lst_cmd->argList[1];
+	arg = data->lst_cmd->argv[1];
 	if (!check_syntax_var_equal(arg))
 		return ;
 	table = ft_split(arg, '=');
