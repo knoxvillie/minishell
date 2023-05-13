@@ -59,7 +59,9 @@ void	free_table(char **table)
 	int	i;
 
 	i = 0;
-	while(table && table[i])
+	if (!table)
+		return ;
+	while(table[i])
 	{
 		free (table[i]);
 		i++;

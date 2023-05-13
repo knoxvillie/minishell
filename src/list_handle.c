@@ -28,7 +28,7 @@ char	*get_value_from_key(t_env *env, char *key)
 	return (NULL);
 }
 
-void	modify_value(t_msh *data, char *key, char *new_value)
+void	modify_value(t_msh *data, char *key, char **new_value)
 {
 	t_env	*node;
 
@@ -37,8 +37,8 @@ void	modify_value(t_msh *data, char *key, char *new_value)
 	{
 		if (abs_string_cmp(key, node->key))
 		{
-			free (node->key);
-			node->value = new_value;
+			free (node->value);
+			node->value = *new_value;
 			return ;
 		}
 		node = node->next;

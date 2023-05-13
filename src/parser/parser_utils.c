@@ -40,6 +40,7 @@ t_sCom	*ft_lstnewsCom(void)
         return (NULL);
     new_node->next = NULL;
     new_node->lstArg = NULL;
+	new_node->argv = NULL;
     new_node->lstOfRedirIn = NULL;
     new_node->lstOfRedirOut = NULL;
     return (new_node);
@@ -207,14 +208,14 @@ int get_token_pipe(t_msh *data, char **str)
 {
     (*str)++;
     if (**str == '|')
-        return (printf("Minishell does not support this operator \'||\'"), 1);
+        return (printf("Minishell does not support this operator \'||\'\n"), 1);
     else
     {
         while (**str && ft_strchr(WSPACE, **str))
             (*str)++;
         if (**str == '|')
         {
-            printf("syntax error near unexpected token `%c\'",**str);
+            printf("syntax error near unexpected token `%c\'\n",**str);
             return (1);
         }
     }

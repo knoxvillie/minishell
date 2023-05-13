@@ -86,7 +86,7 @@ t_env	*stack_env_list(t_env *var, t_env *node);
 // * list_handle.c
 char	*get_value_from_key(t_env *header, char *key);
 char	*get_key_address(t_env *env, char *key);
-void	modify_value(t_msh *data, char *key, char *new_value);
+void	modify_value(t_msh *data, char *key, char **new_value);
 bool	is_key_in_env(t_env *env, char *key);
 bool	abs_string_cmp(char *s1, char *s2);
 // * utils.c

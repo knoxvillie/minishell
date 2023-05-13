@@ -60,8 +60,9 @@ static bool	main_loop(t_msh *data)
 	add_history(input);
 	if (ft_parse(input, data))
 	{
-		free (input);
-		return (false);
+        free_lstsCom(&(data->lst_cmd));
+        free (input);
+        return (true);
 	}
 	do_execute(data);
 	free_lstsCom(&(data->lst_cmd));

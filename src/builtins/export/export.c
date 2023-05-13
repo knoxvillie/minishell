@@ -26,18 +26,13 @@ static bool	check_syntax_var_equal(char *str)
 		}
 		i++;
 	}
-	if (str[i] && str[i] == '=')
-	{
-		if (str[i - 1] == ' ' || str[i + 1] == ' ')
-		{
-			ft_putstr_fd("minishell: Export: not a valid identifier\n", 2);
-			return (false);
-		}
-	}
+	if (!str[i])
+		return (false);
+	if (str[i] == '=' && i == 0)
+		return (false);
 	return (true);
 }
 
-// str must be handled before the func to prevent unclosed quotes: ARG='kelvin"
 void	builtin_export(t_msh *data)
 {
 	int		i;
@@ -46,7 +41,7 @@ void	builtin_export(t_msh *data)
 	t_env	*node;
 
 	i = 0;
-	while (data->lst_cmd->argv[++i]) //problemas com espaços!
+	while (data->lst_cmd->argv[++i])
 	{
 		if (!check_syntax_var_equal(data->lst_cmd->argv[i]))
 			continue ;
@@ -54,6 +49,12 @@ void	builtin_export(t_msh *data)
 		value = table[1];
 		if (!value)
 			value = ft_strdup("\0");
+		if (is_key_in_env(data->ppt->list, table[0]))
+		{
+			modify_value(data, table[0], &value);
+			free (table);
+			continue ;
+		}
 		node = init_env_node(table[0], value);
 		data->ppt->list = stack_env_list(data->ppt->list, node);
 		free (table);

@@ -128,7 +128,6 @@ void	init_argv(t_msh *data)
     {
         i = size_lstArg(tmpsCom);
         tmpArgLst = tmpsCom->lstArg;
-        tmpsCom->argv = NULL;
         tmpsCom->argv = (char **)malloc(sizeof(char *) * (i + 1));
         if (!tmpsCom->argv) {
             ft_putstr_fd("Error: Malloc of argList is null", 2);
