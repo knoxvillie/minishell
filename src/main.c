@@ -6,7 +6,7 @@
 /*   By: kfaustin <kfaustin@student.42porto.>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 10:57:37 by kfaustin          #+#    #+#             */
-/*   Updated: 2023/05/12 19:03:51 by kfaustin         ###   ########.fr       */
+/*   Updated: 2023/05/13 10:19:10 by kfaustin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,14 +52,14 @@ static bool	main_loop(t_msh *data)
 	input = readline(display_prompt(data->ppt));
 	if (!input || !*input)
 	{
+		rl_clear_history();
 		ft_putstr_fd("exit\nexit\n", STDOUT_FILENO);
 		free (input);
 		return (false);
 	}
-	//Still needs leak check. next thing to do and some hardcore test.
+	add_history(input);
 	if (ft_parse(input, data))
 	{
-		//in case of error
 		free (input);
 		return (false);
 	}
@@ -79,6 +79,7 @@ int main(int argc, char **argv, char **env)
 	data = (t_msh *) malloc(sizeof(t_msh));
 	data = (t_msh *) ft_memset(data, 0, sizeof(t_msh));
 	data = init_data(data, env);
+	rl_clear_history();
 	while (main_loop(data));
 	free_over(data);
 	return (0);
