@@ -6,7 +6,7 @@
 /*   By: kfaustin <kfaustin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 11:29:44 by kfaustin          #+#    #+#             */
-/*   Updated: 2023/05/13 12:35:58 by kfaustin         ###   ########.fr       */
+/*   Updated: 2023/05/14 17:42:40 by fvalli-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,4 +107,6 @@ void	free_all(t_msh *data);
 char	*display_prompt(t_ppt *root);
 char	*check_access(t_msh *data, char *cmd);
 void	do_execute(t_msh *data);
+// * create_pipe.c
+void	create_pipe(t_msh *data);
 #endif

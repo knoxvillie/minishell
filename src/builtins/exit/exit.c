@@ -12,6 +12,8 @@
 
 #include "../../../includes/minishell.h"
 
+
+
 //Supostamente o exit retorna unsiged char, 0-255.
 int	builtin_exit(t_msh *data)
 {
@@ -30,4 +32,5 @@ int	builtin_exit(t_msh *data)
 		free_all(data);
 		return (0);
 	}
+	if (n_cmd == 2)
 }

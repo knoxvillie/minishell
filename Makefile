@@ -21,7 +21,7 @@ RM		= rm -rf
 
 # Sources, objects and dir
 SRCDIR	= ./src/
-SRC		= env_list.c list_handle.c main.c prompt.c utils.c
+SRC		= env_list.c list_handle.c main.c prompt.c utils.c create_pipe.c
 
 PARSERDIR= ./src/parser/
 PARSER	= parser.c parser_utils.c
