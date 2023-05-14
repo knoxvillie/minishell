@@ -82,6 +82,7 @@ void	builtin_unset(t_msh *data);
 void	builtin_export(t_msh *data);
 void	builtin_env(t_msh *data);
 void	builtin_pwd(t_msh *data);
+void	builtin_cd(t_msh *data);
 // *** Functions ***
 //void	ft_parser(char *input);
 // * env_list.c
@@ -101,6 +102,7 @@ void	free_t_ppt(t_ppt *root);
 bool	check_syntax_prompt(char *input);
 void	init_env_table(t_msh *data);
 void	free_table(char **table);
+void	free_all(t_msh *data);
 // * prompt.c
 char	*display_prompt(t_ppt *root);
 char	*check_access(t_msh *data, char *cmd);

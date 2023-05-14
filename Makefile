@@ -33,7 +33,8 @@ BUILDIR	= ./src/builtins/
 BUILT	=	$(BUILDIR)env/env.c \
  			$(BUILDIR)export/export.c \
  			$(BUILDIR)unset/unset.c \
- 			$(BUILDIR)pwd/pwd.c
+ 			$(BUILDIR)pwd/pwd.c \
+ 			$(BUILDIR)cd/cd.c
 
 OBJ		=	$(addprefix $(SRCDIR), $(SRC:.c=.o)) \
 			$(addprefix $(EXECDIR), $(EXEC:.c=.o)) \

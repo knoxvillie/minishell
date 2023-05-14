@@ -12,11 +12,22 @@
 
 #include "../../../includes/minishell.h"
 
-static void
-
-void	builtin_exit(t_msh *data)
+//Supostamente o exit retorna unsiged char, 0-255.
+int	builtin_exit(t_msh *data)
 {
-	char	**table;
+	int		n_cmd;
 
-	table = ft_split(data.)
+	n_cmd = 0;
+	while (data->lst_cmd->argv[n_cmd])
+		n_cmd++;
+	if (n_cmd > 2)
+	{
+		ft_putstr_fd("minishell: exit: too many arguments\n", 2);
+		return (-1);
+	}
+	if (n_cmd == 1)
+	{
+		free_all(data);
+		return (0);
+	}
 }

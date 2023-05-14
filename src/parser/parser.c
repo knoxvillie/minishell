@@ -27,7 +27,9 @@ void print_lstCtable(t_msh *data)
     t_list *tmp;
     while (lst)
     {
-        printf("Simple command number %d\n", i);
+        printf("Simple command number %d\n", lst->i);
+		printf("STDIN is : %d\n",lst->ft_stdin);
+		printf("STDOUT is : %d\n",lst->ft_stdout);
         printf("List of args\n");
         tmp = lst->lstArg;
         while(tmp)
@@ -119,17 +121,19 @@ int size_lstArg(t_sCom *data)
 
 void	init_argv(t_msh *data)
 {
-	int	i;
+	int		i;
+	int 	nsCom;
 	t_list	*tmpArgLst;
     t_sCom  *tmpsCom;
 
     tmpsCom = data->lst_cmd;
+	nsCom = 0;
     while (tmpsCom != NULL)
     {
-		//atualizar index de cada node no tmpsCom
         i = size_lstArg(tmpsCom);
         tmpArgLst = tmpsCom->lstArg;
-        tmpsCom->argv = (char **)malloc(sizeof(char *) * (i + 1));
+		tmpsCom->i = nsCom;
+		tmpsCom->argv = (char **)malloc(sizeof(char *) * (i + 1));
         if (!tmpsCom->argv) {
             ft_putstr_fd("Error: Malloc of argList is null", 2);
         }
@@ -141,8 +145,11 @@ void	init_argv(t_msh *data)
             tmpArgLst = tmpArgLst->next;
         }
         tmpsCom->argv[i] = NULL;
+		nsCom++;
         tmpsCom = tmpsCom->next;
     }
+	data->nsCom = nsCom;
+	data->npipe = nsCom - 1;
 }
 
 int ft_parse(char *input, t_msh *data)
@@ -161,11 +168,10 @@ int ft_parse(char *input, t_msh *data)
 		if (get_token(data, &str))
 			return (1);
 	}
-	//print_lstCtable(data);
+//	print_lstCtable(data);
 	if (check_nbr_pipes(data->lst_cmd))
 		return (1);
 	init_argv(data);
-	//preencher i da t_sCom e npipe e nsCom da t_msh
 	return (0);
 }
 

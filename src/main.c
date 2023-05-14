@@ -40,6 +40,9 @@ static t_msh	*init_data(t_msh *data, char **env)
 	data->ppt->path = NULL;
 	data->ppt->prompt = NULL;
 	data->ppt->abs_path = NULL;
+	data->npipe = 0;
+	data->nsCom = 0;
+	data->fd = NULL;
 	env_to_list(data, env);
 	init_env_table(data);
 	return (data);
@@ -64,7 +67,6 @@ static bool	main_loop(t_msh *data)
         free (input);
         return (true);
 	}
-//	do_redir(data);
 //	create_pipe(data); //pipe(data->fd[i])
 	do_execute(data);
 	free_lstsCom(&(data->lst_cmd));

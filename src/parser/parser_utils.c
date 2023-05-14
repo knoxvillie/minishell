@@ -35,17 +35,19 @@ t_sCom	*ft_lstnewsCom(void)
 {
     t_sCom	*new_node;
 
-    new_node = (t_sCom *)malloc(sizeof(t_sCom));
-    if (!new_node)
-        return (NULL);
-    new_node->next = NULL;
-    new_node->lstArg = NULL;
+	new_node = (t_sCom *)malloc(sizeof(t_sCom));
+	if (!new_node)
+		return (NULL);
+
+	new_node->i = 0;
+	new_node->next = NULL;
+	new_node->lstArg = NULL;
 	new_node->argv = NULL;
-    new_node->lstOfRedirIn = NULL;
-    new_node->lstOfRedirOut = NULL;
+	new_node->lstOfRedirIn = NULL;
+	new_node->lstOfRedirOut = NULL;
 	new_node->ft_stdin = STDIN_FILENO;
 	new_node->ft_stdout = STDOUT_FILENO;
-    return (new_node);
+	return (new_node);
 }
 
 void	ft_lstadd_backsCom(t_sCom **lst, t_sCom *new)

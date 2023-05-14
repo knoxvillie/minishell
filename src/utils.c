@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+#include "../includes/parser.h"
 
 void	put_string_exit(char *str, int flag)
 {
@@ -122,4 +123,14 @@ void	init_env_table(t_msh *data)
 	}
 	tmp = data->ppt->list;
 	init_env_table_complement(data, tmp);
+}
+
+void	free_all(t_msh *data)
+{
+	free_table(data->env);
+	free_t_env(data->ppt->list);
+	free_t_ppt(data->ppt);
+	free (data->ppt);
+	free_lstsCom(&(data->lst_cmd));
+	free (data);
 }

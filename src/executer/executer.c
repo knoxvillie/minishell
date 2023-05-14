@@ -29,11 +29,11 @@ int	number_of_pipes(t_sCom *data)
 
 static void	do_builtin(t_msh *data, char *cmd)
 {
-/*	if (abs_string_cmp(cmd, "echo"))
-	else if (abs_string_cmp(cmd, "cd"))
-	else if (abs_string_cmp(cmd, "pwd"))
-		;*/
-	if (abs_string_cmp(cmd, "export"))
+//	if (abs_string_cmp(cmd, "echo"))
+
+	if (abs_string_cmp(cmd, "cd"))
+		builtin_cd(data);
+	else if (abs_string_cmp(cmd, "export"))
 		builtin_export(data);
 	else if (abs_string_cmp(cmd, "unset"))
 		builtin_unset(data);
@@ -104,6 +104,7 @@ static char	*execute_condition(t_msh *data)
 	return (path_cmd);
 }
 
+/*
 void	do_execute(t_msh *data)
 {
 	char	*path_cmd;
@@ -113,13 +114,13 @@ void	do_execute(t_msh *data)
 	i = 0;
 	while(data->lst_cmd)
 	{
-		path_cmd = execute_condition(data); //alterar data para data->lst_cmd
-		if (!path_cmd)
-			return ;
 		pid = fork();
 		if (pid == 0)
 		{
 //			do_pipe(data->lst_cmd); // fazer os dup e dup2 para conectar os processos pelos pipes.
+			path_cmd = execute_condition(data); //alterar data para data->lst_cmd
+			if (!path_cmd)
+				return ;
 			execute_single_cmd(data, path_cmd); // alterar data para data->lst_cmd
 		}
 		data->lst_cmd = data->lst_cmd->next;
@@ -129,5 +130,21 @@ void	do_execute(t_msh *data)
 		waitpid(-1, NULL, 0);
 		i++;
 	}
+	free (path_cmd);
+}
+*/
+
+void	do_execute(t_msh *data)
+{
+	char	*path_cmd;
+	pid_t	pid;
+
+	path_cmd = execute_condition(data);
+	if (!path_cmd)
+		return ;
+	pid = fork();
+	if (pid == 0)
+		execute_single_cmd(data, path_cmd);
+	waitpid(pid, NULL, 0);
 	free (path_cmd);
 }
