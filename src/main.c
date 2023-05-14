@@ -6,7 +6,7 @@
 /*   By: kfaustin <kfaustin@student.42porto.>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 10:57:37 by kfaustin          #+#    #+#             */
-/*   Updated: 2023/05/13 10:19:10 by kfaustin         ###   ########.fr       */
+/*   Updated: 2023/05/14 19:56:50 by fvalli-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ static bool	main_loop(t_msh *data)
         free (input);
         return (true);
 	}
-//	create_pipe(data); //pipe(data->fd[i])
+	create_pipe(data);
 	do_execute(data);
 	free_lstsCom(&(data->lst_cmd));
 	free (input);

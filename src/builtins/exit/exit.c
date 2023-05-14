@@ -6,31 +6,37 @@
 /*   By: kfaustin <kfaustin@student.42porto.>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/13 10:26:35 by kfaustin          #+#    #+#             */
-/*   Updated: 2023/05/13 10:26:35 by kfaustin         ###   ########.fr       */
+/*   Updated: 2023/05/14 19:26:16 by fvalli-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../includes/minishell.h"
 
-
-
-//Supostamente o exit retorna unsiged char, 0-255.
-int	builtin_exit(t_msh *data)
+static void	free_print_exit(t_msh *data, char *s, int fd, char *f)
 {
-	int		n_cmd;
+	int	flag;
 
-	n_cmd = 0;
-	while (data->lst_cmd->argv[n_cmd])
-		n_cmd++;
-	if (n_cmd > 2)
+	flag = ft_atoi(f);
+	free_all(data);
+	ft_putstr_fd(s, fd);
+	exit ((unsigned char)flag);
+}
+
+void	builtin_exit(t_msh *data)
+{
+	char	**arg;
+
+	arg = data->lst_cmd->argv;
+	if (arg[0] && arg[1] == NULL)
+		free_print_exit(data, "exit\n", 1, "0");
+	if (!ptr_is_digit(arg[1]))
+		free_print_exit(data, "minishell: exit: numeric argument required\n", 2, "2");
+	if (ptr_is_digit(arg[1]) && arg[2] == NULL)
+		free_print_exit(data, "exit\n", 1, arg[1]);
+	if (ptr_is_digit(arg[1]) && arg[2] != NULL)
 	{
-		ft_putstr_fd("minishell: exit: too many arguments\n", 2);
-		return (-1);
+		ft_putstr_fd("exit\n", 2);
+		ft_putstr_fd("minishell: exit: too many argument\n", 2);
+		return ;
 	}
-	if (n_cmd == 1)
-	{
-		free_all(data);
-		return (0);
-	}
-	if (n_cmd == 2)
 }

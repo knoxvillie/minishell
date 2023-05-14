@@ -6,7 +6,7 @@
 /*   By: kfaustin <kfaustin@student.42porto.>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/05 11:00:11 by kfaustin          #+#    #+#             */
-/*   Updated: 2023/05/12 19:07:58 by kfaustin         ###   ########.fr       */
+/*   Updated: 2023/05/14 20:03:25 by fvalli-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,6 @@ int	number_of_pipes(t_sCom *data)
 static void	do_builtin(t_msh *data, char *cmd)
 {
 //	if (abs_string_cmp(cmd, "echo"))
-
 	if (abs_string_cmp(cmd, "cd"))
 		builtin_cd(data);
 	else if (abs_string_cmp(cmd, "export"))
@@ -42,7 +41,7 @@ static void	do_builtin(t_msh *data, char *cmd)
 	else if (abs_string_cmp(cmd, "pwd"))
 		builtin_pwd(data);
 	else
-		abs_string_cmp(cmd, "exit");
+		builtin_exit(data);
 }
 
 static bool	check_builtin(char *cmd)
@@ -104,35 +103,52 @@ static char	*execute_condition(t_msh *data)
 	return (path_cmd);
 }
 
-/*
-void	do_execute(t_msh *data)
-{
-	char	*path_cmd;
-	pid_t	pid;
-	int		i;
-
-	i = 0;
-	while(data->lst_cmd)
-	{
-		pid = fork();
-		if (pid == 0)
-		{
-//			do_pipe(data->lst_cmd); // fazer os dup e dup2 para conectar os processos pelos pipes.
-			path_cmd = execute_condition(data); //alterar data para data->lst_cmd
-			if (!path_cmd)
-				return ;
-			execute_single_cmd(data, path_cmd); // alterar data para data->lst_cmd
-		}
-		data->lst_cmd = data->lst_cmd->next;
-	}
-	while (i < data->nsCom)
-	{
-		waitpid(-1, NULL, 0);
-		i++;
-	}
-	free (path_cmd);
-}
-*/
+//void	do_execute(t_msh *data)
+//{
+//	char	*path_cmd;
+//	pid_t	pid;
+//	int		i;
+//
+//	i = 0;
+//	if (data->npipe > 0)
+//	{
+//		while(data->lst_cmd)
+//		{
+//			pid = fork();
+//			if (pid == 0)
+//			{
+//				//criar funcao para handle de todos os redir
+//				do_redir(data->lst_cmd);
+//				//fazer os dup e dup2 para conectar os processos pelos pipes.
+//				//lembrar que o primeiro comando e o ultimo s'ao diferentes.
+//				//no primeiro le do stdin e escreve no pipe
+//				//o ultimo le do pipe e escreve no stdout
+////			do_pipe(data->lst_cmd);
+//				path_cmd = execute_condition(data); //alterar data para data->lst_cmd
+//				if (!path_cmd)
+//					return ;
+//				execute_single_cmd(data, path_cmd); // alterar data para data->lst_cmd
+//			}
+//			data->lst_cmd = data->lst_cmd->next;
+//		}
+//	}
+//	else
+//	{
+//		//execute_condition garante que o fork só sera feito para caso o comando não seja builtin
+//		path_cmd = execute_condition(data);
+//		if (!path_cmd)
+//			return ;
+//		pid = fork();
+//		if (pid == 0)
+//			execute_single_cmd(data, path_cmd);
+//	}
+//	while (i < data->nsCom)
+//	{
+//		waitpid(-1, NULL, 0);
+//		i++;
+//	}
+//	free (path_cmd);
+//}
 
 void	do_execute(t_msh *data)
 {

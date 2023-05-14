@@ -6,7 +6,7 @@
 /*   By: kfaustin <kfaustin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 11:29:44 by kfaustin          #+#    #+#             */
-/*   Updated: 2023/05/14 17:42:40 by fvalli-v         ###   ########.fr       */
+/*   Updated: 2023/05/14 19:05:18 by fvalli-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,7 @@ void	builtin_export(t_msh *data);
 void	builtin_env(t_msh *data);
 void	builtin_pwd(t_msh *data);
 void	builtin_cd(t_msh *data);
+void	builtin_exit(t_msh *data);
 // *** Functions ***
 //void	ft_parser(char *input);
 // * env_list.c
@@ -103,6 +104,7 @@ bool	check_syntax_prompt(char *input);
 void	init_env_table(t_msh *data);
 void	free_table(char **table);
 void	free_all(t_msh *data);
+bool	ptr_is_digit(char *str);
 // * prompt.c
 char	*display_prompt(t_ppt *root);
 char	*check_access(t_msh *data, char *cmd);

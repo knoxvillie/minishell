@@ -6,7 +6,7 @@
 /*   By: kfaustin <kfaustin@student.42porto.>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/13 12:12:39 by kfaustin          #+#    #+#             */
-/*   Updated: 2023/05/12 19:19:09 by kfaustin         ###   ########.fr       */
+/*   Updated: 2023/05/14 19:04:24 by fvalli-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,4 +133,20 @@ void	free_all(t_msh *data)
 	free (data->ppt);
 	free_lstsCom(&(data->lst_cmd));
 	free (data);
+}
+
+bool	ptr_is_digit(char *str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i])
+	{
+		if (str[i] == '-' && i == 0)
+			i++;
+		if (!ft_isdigit(str[i]))
+			return (false);
+		i++;
+	}
+	return (true);
 }
