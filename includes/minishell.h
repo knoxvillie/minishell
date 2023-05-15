@@ -6,7 +6,7 @@
 /*   By: kfaustin <kfaustin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 11:29:44 by kfaustin          #+#    #+#             */
-/*   Updated: 2023/05/14 19:05:18 by fvalli-v         ###   ########.fr       */
+/*   Updated: 2023/05/15 11:25:04 by kfaustin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,7 @@ void	builtin_env(t_msh *data);
 void	builtin_pwd(t_msh *data);
 void	builtin_cd(t_msh *data);
 void	builtin_exit(t_msh *data);
+void	builtins_echo(t_msh *data);
 // *** Functions ***
 //void	ft_parser(char *input);
 // * env_list.c

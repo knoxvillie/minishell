@@ -35,7 +35,8 @@ BUILT	=	$(BUILDIR)env/env.c \
  			$(BUILDIR)unset/unset.c \
  			$(BUILDIR)pwd/pwd.c \
  			$(BUILDIR)cd/cd.c \
- 			$(BUILDIR)exit/exit.c
+ 			$(BUILDIR)exit/exit.c \
+ 			$(BUILDIR)echo/echo.c
 
 OBJ		=	$(addprefix $(SRCDIR), $(SRC:.c=.o)) \
 			$(addprefix $(EXECDIR), $(EXEC:.c=.o)) \

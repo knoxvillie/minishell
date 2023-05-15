@@ -6,7 +6,7 @@
 /*   By: kfaustin <kfaustin@student.42porto.>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/21 14:14:58 by kfaustin          #+#    #+#             */
-/*   Updated: 2023/05/10 10:20:46 by kfaustin         ###   ########.fr       */
+/*   Updated: 2023/05/15 12:37:05 by kfaustin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@
 # define SQUOTE 6
 # define WSPACE " \t\r\n\v"
 # define METACH "|<>"
-# define UNSUPMETACH "&;()*{}\\"
+# define UNSUPMETACH "&;()*{}"
 
 
 //Command table is an array of struct SimpleCommands(sCom)  -  Simple Commands as said by GNU manual:

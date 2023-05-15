@@ -6,7 +6,7 @@
 /*   By: kfaustin <kfaustin@student.42porto.>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/05 11:00:11 by kfaustin          #+#    #+#             */
-/*   Updated: 2023/05/14 20:03:25 by fvalli-v         ###   ########.fr       */
+/*   Updated: 2023/05/15 11:25:19 by kfaustin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,9 @@ int	number_of_pipes(t_sCom *data)
 
 static void	do_builtin(t_msh *data, char *cmd)
 {
-//	if (abs_string_cmp(cmd, "echo"))
-	if (abs_string_cmp(cmd, "cd"))
+	if (abs_string_cmp(cmd, "echo"))
+		builtins_echo(data);
+	else if (abs_string_cmp(cmd, "cd"))
 		builtin_cd(data);
 	else if (abs_string_cmp(cmd, "export"))
 		builtin_export(data);
