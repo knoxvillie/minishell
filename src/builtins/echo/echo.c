@@ -6,7 +6,7 @@
 /*   By: kfaustin <kfaustin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 11:20:55 by kfaustin          #+#    #+#             */
-/*   Updated: 2023/05/15 12:04:34 by kfaustin         ###   ########.fr       */
+/*   Updated: 2023/05/15 15:52:12 by kfaustin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@ static bool	check_flag(char *arg)
 {
 	int	i;
 
+	if (!arg)
+		return (false);
 	i = 0;
 	if (arg[i] == '-' && arg[i + 1] != 'n')
 		return (false);
@@ -35,6 +37,33 @@ static bool	check_flag(char *arg)
 	return (false);
 }
 
+static	bool check_delimiter(char *str, char xar, char *del, int pos)
+{
+	if (xar == *del)
+	{
+		*del = '\0';
+		return (true);
+	}
+	if (xar == '\\')
+		return (true);
+	if ((xar == '\'' || xar == '\"') && *del == '\0')
+	{
+		if (pos == 0)
+		{
+			*del = xar;
+			return (true);
+		}
+		if (str[pos - 1] == '\\')
+		{
+			ft_putchar_fd(xar, 1);
+			return (true);
+		}
+		*del = xar;
+		return (true);
+	}
+	return (false);
+}
+
 static void	do_echo(char **arg, int pos)
 {
 	int		i;
@@ -44,27 +73,12 @@ static void	do_echo(char **arg, int pos)
 	while (arg[pos])
 	{
 		i = -1;
-		delimiter = '\0';
 		str = arg[pos];
+		delimiter = '\0';
 		while (str[++i])
 		{
-			if (str[i] == delimiter)
-				continue ;
-			if (str[i] == '\\')
-				continue ;
-			if (str[i] == '\'' || str[i] == '\"')
-			{
-				if (i == 0)
-				{
-					delimiter = str[i];
-					continue ;
-				}
-				if (delimiter == '\0')
-				{
-					delimiter = str[i];
-					continue ;
-				}
-			}
+			if (check_delimiter(str, str[i], &delimiter, i))
+				continue;
 			ft_putchar_fd(str[i], 1);
 		}
 		if (arg[++pos] != NULL)
