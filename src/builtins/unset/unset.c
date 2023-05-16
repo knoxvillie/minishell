@@ -6,7 +6,7 @@
 /*   By: kfaustin <kfaustin@student.42porto.>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 11:25:43 by kfaustin          #+#    #+#             */
-/*   Updated: 2023/05/16 10:47:01 by kfaustin         ###   ########.fr       */
+/*   Updated: 2023/05/16 11:20:35 by kfaustin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,16 +58,18 @@ void	builtin_unset(t_msh *data)
 	char	*str;
 
 	str = (char *)data->lst_cmd->argv[1];
+	if (str == NULL)
+		return ;
 	if (check_unset_first_node(data->ppt->list, str))
 	{
-		free_t_env(data->ppt->list);
+		free_table(data->env);
 		init_env_table(data);
 		return ;
 	}
 
 	if (check_unset_till_end(data->ppt->list, str))
 	{
-		free_t_env(data->ppt->list);
+		free_table(data->env);
 		init_env_table(data);
 		return ;
 	}
