@@ -6,7 +6,7 @@
 /*   By: kfaustin <kfaustin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 11:20:55 by kfaustin          #+#    #+#             */
-/*   Updated: 2023/05/15 15:52:12 by kfaustin         ###   ########.fr       */
+/*   Updated: 2023/05/15 16:05:07 by kfaustin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,9 +37,10 @@ static bool	check_flag(char *arg)
 	return (false);
 }
 
+// echo "'kelvin'\"alves\""
 static	bool check_delimiter(char *str, char xar, char *del, int pos)
 {
-	if (xar == *del)
+	if (xar == *del && pos != 0 && str[pos - 1] != '\\')
 	{
 		*del = '\0';
 		return (true);
