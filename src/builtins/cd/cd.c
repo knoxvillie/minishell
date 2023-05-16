@@ -6,7 +6,7 @@
 /*   By: kfaustin <kfaustin@student.42porto.>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/13 10:47:40 by kfaustin          #+#    #+#             */
-/*   Updated: 2023/05/13 13:16:40 by kfaustin         ###   ########.fr       */
+/*   Updated: 2023/05/16 11:24:37 by kfaustin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,6 @@ static void	do_cd(t_msh *data, char	**var_home)
 	actual_pwd = get_value_from_key(data->ppt->list, "PWD");
 	modify_value(data, "OLDPWD", &actual_pwd);
 	modify_value(data, "PWD", &next_pwd);
-	return ;
 }
 
 void	builtin_cd(t_msh *data)
@@ -94,4 +93,6 @@ void	builtin_cd(t_msh *data)
 		go_home(data);
 	if (n_cmd == 2)
 		do_cd(data, NULL);
+	free_table(data->env);
+	init_env_table(data);
 }
