@@ -6,13 +6,51 @@
 /*   By: kfaustin <kfaustin@student.42porto.>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 11:25:43 by kfaustin          #+#    #+#             */
-/*   Updated: 2023/05/16 11:20:35 by kfaustin         ###   ########.fr       */
+/*   Updated: 2023/05/16 12:37:20 by kfaustin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../includes/minishell.h"
-// Returns true if the var to unset was located and freed in the key of the first node
-static bool	check_unset_first_node(t_env *env, char *str)
+
+static bool	check_exp_first_node(t_env *exp, char *str)
+{
+	t_env	*tmp;
+
+	if (abs_string_cmp(str, exp->key))
+	{
+		free (exp->key);
+		tmp = exp->next;
+		free (exp);
+		exp = tmp;
+		return (true);
+	}
+	return (false);
+}
+
+static bool	check_exp_till_end(t_env *exp, char *str)
+{
+	t_env	*header;
+	t_env	*tmp;
+
+	header = exp;
+	while (exp)
+	{
+		if (abs_string_cmp(str, exp->key))
+		{
+			free (exp->key);
+			tmp->next = exp->next;
+			free (exp);
+			exp = header;
+			return (true);
+		}
+		tmp = exp;
+		exp = exp->next;
+	}
+	exp = header;
+	return (false);
+}
+
+static bool	check_env_first_node(t_env *env, char *str)
 {
 	t_env	*tmp;
 
@@ -28,8 +66,7 @@ static bool	check_unset_first_node(t_env *env, char *str)
 	return (false);
 }
 
-// Returns true if the var to unset was located and freed until the end os the env.
-static bool	check_unset_till_end(t_env *env, char *str)
+static bool	check_env_till_end(t_env *env, char *str)
 {
 	t_env	*header;
 	t_env	*tmp;
@@ -56,21 +93,23 @@ static bool	check_unset_till_end(t_env *env, char *str)
 void	builtin_unset(t_msh *data)
 {
 	char	*str;
+	int		i;
 
-	str = (char *)data->lst_cmd->argv[1];
+	str = data->lst_cmd->argv[1];
 	if (str == NULL)
 		return ;
-	if (check_unset_first_node(data->ppt->list, str))
+	i = 0;
+	while (++i)
 	{
-		free_table(data->env);
-		init_env_table(data);
-		return ;
+		if (check_env_first_node(data->export->env, str))
+			continue ;
+		if (check_env_till_end(data->export->env, str))
+			continue ;
+		if (check_exp_first_node(data->export->exp, str))
+			continue ;
+		if (check_exp_till_end(data->export->exp, str))
+			continue ;
 	}
-
-	if (check_unset_till_end(data->ppt->list, str))
-	{
-		free_table(data->env);
-		init_env_table(data);
-		return ;
-	}
+	free_table(data->env);
+	init_env_table(data);
 }
