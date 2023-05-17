@@ -6,7 +6,7 @@
 /*   By: kfaustin <kfaustin@student.42porto.>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 10:57:37 by kfaustin          #+#    #+#             */
-/*   Updated: 2023/05/17 15:21:20 by kfaustin         ###   ########.fr       */
+/*   Updated: 2023/05/17 15:29:04 by kfaustin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,20 @@ static bool	main_loop(t_msh *data)
 	add_history(input);
 	if (ft_parse(input, data))
 	{
+/*		==287403== 0 bytes in 11 blocks are definitely lost in loss record 1 of 67
+																				==287403==    at 0x483B7F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+																											==287403==    by 0x402402: create_pipe (create_pipe.c:24)
+		==287403==    by 0x4019CE: main_loop (main.c:84)
+		==287403==    by 0x40183A: main (main.c:102)
+		==287403==
+		  ==287403== 1 bytes in 1 blocks are definitely lost in loss record 3 of 67
+																				 ==287403==    at 0x483B7F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+																											 ==287403==    by 0x405789: ft_strdup (in /nfs/homes/kfaustin/Desktop/minishell/minishell)
+																																		==287403==    by 0x403BCC: get_token_word (parser_utils.c:255)
+		==287403==    by 0x402F0D: get_token (parser.c:101)
+		==287403==    by 0x40313F: ft_parse (parser.c:168)
+		==287403==    by 0x40199D: main_loop (main.c:78)
+		==287403==    by 0x40183A: main (main.c:102)*/
         free_lstsCom(&(data->lst_cmd));
         free (input);
         return (true);
