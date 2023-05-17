@@ -6,7 +6,7 @@
 /*   By: kfaustin <kfaustin@student.42porto.>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 10:57:37 by kfaustin          #+#    #+#             */
-/*   Updated: 2023/05/17 15:21:20 by kfaustin         ###   ########.fr       */
+/*   Updated: 2023/05/17 21:54:12 by fvalli-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,10 +69,10 @@ static bool	main_loop(t_msh *data)
 	input = readline(display_prompt(data->ppt));
 	if (!input || !*input)
 	{
-		rl_clear_history();
-		ft_putstr_fd("exit\nexit\n", STDOUT_FILENO);
+//		rl_clear_history();
+//		ft_putstr_fd("exit\nexit\n", STDOUT_FILENO);
 		free (input);
-		return (false);
+		return (true);
 	}
 	add_history(input);
 	if (ft_parse(input, data))
