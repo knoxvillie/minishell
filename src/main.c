@@ -6,7 +6,7 @@
 /*   By: kfaustin <kfaustin@student.42porto.>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 10:57:37 by kfaustin          #+#    #+#             */
-/*   Updated: 2023/05/17 14:53:38 by kfaustin         ###   ########.fr       */
+/*   Updated: 2023/05/17 15:21:20 by kfaustin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,12 +18,12 @@ extern int	exit_status;
 void	free_over(t_msh *data)
 {
 	free_t_env(data->ppt->list);
-	free_t_exp(data->export->exp);
+	if (data->export->exp)
+		free_t_exp(data->export->exp);
 	free (data->export);
 	free_table(data->env);
 	free_t_ppt(data->ppt);
 	free (data->ppt);
-	//free_lstsCom(&(data->lst_cmd));
 	free (data);
 }
 
