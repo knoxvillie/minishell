@@ -40,11 +40,9 @@ void	init_export_env(t_msh *data)
 {
 	data->export = (t_exp *)malloc(sizeof(t_exp));
 	data->export->env = data->ppt->list;
-	//data->export->exp = (t_env *) malloc(sizeof (t_env));
 	data->export->exp = NULL;
 	if (!data->export)
 		put_string_exit("Error: Malloc of data->export failed\n", 1);
-	//data->export->exp = init_env_node(NULL, NULL);
 }
 
 static t_msh	*init_data(t_msh *data, char **env)
