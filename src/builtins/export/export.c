@@ -6,7 +6,7 @@
 /*   By: kfaustin <kfaustin@student.42porto.>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 10:50:56 by kfaustin          #+#    #+#             */
-/*   Updated: 2023/05/16 12:22:21 by kfaustin         ###   ########.fr       */
+/*   Updated: 2023/05/17 15:08:45 by kfaustin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,10 @@ void	export_only(t_msh *data)
 		ft_putstr_fd("declare -x ", 1);
 		ft_putstr_fd(env->key, 1);
 		ft_putstr_fd("=", 1);
-		ft_putstr_fd(env->value, 1);
+		if (*env->value == '\0')
+			ft_putstr_fd("''", 1);
+		else
+			ft_putstr_fd(env->value, 1);
 		ft_putstr_fd("\n", 1);
 		env = env->next;
 	}
@@ -42,33 +45,31 @@ void	export_export(t_msh *data, char *str)
 	t_env	*node;
 	char	*key;
 
-
 	key = ft_strdup(str);
 	node = init_env_node(key, NULL);
-	data->export->env = stack_env_list(data->export->env, node);
+	data->export->exp = stack_env_list(data->export->exp, node);
 }
 
 static bool	check_syntax_var_equal(t_msh *data, char *str)
 {
 	int	i;
 
-	i = 0;
-	while (str[i] && str[i] != '=')
+	i = -1;
+	while (str[++i] != '\0')
 	{
+		if (str[i] == '=' && i != 0)
+			break ;
 		if (!ft_isalnum(str[i]))
 		{
 			ft_putstr_fd("minishell: Export: not a valid identifier\n", 2);
 			return (false);
 		}
-		i++;
 	}
 	if (str[i] == '\0')
 	{
 		export_export(data, str);
 		return (false);
 	}
-	if (str[i] == '=' && i == 0)
-		return (false);
 	return (true);
 }
 

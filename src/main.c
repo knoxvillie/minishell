@@ -6,7 +6,7 @@
 /*   By: kfaustin <kfaustin@student.42porto.>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 10:57:37 by kfaustin          #+#    #+#             */
-/*   Updated: 2023/05/16 13:58:18 by kfaustin         ###   ########.fr       */
+/*   Updated: 2023/05/17 14:53:38 by kfaustin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,17 @@ void	printf_env(t_env *env)
 	}
 }
 
+void	init_export_env(t_msh *data)
+{
+	data->export = (t_exp *)malloc(sizeof(t_exp));
+	data->export->env = data->ppt->list;
+	//data->export->exp = (t_env *) malloc(sizeof (t_env));
+	data->export->exp = NULL;
+	if (!data->export)
+		put_string_exit("Error: Malloc of data->export failed\n", 1);
+	//data->export->exp = init_env_node(NULL, NULL);
+}
+
 static t_msh	*init_data(t_msh *data, char **env)
 {
 	data->ppt = (t_ppt *)malloc(sizeof(t_ppt));
@@ -48,8 +59,7 @@ static t_msh	*init_data(t_msh *data, char **env)
 	data->fd = NULL;
 	data->export = NULL;
 	env_to_list(data, env);
-	data->export = (t_exp *)malloc(sizeof(t_exp *));
-	data->export->env = data->ppt->list;
+	init_export_env(data);
 	init_env_table(data);
 	return (data);
 }
@@ -59,13 +69,13 @@ static bool	main_loop(t_msh *data)
 	char	*input;
 
 	input = readline(display_prompt(data->ppt));
-/*	if (!input || !*input)
+	if (!input || !*input)
 	{
 		rl_clear_history();
 		ft_putstr_fd("exit\nexit\n", STDOUT_FILENO);
 		free (input);
 		return (false);
-	}*/
+	}
 	add_history(input);
 	if (ft_parse(input, data))
 	{

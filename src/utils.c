@@ -6,7 +6,7 @@
 /*   By: kfaustin <kfaustin@student.42porto.>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/13 12:12:39 by kfaustin          #+#    #+#             */
-/*   Updated: 2023/05/16 13:59:44 by kfaustin         ###   ########.fr       */
+/*   Updated: 2023/05/17 14:50:53 by kfaustin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,8 @@ void	free_t_exp(t_env *list)
 	while (env)
 	{
 		free(env->key);
+		if (env->value != NULL)
+			free (env->value);
 		env = env->next;
 	}
 }
@@ -140,7 +142,8 @@ void	init_env_table(t_msh *data)
 void	free_all(t_msh *data)
 {
 	free_t_env(data->ppt->list);
-	free_t_exp(data->export->exp);
+	if (data->export->exp)
+		free_t_exp(data->export->exp);
 	free (data->export);
 	free_table(data->env);
 	free_t_ppt(data->ppt);

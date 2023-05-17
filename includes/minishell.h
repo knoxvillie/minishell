@@ -6,7 +6,7 @@
 /*   By: kfaustin <kfaustin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 11:29:44 by kfaustin          #+#    #+#             */
-/*   Updated: 2023/05/16 13:57:48 by kfaustin         ###   ########.fr       */
+/*   Updated: 2023/05/17 09:31:10 by kfaustin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,6 @@ typedef struct s_msh
 // *** BUILTINS ***
 void	builtin_unset(t_msh *data);
 void	builtin_export(t_msh *data);
-void	init_export_list(t_msh *data);
 void	builtin_env(t_msh *data);
 void	builtin_pwd(t_msh *data);
 void	builtin_cd(t_msh *data);
