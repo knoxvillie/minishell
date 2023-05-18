@@ -6,11 +6,11 @@
 /*   By: kfaustin <kfaustin@student.42porto.>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 10:34:08 by kfaustin          #+#    #+#             */
-/*   Updated: 2023/05/11 14:54:22 by kfaustin         ###   ########.fr       */
+/*   Updated: 2023/05/18 11:01:34 by kfaustin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "../includes/minishell.h"
+#include "../includes/minishell.h"
 
 static void	s_manager_prompt(t_ppt *root)
 {
@@ -31,27 +31,27 @@ static void	s_manager_prompt(t_ppt *root)
 
 static void	path_prompt(t_ppt *root)
 {
-	int		len_path;
-	int		len_home;
+	int		len_p;
+	int		len_h;
 	char	*tmp;
 
-	len_path = (int)ft_strlen(root->path);
-	len_home = (int)ft_strlen(root->home);
-	if ((len_home == len_path) && !(ft_strncmp(root->home, root->path, len_home)))
+	len_p = (int)ft_strlen(root->path);
+	len_h = (int)ft_strlen(root->home);
+	if ((len_h == len_p) && !(ft_strncmp(root->home, root->path, len_h)))
 	{
 		free (root->path);
 		root->path = ft_strdup("~");
 		return ;
 	}
-	if ((len_home < len_path) && !(ft_strncmp(root->home, root->path, len_home)))
+	if ((len_h < len_p) && !(ft_strncmp(root->home, root->path, len_h)))
 	{
-		tmp = ft_substr(root->path, len_home, (len_path - len_home));
+		tmp = ft_substr(root->path, len_h, (len_p - len_h));
 		free (root->path);
 		root->path = ft_strjoin("~", tmp);
 		free (tmp);
 		return ;
 	}
-	if ((len_home > len_path) && !ft_strncmp(root->path, root->home, len_path))
+	if ((len_h > len_p) && !ft_strncmp(root->path, root->home, len_p))
 		return ;
 	free (root->path);
 	root->path = NULL;
@@ -77,7 +77,6 @@ static void	prompt_prompt(t_ppt *root)
 
 char	*display_prompt(t_ppt *root)
 {
-	// user, s_manager and home only updates once.
 	if (root->n_exec == 0)
 	{
 		root->user = get_value_from_key(root->list, "USER");
@@ -91,7 +90,7 @@ char	*display_prompt(t_ppt *root)
 	root->path = ft_strdup(root->abs_path);
 	path_prompt(root);
 	if (!root->path)
-		put_string_exit("Error: Path prompt is NULL\n", 1);
+		put_str_exit("Error: Path prompt is NULL\n", 1);
 	prompt_prompt(root);
 	root->n_exec++;
 	return (root->prompt);

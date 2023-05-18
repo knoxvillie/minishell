@@ -6,7 +6,7 @@
 /*   By: kfaustin <kfaustin@student.42porto.>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 14:51:46 by kfaustin          #+#    #+#             */
-/*   Updated: 2023/05/11 13:04:45 by kfaustin         ###   ########.fr       */
+/*   Updated: 2023/05/18 15:09:34 by kfaustin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,6 @@ static char	*path_plus_cmd(char *path, char *cmd)
 	return (str);
 }
 
-// This func is the continuation of the check_access.
-//	str is the path/cmd if the user can access the cmd
-//	Null if is not
 static char	*check_access_continue(char *path, char *cmd)
 {
 	int		i;
@@ -40,7 +37,7 @@ static char	*check_access_continue(char *path, char *cmd)
 		if (access(str, F_OK) == 0)
 		{
 			free_table(table_path);
-			return (str); // You have to free the str.
+			return (str);
 		}
 		free (str);
 	}
@@ -48,7 +45,6 @@ static char	*check_access_continue(char *path, char *cmd)
 	return (NULL);
 }
 
-// Fuc prototype may change when the parser is done
 char	*check_access(t_msh *data, char *cmd)
 {
 	char	*str;
@@ -57,8 +53,7 @@ char	*check_access(t_msh *data, char *cmd)
 	path = get_value_from_key(data->ppt->list, "PATH");
 	if (!path)
 	{
-		free (path);
-		printf("minishell: %s: No such file or directory\n", cmd); //CHANGE
+		ft_putstr_fd("minishell: No such file or directory\n", 2);
 		return (NULL);
 	}
 	str = check_access_continue(path, cmd);

@@ -6,15 +6,19 @@
 /*   By: fvalli-v <fvalli-v@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/14 17:22:34 by fvalli-v          #+#    #+#             */
-/*   Updated: 2023/05/14 19:57:04 by fvalli-v         ###   ########.fr       */
+/*   Updated: 2023/05/18 15:21:36 by kfaustin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-//
-// Created by fvalli-v on 14-05-2023.
-//
-
 #include "../includes/minishell.h"
+
+/*
+==357880== 0 bytes in 1 blocks are definitely lost in loss record 1 of 62
+==357880==    at 0x483B7F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==357880==    by 0x401302: create_pipe (create_pipe.c:20)
+==357880==    by 0x401CA2: do_minishell (main.c:43)
+==357880==    by 0x401BDE: main (main.c:63)
+*/
 
 void	create_pipe(t_msh *data)
 {

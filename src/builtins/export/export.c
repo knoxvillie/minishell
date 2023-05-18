@@ -6,7 +6,7 @@
 /*   By: kfaustin <kfaustin@student.42porto.>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 10:50:56 by kfaustin          #+#    #+#             */
-/*   Updated: 2023/05/17 15:08:45 by kfaustin         ###   ########.fr       */
+/*   Updated: 2023/05/18 12:37:29 by kfaustin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,12 +23,9 @@ void	export_only(t_msh *data)
 	{
 		ft_putstr_fd("declare -x ", 1);
 		ft_putstr_fd(env->key, 1);
-		ft_putstr_fd("=", 1);
-		if (*env->value == '\0')
-			ft_putstr_fd("''", 1);
-		else
-			ft_putstr_fd(env->value, 1);
-		ft_putstr_fd("\n", 1);
+		ft_putstr_fd("=\"", 1);
+		ft_putstr_fd(env->value, 1);
+		ft_putstr_fd("\"\n", 1);
 		env = env->next;
 	}
 	while (exp)
@@ -97,8 +94,10 @@ static void	do_export(t_msh *data, char *arg)
 void	builtin_export(t_msh *data)
 {
 	int		i;
+	char	*str;
 
-	if (data->lst_cmd->argv[1] == NULL)
+	str = data->lst_cmd->argv[1];
+	if (str == NULL || abs_string_cmp(str, "#"))
 	{
 		export_only(data);
 		return ;
@@ -106,9 +105,10 @@ void	builtin_export(t_msh *data)
 	i = 0;
 	while (data->lst_cmd->argv[++i])
 	{
-		if (!check_syntax_var_equal(data, data->lst_cmd->argv[i]))
+		str = data->lst_cmd->argv[i];
+		if (!check_syntax_var_equal(data, str))
 			continue ;
-		do_export(data, data->lst_cmd->argv[i]);
+		do_export(data, str);
 	}
 	free_table(data->env);
 	init_env_table(data);

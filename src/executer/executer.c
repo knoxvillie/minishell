@@ -6,7 +6,7 @@
 /*   By: kfaustin <kfaustin@student.42porto.>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/05 11:00:11 by kfaustin          #+#    #+#             */
-/*   Updated: 2023/05/17 23:24:41 by fvalli-v         ###   ########.fr       */
+/*   Updated: 2023/05/18 12:34:46 by kfaustin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,11 +65,6 @@ static bool	check_builtin(char *cmd)
 	return (false);
 }
 
-/*static void execute_multiple_cmd(void)
-{
-	;
-}*/
-
 static void	execute_single_cmd(t_msh *data, char *path_cmd)
 {
 	char	**cmd;
@@ -81,7 +76,6 @@ static void	execute_single_cmd(t_msh *data, char *path_cmd)
 		free_all(data);
 		exit(1);
 	}
-//	printf("ola %d\n", data->lst_cmd->i);
 	if (execve(path_cmd, cmd, data->env) < 0)
 	{
 		printf("error on execve\n");
@@ -260,8 +254,11 @@ void	do_pipe(t_msh *data)
 	}
 	close_pipes(data);
 }
+
 //quando exit esta sendo chamado ele esta a fechar o child mas continua a rodar o main process
 //tenho que ver como resolver isto.
+// -> Acho que a checagem de builtins devem ser feitas antes do fork,
+//		se nao o env do filho e modificado e perdido.
 void	do_execute(t_msh *data)
 {
 	char	*path_cmd;
@@ -273,6 +270,11 @@ void	do_execute(t_msh *data)
 	{
 		while(data->lst_cmd)
 		{
+			if (check_builtin(data->lst_cmd->argv[0]))
+			{
+				do_builtin(data, data->lst_cmd->argv[0]);
+				return ;
+			}
 			pid = fork();
 			if (pid == 0)
 			{
@@ -291,6 +293,11 @@ void	do_execute(t_msh *data)
 	}
 	else
 	{
+		if (check_builtin(data->lst_cmd->argv[0]))
+		{
+			do_builtin(data, data->lst_cmd->argv[0]);
+			return ;
+		}
 		pid = fork();
 		if (pid == 0)
 		{

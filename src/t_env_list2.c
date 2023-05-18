@@ -6,7 +6,7 @@
 /*   By: kfaustin <kfaustin@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/19 10:37:33 by kfaustin          #+#    #+#             */
-/*   Updated: 2023/05/13 12:35:11 by kfaustin         ###   ########.fr       */
+/*   Updated: 2023/05/18 14:40:32 by kfaustin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,18 +45,6 @@ void	modify_value(t_msh *data, char *key, char **new_value)
 	}
 }
 
-char	*get_key_address(t_env *env, char *key)
-{
-	while (env)
-	{
-		if (abs_string_cmp(key, env->key))
-			return (env->value);
-		env = env->next;
-	}
-	return (NULL);
-}
-
-// Returns true if key is in env, else false.
 bool	is_key_in_env(t_env *env, char *key)
 {
 	while (env)
@@ -67,3 +55,16 @@ bool	is_key_in_env(t_env *env, char *key)
 	}
 	return (false);
 }
+
+/*
+char	*get_key_address(t_env *env, char *key)
+{
+	while (env)
+	{
+		if (abs_string_cmp(key, env->key))
+			return (env->value);
+		env = env->next;
+	}
+	return (NULL);
+}
+*/

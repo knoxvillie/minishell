@@ -28,7 +28,7 @@ t_env	*init_env_node(char *key, char *value)
 	t_env	*node;
 	node = (t_env *)malloc(sizeof(t_env));
 	if (!node)
-		put_string_exit("Error: Malloc of *node fails\n", 1);
+		put_str_exit("Error: Malloc of *node fails\n", 1);
 	node->key = key;
 	node->value = value;
 	node->next = NULL;
@@ -56,7 +56,7 @@ t_msh	*env_to_list(t_msh *data, char **env)
 	t_env	*node;
 
 	if (!env)
-		put_string_exit("Error: env is NULL\n", 1);
+		put_str_exit("Error: env is NULL\n", 1);
 	i = -1;
 	data->ppt->list = NULL;
 	while (env[++i])

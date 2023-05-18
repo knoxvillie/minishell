@@ -6,14 +6,13 @@
 /*   By: kfaustin <kfaustin@student.42porto.>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/21 14:25:58 by kfaustin          #+#    #+#             */
-/*   Updated: 2023/05/11 15:59:17 by kfaustin         ###   ########.fr       */
+/*   Updated: 2023/05/18 15:10:58 by kfaustin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-# include "../../includes/parser.h"
+#include "../../includes/parser.h"
 
-//Print function for Ctable (Command Table)
 void print_lstCtable(t_msh *data)
 {
     t_sCom *lst;
