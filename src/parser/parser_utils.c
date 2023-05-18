@@ -6,7 +6,7 @@
 /*   By: kfaustin <kfaustin@student.42porto.>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 10:39:42 by kfaustin          #+#    #+#             */
-/*   Updated: 2023/05/11 10:31:59 by kfaustin         ###   ########.fr       */
+/*   Updated: 2023/05/18 22:11:19 by fvalli-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,12 +33,11 @@ t_sCom	*ft_lstlastsCom(t_sCom *lst)
 //
 t_sCom	*ft_lstnewsCom(void)
 {
-    t_sCom	*new_node;
+	t_sCom	*new_node;
 
 	new_node = (t_sCom *)malloc(sizeof(t_sCom));
 	if (!new_node)
 		return (NULL);
-
 	new_node->i = 0;
 	new_node->next = NULL;
 	new_node->lstArg = NULL;
@@ -64,37 +63,37 @@ void	ft_lstadd_backsCom(t_sCom **lst, t_sCom *new)
         temp->next = new;
     }
 }
-void	free_lst(t_list **lst)
+void	free_lst(t_list *lst)
 {
-    t_list	*next;
-
-    if (lst == NULL)
-        return ;
-    while (*lst)
-    {
-        next = (*lst)->next;
-        free((*lst)->content);
-        free(*lst);
-        *lst = next;
-    }
-}
-
-void	free_lstsCom(t_sCom **lst)
-{
-    t_sCom	*next;
+	t_list	*next;
 
 	if (lst == NULL)
 		return ;
-    while (*lst)
-    {
-        next = (*lst)->next;
-        free_table((*lst)->argv);
-        free_lst(&((*lst)->lstArg));
-        free_lst(&((*lst)->lstOfRedirIn));
-        free_lst(&((*lst)->lstOfRedirOut));
-        free(*lst);
-        *lst = next;
-    }
+	while (lst)
+	{
+		next = lst->next;
+		free(lst->content);
+		free(lst);
+		lst = next;
+	}
+}
+
+void	free_lstsCom(t_msh *data)
+{
+	t_sCom	*next;
+
+	if (data->lst_cmd == NULL)
+		return ;
+	while (data->lst_cmd)
+	{
+		next = data->lst_cmd->next;
+		free_table(data->lst_cmd->argv);
+		free_lst(data->lst_cmd->lstArg);
+		free_lst(data->lst_cmd->lstOfRedirIn);
+		free_lst(data->lst_cmd->lstOfRedirOut);
+		free(data->lst_cmd);
+		data->lst_cmd = next;
+	}
 }
 
 

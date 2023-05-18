@@ -6,7 +6,7 @@
 /*   By: kfaustin <kfaustin@student.42porto.>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/05 11:00:11 by kfaustin          #+#    #+#             */
-/*   Updated: 2023/05/18 12:34:46 by kfaustin         ###   ########.fr       */
+/*   Updated: 2023/05/18 22:32:39 by fvalli-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -264,26 +264,32 @@ void	do_execute(t_msh *data)
 	char	*path_cmd;
 	pid_t	pid;
 	int		i;
+	t_sCom	*tmp_lstcmd;
 
+	tmp_lstcmd = data->lst_cmd;
 	i = 0;
 	if (data->npipe > 0)
 	{
 		while(data->lst_cmd)
 		{
-			if (check_builtin(data->lst_cmd->argv[0]))
-			{
-				do_builtin(data, data->lst_cmd->argv[0]);
-				return ;
-			}
 			pid = fork();
 			if (pid == 0)
 			{
+				signal(SIGINT, SIG_DFL);
+				signal(SIGQUIT, SIG_IGN);
 				do_redir(data);
 				do_pipe(data);
+				if (check_builtin(data->lst_cmd->argv[0]))
+				{
+					do_builtin(data, data->lst_cmd->argv[0]);
+					close_pipes(data);
+					//free_all(data);
+					exit(1);
+				}
 				path_cmd = execute_condition(data);
 				if (!path_cmd)
 				{
-					free_all(data);
+					//free_all(data);
 					exit(0);
 				}
 				execute_single_cmd(data, path_cmd);
@@ -295,18 +301,22 @@ void	do_execute(t_msh *data)
 	{
 		if (check_builtin(data->lst_cmd->argv[0]))
 		{
+			do_redir(data);
+			redirect_updt(data->lst_cmd->ft_stdin, data->lst_cmd->ft_stdout);
 			do_builtin(data, data->lst_cmd->argv[0]);
 			return ;
 		}
 		pid = fork();
 		if (pid == 0)
 		{
+			signal(SIGINT, SIG_DFL);
+			signal(SIGQUIT, SIG_IGN);
 			do_redir(data);
 			redirect_updt(data->lst_cmd->ft_stdin, data->lst_cmd->ft_stdout);
 			path_cmd = execute_condition(data);
 			if (!path_cmd)
 			{
-				free (path_cmd);
+				//free (path_cmd);
 				close_pipes(data);
 				exit(1);
 			}
@@ -319,6 +329,7 @@ void	do_execute(t_msh *data)
 		waitpid(0, NULL, 0);
 		i++;
 	}
+	data->lst_cmd = tmp_lstcmd;
 }
 
 //void	do_execute(t_msh *data)
@@ -335,3 +346,4 @@ void	do_execute(t_msh *data)
 //	waitpid(pid, NULL, 0);
 //	free (path_cmd);
 //}
+

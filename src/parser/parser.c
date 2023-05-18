@@ -6,7 +6,7 @@
 /*   By: kfaustin <kfaustin@student.42porto.>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/21 14:25:58 by kfaustin          #+#    #+#             */
-/*   Updated: 2023/05/18 15:10:58 by kfaustin         ###   ########.fr       */
+/*   Updated: 2023/05/18 22:16:55 by fvalli-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,6 +154,7 @@ void	init_argv(t_msh *data)
 int ft_parse(char *input, t_msh *data)
 {
 	char	*str;
+	t_sCom	*tmp;
 
 	str = input;
 	if (!check_unclosed_quotes(input))
@@ -161,7 +162,8 @@ int ft_parse(char *input, t_msh *data)
 		ft_putstr_fd("Error: Unclosed quotes found\n", 2);
 		return (1);
 	}
-	ft_lstadd_backsCom(&(data->lst_cmd), ft_lstnewsCom());
+	tmp = ft_lstnewsCom();
+	ft_lstadd_backsCom(&(data->lst_cmd), tmp);
 	while (*str)
 	{
 		if (get_token(data, &str))

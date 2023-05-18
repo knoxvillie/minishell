@@ -6,7 +6,7 @@
 /*   By: kfaustin <kfaustin@student.42porto.>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/21 14:14:58 by kfaustin          #+#    #+#             */
-/*   Updated: 2023/05/18 15:07:46 by kfaustin         ###   ########.fr       */
+/*   Updated: 2023/05/18 22:09:57 by fvalli-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,8 @@ int		get_token_pipe(t_msh	*data, char **str);
 void	get_token_dsq(t_msh	*data, char **str);
 void	get_token_word(t_msh	*data, char **str);
 int		ft_parse(char	*input, t_msh	*data);
-void	free_lst(t_list **lst);
-void	free_lstsCom(t_sCom **lst);
+void	free_lst(t_list *lst);
+void	free_lstsCom(t_msh *lst);
 int check_node_empty(t_sCom *lst);
 int check_nbr_pipes(t_sCom *lst);
 

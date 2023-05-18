@@ -6,7 +6,7 @@
 /*   By: kfaustin <kfaustin@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 14:17:07 by kfaustin          #+#    #+#             */
-/*   Updated: 2023/05/18 15:20:28 by kfaustin         ###   ########.fr       */
+/*   Updated: 2023/05/18 21:57:47 by fvalli-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,23 @@ void	free_all(t_msh *data)
 	free_table(data->env);
 	free_prompt(data->ppt);
 	free (data->ppt);
-	free_lstsCom(&(data->lst_cmd));
+	free_fd(data);
+	free_lstsCom(data);
 	free (data);
 	unlink(".heredoc");
+}
+
+void	free_fd(t_msh *data)
+{
+	int i;
+
+	i = 0;
+	while (i < data->npipe)
+	{
+		free(data->fd[i]);
+		i++;
+	}
+	free(data->fd);
 }
 
 /*void	free_over(t_msh *data)
@@ -48,6 +62,7 @@ void	free_over(t_msh *data)
 	free_table(data->env);
 	free_prompt(data->ppt);
 	free (data->ppt);
+	free_fd(data);
 	//free_lstsCom(&(data->lst_cmd));
 	free (data);
 	unlink(".heredoc");

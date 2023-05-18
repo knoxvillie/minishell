@@ -6,7 +6,7 @@
 /*   By: kfaustin <kfaustin@student.42porto.>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 10:57:37 by kfaustin          #+#    #+#             */
-/*   Updated: 2023/05/18 14:16:13 by kfaustin         ###   ########.fr       */
+/*   Updated: 2023/05/18 20:48:48 by fvalli-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static void	do_minishell(t_msh *data)
 	while (true)
 	{
 		input = readline(display_prompt(data->ppt));
-		if (input == NULL)
+		if (input == NULL) //-> ctrl + D
 		{
 			ft_putstr_fd("exit\n", STDOUT_FILENO);
 			free (input);
@@ -36,13 +36,13 @@ static void	do_minishell(t_msh *data)
 		add_history(input);
 		if (ft_parse(input, data))
 		{
-			free_lstsCom(&(data->lst_cmd));
+			free_lstsCom(data);
 			free (input);
 			break ;
 		}
 		create_pipe(data);
 		do_execute(data);
-		free_lstsCom(&(data->lst_cmd));
+		free_lstsCom(data);
 		free (input);
 		//close all pipes and free the **fd
 	}
