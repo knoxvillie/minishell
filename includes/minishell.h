@@ -6,7 +6,7 @@
 /*   By: kfaustin <kfaustin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 11:29:44 by kfaustin          #+#    #+#             */
-/*   Updated: 2023/05/18 15:08:16 by kfaustin         ###   ########.fr       */
+/*   Updated: 2023/05/18 21:03:42 by fvalli-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,6 +94,7 @@ void	builtin_exit(t_msh *data);
 char	*check_access(t_msh *data, char *cmd);
 // * *----------* *| (executer.c):
 void	do_execute(t_msh *data);
+void	close_pipes(t_msh *data);
 // *** PARSER *** --------------------------------|
 //
 // *** SRC *** -----------------------------------|
@@ -106,6 +107,7 @@ void	free_prompt(t_ppt *root);
 void	free_table(char **table);
 void	free_t_exp(t_env *list);
 void	free_t_env(t_env *list);
+void	free_fd(t_msh *data);
 // * *----------* *| (generic.c):
 void	put_str_exit(char *str, int flag);
 bool	abs_string_cmp(char *s1, char *s2);
@@ -118,6 +120,7 @@ void	init_env_table(t_msh *data);
 char	*display_prompt(t_ppt *root);
 // * *----------* *| (signals.c):
 void	init_signal(void);
+void	handler_int(int sig_type);
 // * *----------* *| (t_env_list.c):
 t_env	*init_env_node(char *key, char *value);
 t_env	*stack_env_list(t_env *var, t_env *node);
