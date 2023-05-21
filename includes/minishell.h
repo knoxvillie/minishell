@@ -6,7 +6,7 @@
 /*   By: kfaustin <kfaustin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 11:29:44 by kfaustin          #+#    #+#             */
-/*   Updated: 2023/05/18 21:03:42 by fvalli-v         ###   ########.fr       */
+/*   Updated: 2023/05/21 00:09:39 by fvalli-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,8 @@ typedef struct s_sCom {
 } t_sCom;
 
 typedef struct s_redir {
-    int     type;
-    char    *filename;
+	int		type;
+	char	*filename;
 } t_redir;
 
 struct s_env
@@ -129,5 +129,9 @@ t_msh	*env_to_list(t_msh *data, char **env);
 char	*get_value_from_key(t_env *env, char *key);
 void	modify_value(t_msh *data, char *key, char **new_value);
 bool	is_key_in_env(t_env *env, char *key);
+// * *----------* *| (expander.c):
+void	expander(t_msh *data);
+
+
 
 #endif

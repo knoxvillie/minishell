@@ -6,7 +6,7 @@
 /*   By: kfaustin <kfaustin@student.42porto.>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/05 11:00:11 by kfaustin          #+#    #+#             */
-/*   Updated: 2023/05/18 22:32:39 by fvalli-v         ###   ########.fr       */
+/*   Updated: 2023/05/21 02:55:54 by fvalli-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -255,6 +255,20 @@ void	do_pipe(t_msh *data)
 	close_pipes(data);
 }
 
+void	close_fd(t_msh *data)
+{
+	int	i;
+
+	i = 3;
+	while (i <= data->lst_cmd->ft_stdout || i <= data->lst_cmd->ft_stdin)
+	{
+		close(i);
+		i++;
+	}
+	redirect_updt(STDIN_FILENO, STDOUT_FILENO);
+}
+
+
 //quando exit esta sendo chamado ele esta a fechar o child mas continua a rodar o main process
 //tenho que ver como resolver isto.
 // -> Acho que a checagem de builtins devem ser feitas antes do fork,
@@ -302,8 +316,16 @@ void	do_execute(t_msh *data)
 		if (check_builtin(data->lst_cmd->argv[0]))
 		{
 			do_redir(data);
+			//corrigir isto, estava a dar problema no redirecionamento ja que nao abrimos fork.
+			//Nesse caso perdiamos os fd's do STDIN e STDOUT
+			//Desse jeito funcionou, mas tem que pensar onde colocar esse fd_out e fd_in temporarios.
+			int fd_out, ft_in;
+			fd_out = dup(STDOUT_FILENO);
+			ft_in = dup(STDIN_FILENO);
 			redirect_updt(data->lst_cmd->ft_stdin, data->lst_cmd->ft_stdout);
 			do_builtin(data, data->lst_cmd->argv[0]);
+			redirect_updt(ft_in, fd_out);
+			close_fd(data);
 			return ;
 		}
 		pid = fork();

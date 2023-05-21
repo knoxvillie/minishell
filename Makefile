@@ -30,6 +30,9 @@ PARSER	= parser.c parser_utils.c
 EXECDIR	= ./src/executer/
 EXEC	= access.c executer.c
 
+EXPDIR	= ./src/expander/
+EXP		= expander.c
+
 BUILDIR	= ./src/builtins/
 BUILT	=	$(BUILDIR)env/env.c \
  			$(BUILDIR)export/export.c \
@@ -42,6 +45,7 @@ BUILT	=	$(BUILDIR)env/env.c \
 OBJ		=	$(addprefix $(SRCDIR), $(SRC:.c=.o)) \
 			$(addprefix $(EXECDIR), $(EXEC:.c=.o)) \
 			$(addprefix $(PARSERDIR), $(PARSER:.c=.o)) \
+			$(addprefix $(EXPDIR), $(EXP:.c=.o)) \
 			$(BUILT:.c=.o)
 
 

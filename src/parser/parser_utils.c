@@ -6,7 +6,7 @@
 /*   By: kfaustin <kfaustin@student.42porto.>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 10:39:42 by kfaustin          #+#    #+#             */
-/*   Updated: 2023/05/18 22:11:19 by fvalli-v         ###   ########.fr       */
+/*   Updated: 2023/05/20 23:24:37 by fvalli-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,8 @@ void	free_lst(t_list *lst)
 	while (lst)
 	{
 		next = lst->next;
-		free(lst->content);
+		if (lst->content)
+			free(lst->content);
 		free(lst);
 		lst = next;
 	}
@@ -95,8 +96,6 @@ void	free_lstsCom(t_msh *data)
 		data->lst_cmd = next;
 	}
 }
-
-
 
 int check_node_empty(t_sCom *lst)
 {
@@ -193,8 +192,6 @@ int redirout(t_msh	*data, char **str)
         return ((*str)++, get_token_word_redir(data, str, GREATGREAT));
     else
         return (get_token_word_redir(data, str, GREAT));
-    // after a redir cannot come a METACH & WSPACE,
-    // otherwise gives the following error "syntax error near unexpected token `$METACH'"
 }
 
 int redirin(t_msh	*data, char **str)
@@ -204,8 +201,6 @@ int redirin(t_msh	*data, char **str)
         return ((*str)++, get_token_word_redir(data, str, LESSLESS));
     else
         return (get_token_word_redir(data, str, LESS));
-    // after a redir cannot come a METACH & WSPACE,
-    // otherwise gives the following error "syntax error near unexpected token `$METACH'"
 }
 int get_token_pipe(t_msh *data, char **str)
 {
@@ -223,26 +218,7 @@ int get_token_pipe(t_msh *data, char **str)
         }
     }
     return (ft_lstadd_backsCom(&(data->lst_cmd), ft_lstnewsCom()), 0);
-    // after a pipe cannot come a METACH & WSPACE,
-    // otherwise gives the following error "syntax error near unexpected token `$METACH'"
 }
-
-void get_token_dsq(t_msh *data, char **str)
-{
-    char    *tmp;
-    int     i;
-    t_sCom *sCom;
-
-    sCom = ft_lstlastsCom(data->lst_cmd);
-    tmp = ft_strdup(*str);
-    i = 0;
-    i = jump_dq_and_sq(str, i);
-    (*str)++;
-    i++;
-    tmp[i] = '\0';
-    ft_lstadd_back(&(sCom->lstArg), ft_lstnew(tmp));
-}
-
 
 void get_token_word(t_msh *data, char **str)
 {
