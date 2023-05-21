@@ -6,7 +6,7 @@
 /*   By: fvalli-v <fvalli-v@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 21:11:46 by fvalli-v          #+#    #+#             */
-/*   Updated: 2023/05/21 02:14:19 by fvalli-v         ###   ########.fr       */
+/*   Updated: 2023/05/21 08:33:29 by fvalli-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -290,34 +290,34 @@ void expander(t_msh *data)
 	lst = data->lst_cmd;
 	while (data->lst_cmd)
 	{
-		tmp = lst->lstArg;
-		while(lst->lstArg)
+		tmp = data->lst_cmd->lstArg;
+		while(data->lst_cmd->lstArg)
 		{
-			expand_word_lstArg(data, lst->lstArg->content);
-			lst->lstArg = lst->lstArg->next;
+			expand_word_lstArg(data, data->lst_cmd->lstArg->content);
+			data->lst_cmd->lstArg = data->lst_cmd->lstArg->next;
 		}
-		lst->lstArg = tmp;
+		data->lst_cmd->lstArg = tmp;
 
-		tmp = lst->lstOfRedirOut;
-		while(lst->lstOfRedirOut)
+		tmp = data->lst_cmd->lstOfRedirOut;
+		while(data->lst_cmd->lstOfRedirOut)
 		{
-			temp = (t_redir *)(lst->lstOfRedirOut->content);
+			temp = (t_redir *)(data->lst_cmd->lstOfRedirOut->content);
 			expand_word_lstRedOut(data, temp->filename);
-			lst->lstOfRedirOut = lst->lstOfRedirOut->next;
+			data->lst_cmd->lstOfRedirOut = data->lst_cmd->lstOfRedirOut->next;
 		}
-		lst->lstOfRedirOut = tmp;
+		data->lst_cmd->lstOfRedirOut = tmp;
 
-		tmp = lst->lstOfRedirIn;
-		while(lst->lstOfRedirIn)
+		tmp = data->lst_cmd->lstOfRedirIn;
+		while(data->lst_cmd->lstOfRedirIn)
 		{
-			temp = (t_redir *)(lst->lstOfRedirIn->content);
+			temp = (t_redir *)(data->lst_cmd->lstOfRedirIn->content);
 			if (temp->type == LESS)
 			{
 				expand_word_lstRedIn(data, temp->filename);
 			}
-			lst->lstOfRedirIn = lst->lstOfRedirIn->next;
+			data->lst_cmd->lstOfRedirIn = data->lst_cmd->lstOfRedirIn->next;
 		}
-		lst->lstOfRedirIn = tmp;
+		data->lst_cmd->lstOfRedirIn = tmp;
 		i++;
 		data->lst_cmd = data->lst_cmd->next;
 	}
