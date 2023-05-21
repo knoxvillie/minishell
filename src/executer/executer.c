@@ -6,7 +6,7 @@
 /*   By: kfaustin <kfaustin@student.42porto.>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/05 11:00:11 by kfaustin          #+#    #+#             */
-/*   Updated: 2023/05/21 02:55:54 by fvalli-v         ###   ########.fr       */
+/*   Updated: 2023/05/21 13:19:27 by fvalli-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,6 +113,7 @@ void	do_heredoc(t_msh *data)
 	t_redir	*tmp_red;
 	int 	tmp_fd;
 
+
 	tmp = data->lst_cmd->lstOfRedirIn;
 	tmp_red = tmp->content;
 	tmp_fd = open(".heredoc", O_CREAT | O_WRONLY | O_TRUNC, S_IWUSR | S_IRUSR);
@@ -124,10 +125,12 @@ void	do_heredoc(t_msh *data)
 	}
 	while (1)
 	{
-		write(1, "> ", 2);
-		buff = get_next_line(0);
+		buff = readline(">");
 		if (!buff)
-			exit(1);
+		{
+			ft_putstr_fd("minishell: warning: here-document at line 1 delimited by end-of-file\n", 2);
+			break ;
+		}
 		buff[ft_strlen(buff) - 1] = '\0';
 		if (!ft_strncmp(tmp_red->filename, buff, ft_strlen(tmp_red->filename) + 1))
 			break ;
@@ -280,6 +283,7 @@ void	do_execute(t_msh *data)
 	int		i;
 	t_sCom	*tmp_lstcmd;
 
+	init_signal(1);
 	tmp_lstcmd = data->lst_cmd;
 	i = 0;
 	if (data->npipe > 0)
@@ -289,23 +293,17 @@ void	do_execute(t_msh *data)
 			pid = fork();
 			if (pid == 0)
 			{
-				signal(SIGINT, SIG_DFL);
-				signal(SIGQUIT, SIG_IGN);
 				do_redir(data);
 				do_pipe(data);
 				if (check_builtin(data->lst_cmd->argv[0]))
 				{
 					do_builtin(data, data->lst_cmd->argv[0]);
 					close_pipes(data);
-					//free_all(data);
 					exit(1);
 				}
 				path_cmd = execute_condition(data);
 				if (!path_cmd)
-				{
-					//free_all(data);
 					exit(0);
-				}
 				execute_single_cmd(data, path_cmd);
 			}
 			data->lst_cmd = data->lst_cmd->next;
@@ -331,8 +329,8 @@ void	do_execute(t_msh *data)
 		pid = fork();
 		if (pid == 0)
 		{
-			signal(SIGINT, SIG_DFL);
-			signal(SIGQUIT, SIG_IGN);
+//			signal(SIGINT, SIG_DFL);
+//			signal(SIGQUIT, SIG_IGN);
 			do_redir(data);
 			redirect_updt(data->lst_cmd->ft_stdin, data->lst_cmd->ft_stdout);
 			path_cmd = execute_condition(data);
@@ -344,6 +342,7 @@ void	do_execute(t_msh *data)
 			}
 			execute_single_cmd(data, path_cmd);
 		}
+		//check_builtin(); atualizar env com base nos comandos do builtin cd,export, unset, exit
 	}
 	close_pipes(data);
 	while (i < data->nsCom)

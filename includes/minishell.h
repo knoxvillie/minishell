@@ -6,7 +6,7 @@
 /*   By: kfaustin <kfaustin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 11:29:44 by kfaustin          #+#    #+#             */
-/*   Updated: 2023/05/21 00:09:39 by fvalli-v         ###   ########.fr       */
+/*   Updated: 2023/05/21 11:44:36 by fvalli-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@
 # include <sys/types.h>
 # include <sys/wait.h>
 # include <signal.h>
+
+extern int	exit_status;
 
 typedef struct s_env	t_env;
 typedef struct s_sCom	t_sCom;
@@ -119,8 +121,8 @@ void	init_env_table(t_msh *data);
 // * *----------* *| (prompt.c):
 char	*display_prompt(t_ppt *root);
 // * *----------* *| (signals.c):
-void	init_signal(void);
-void	handler_int(int sig_type);
+void	init_signal(int flag);
+void	init_signal_heredoc(void);
 // * *----------* *| (t_env_list.c):
 t_env	*init_env_node(char *key, char *value);
 t_env	*stack_env_list(t_env *var, t_env *node);
