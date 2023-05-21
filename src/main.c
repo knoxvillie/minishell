@@ -6,7 +6,7 @@
 /*   By: kfaustin <kfaustin@student.42porto.>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 10:57:37 by kfaustin          #+#    #+#             */
-/*   Updated: 2023/05/20 20:43:15 by fvalli-v         ###   ########.fr       */
+/*   Updated: 2023/05/21 09:02:57 by fvalli-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ extern int	exit_status;
 static void	do_minishell(t_msh *data)
 {
 	char	*input;
+	char	*trim;
 
 	while (true)
 	{
@@ -28,6 +29,10 @@ static void	do_minishell(t_msh *data)
 			free (input);
 			break ;
 		}
+		trim = ft_strtrim(input, " ");
+		free(input);
+		input = ft_strdup(trim);
+		free(trim);
 		if (*input == '\0')
 		{
 			free(input);
