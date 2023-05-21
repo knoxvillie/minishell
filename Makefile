@@ -38,7 +38,7 @@ BUILT	=	$(BUILDIR)env/env.c \
  			$(BUILDIR)export/export.c \
  			$(BUILDIR)unset/unset.c \
  			$(BUILDIR)pwd/pwd.c \
- 			$(BUILDIR)cd/cd.c \
+ 			$(BUILDIR)cd/cd.c $(BUILDIR)cd/cd_update.c $(BUILDIR)cd/cd_utils.c\
  			$(BUILDIR)exit/exit.c \
  			$(BUILDIR)echo/echo.c
 

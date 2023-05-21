@@ -6,7 +6,7 @@
 /*   By: kfaustin <kfaustin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 11:29:44 by kfaustin          #+#    #+#             */
-/*   Updated: 2023/05/21 11:44:36 by fvalli-v         ###   ########.fr       */
+/*   Updated: 2023/05/21 21:14:20 by fvalli-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 # include <sys/types.h>
 # include <sys/wait.h>
 # include <signal.h>
+
 
 extern int	exit_status;
 
@@ -88,7 +89,11 @@ void	builtin_unset(t_msh *data);
 void	builtin_export(t_msh *data);
 void	builtin_env(t_msh *data);
 void	builtin_pwd(t_msh *data);
+// * *----------* *| (cd.c):
 void	builtin_cd(t_msh *data);
+void	builtin_cd_update(t_msh *data);
+char	*do_dot(t_msh *data);
+//-----------------|
 void	builtin_exit(t_msh *data);
 
 // *** EXECUTER *** ------------------------------|
