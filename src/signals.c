@@ -6,7 +6,7 @@
 /*   By: kfaustin <kfaustin@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 11:13:06 by kfaustin          #+#    #+#             */
-/*   Updated: 2023/05/21 11:45:07 by fvalli-v         ###   ########.fr       */
+/*   Updated: 2023/05/22 14:39:33 by kfaustin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,23 +37,6 @@ void	init_signal(int flag)
 		action.sa_handler = handler_false;
 	else
 		action.sa_handler = handler_true;
-	sigemptyset(&action.sa_mask);
-	sigaddset(&action.sa_mask, SIGINT);
-	action.sa_flags = SA_RESTART;
-	sigaction(SIGINT, &action, NULL);
-}
-
-static void	handle_heredoc(int sig_type)
-{
-	(void)sig_type;
-	exit_status = 3141592;
-}
-
-void	init_signal_heredoc(void)
-{
-	struct sigaction	action;
-
-	action.sa_handler = &handle_heredoc;
 	sigemptyset(&action.sa_mask);
 	sigaddset(&action.sa_mask, SIGINT);
 	action.sa_flags = SA_RESTART;

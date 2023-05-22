@@ -6,17 +6,15 @@
 /*   By: kfaustin <kfaustin@student.42porto.>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 10:57:37 by kfaustin          #+#    #+#             */
-/*   Updated: 2023/05/22 14:08:25 by kfaustin         ###   ########.fr       */
+/*   Updated: 2023/05/22 14:38:46 by kfaustin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 #include "../includes/parser.h"
 
-int	exit_status = 0;
-
 /* Returns -1 to continue, 0 to break, 1 to do nothing */
-static int do_trim_parser(t_msh *data, char *input, char **trim)
+static int	do_trim_parser(t_msh *data, char *input, char **trim)
 {
 	if (input == NULL)
 	{
@@ -50,7 +48,7 @@ static void	do_minishell(t_msh *data)
 		input = readline(display_prompt(data->ppt));
 		flag_dtp = do_trim_parser(data, input, &trim);
 		if (flag_dtp < 0)
-			continue;
+			continue ;
 		if (flag_dtp == 0)
 			break ;
 		create_pipe(data);
@@ -60,9 +58,9 @@ static void	do_minishell(t_msh *data)
 	}
 }
 
-int main(int argc, char **argv, char **env)
+int	main(int argc, char **argv, char **env)
 {
-	t_msh *data;
+	t_msh	*data;
 
 	(void) argc;
 	(void) argv;

@@ -6,7 +6,7 @@
 /*   By: kfaustin <kfaustin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 11:29:44 by kfaustin          #+#    #+#             */
-/*   Updated: 2023/05/22 13:57:41 by kfaustin         ###   ########.fr       */
+/*   Updated: 2023/05/22 14:34:40 by kfaustin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,6 @@ typedef struct s_ppt
 	char	*s_manager;
 	char	*home;
 	char	*path;
-	char	*abs_path;
 	t_env	*list;
 }		t_ppt;
 
@@ -124,6 +123,7 @@ void	free_over(t_msh *data);
 void	free_prompt(t_ppt *root);
 void	free_table(char **table);
 void	free_t_exp(t_env *list);
+// * *----------* *| (free2.c):
 void	free_t_env(t_env *list);
 void	free_fd(t_msh *data);
 // * *----------* *| (generic.c):

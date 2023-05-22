@@ -1,27 +1,40 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pwd.c                                              :+:      :+:    :+:   */
+/*   free2.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kfaustin <kfaustin@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/05/11 15:31:15 by kfaustin          #+#    #+#             */
-/*   Updated: 2023/05/22 14:29:03 by kfaustin         ###   ########.fr       */
+/*   Created: 2023/05/22 14:33:28 by kfaustin          #+#    #+#             */
+/*   Updated: 2023/05/22 14:36:25 by kfaustin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../../includes/minishell.h"
+#include "../includes/minishell.h"
 
-void	builtin_pwd(t_msh *data)
+void	free_t_env(t_env *list)
 {
-	char	*path;
-	if (data->lst_cmd->argv[1])
+	t_env	*header;
+
+	while (list)
 	{
-		ft_putstr_fd("msh: pwd: too many arguments\n", 2);
-		return ;
+		header = list->next;
+		free (list->key);
+		free (list->value);
+		free (list);
+		list = header;
 	}
-	path = getcwd(NULL, 0);
-	ft_putstr_fd(path, 1);
-	ft_putstr_fd("\n", 1);
-	free (path);
+}
+
+void	free_fd(t_msh *data)
+{
+	int	i;
+
+	i = 0;
+	while (i < data->npipe)
+	{
+		free(data->fd[i]);
+		i++;
+	}
+	free(data->fd);
 }
