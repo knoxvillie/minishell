@@ -6,7 +6,7 @@
 /*   By: kfaustin <kfaustin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 11:29:44 by kfaustin          #+#    #+#             */
-/*   Updated: 2023/05/21 21:14:20 by fvalli-v         ###   ########.fr       */
+/*   Updated: 2023/05/22 13:57:41 by kfaustin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,15 +85,26 @@ typedef struct s_msh
 //
 // *** BUILTINS *** ------------------------------|
 void	builtins_echo(t_msh *data);
+// * *----------* *| (unset.c):
 void	builtin_unset(t_msh *data);
+bool	check_env_till_end(t_msh *data, char *str);
+bool	check_env_first_node(t_msh *data, char *str);
+bool	check_exp_till_end(t_msh *data, char *str);
+bool	check_exp_first_node(t_msh *data, char *str);
+// * *----------* *| (unset_update.c):
+void	builtin_unset_update(t_msh *data);
+bool	check_ue_syntax_up(char *str);
+bool	check_ue_syntax(char *str, char *mode);
+// * *----------* *| (export.c):
 void	builtin_export(t_msh *data);
+void	builtin_export_update(t_msh *data);
+// * *----------* *| (env.c):
 void	builtin_env(t_msh *data);
 void	builtin_pwd(t_msh *data);
 // * *----------* *| (cd.c):
 void	builtin_cd(t_msh *data);
 void	builtin_cd_update(t_msh *data);
-char	*do_dot(t_msh *data);
-//-----------------|
+// * *----------* *| (exit.c):
 void	builtin_exit(t_msh *data);
 
 // *** EXECUTER *** ------------------------------|

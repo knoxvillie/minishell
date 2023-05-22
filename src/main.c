@@ -6,7 +6,7 @@
 /*   By: kfaustin <kfaustin@student.42porto.>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 10:57:37 by kfaustin          #+#    #+#             */
-/*   Updated: 2023/05/21 13:19:04 by fvalli-v         ###   ########.fr       */
+/*   Updated: 2023/05/22 14:08:25 by kfaustin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,32 @@
 
 int	exit_status = 0;
 
+/* Returns -1 to continue, 0 to break, 1 to do nothing */
+static int do_trim_parser(t_msh *data, char *input, char **trim)
+{
+	if (input == NULL)
+	{
+		ft_putstr_fd("exit\n", 2);
+		return (free (input), 0);
+	}
+	*trim = ft_strtrim(input, WSPACE);
+	if (*(*trim) == '\0')
+		return (free(input), free(*trim), -1);
+	if (!ft_strchr(WSPACE, *input))
+		add_history(input);
+	free(input);
+	if (ft_parse(*trim, data))
+	{
+		free_lstsCom(data);
+		free (*trim);
+		return (0);
+	}
+	return (1);
+}
+
 static void	do_minishell(t_msh *data)
 {
+	int		flag_dtp;
 	char	*input;
 	char	*trim;
 
@@ -24,33 +48,15 @@ static void	do_minishell(t_msh *data)
 	{
 		init_signal(0);
 		input = readline(display_prompt(data->ppt));
-		if (input == NULL)
-		{
-			ft_putstr_fd("exit\n", STDOUT_FILENO);
-			free (input);
+		flag_dtp = do_trim_parser(data, input, &trim);
+		if (flag_dtp < 0)
+			continue;
+		if (flag_dtp == 0)
 			break ;
-		}
-		trim = ft_strtrim(input, WSPACE);
-		if (*trim == '\0')
-		{
-			free(input);
-			free(trim);
-			continue ;
-		}
-		if (!ft_strchr(WSPACE, *input))
-			add_history(input);
-		free(input);
-		if (ft_parse(trim, data))
-		{
-			free_lstsCom(data);
-			free (trim);
-			break ;
-		}
 		create_pipe(data);
 		do_execute(data);
 		free_lstsCom(data);
 		free (trim);
-		//close all pipes and free the **fd
 	}
 }
 

@@ -6,7 +6,7 @@
 /*   By: kfaustin <kfaustin@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 12:24:35 by kfaustin          #+#    #+#             */
-/*   Updated: 2023/05/13 14:28:39 by fvalli-v         ###   ########.fr       */
+/*   Updated: 2023/05/22 14:21:47 by kfaustin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	builtin_env(t_msh *data)
 	t_env	*node;
 
 	node = data->ppt->list;
-	while(node)
+	while (node)
 	{
 		ft_putstr_fd(node->key, 1);
 		ft_putstr_fd("=", 1);

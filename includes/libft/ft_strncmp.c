@@ -6,7 +6,7 @@
 /*   By: kfaustin <kfaustin@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/07 13:15:45 by kfaustin          #+#    #+#             */
-/*   Updated: 2022/11/27 15:14:48 by kfaustin         ###   ########.fr       */
+/*   Updated: 2023/05/22 14:15:16 by kfaustin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int	ft_strncmp(const char *s1, const char *s2, size_t n)
 	while ((s1[i] || s2[i]) && (i < n))
 	{
 		if (s1[i] != s2[i])
-			return (s1[i]- s2[i]);
+			return (s1[i] - s2[i]);
 		i++;
 	}
 	return (0);

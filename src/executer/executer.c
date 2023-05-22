@@ -6,7 +6,7 @@
 /*   By: kfaustin <kfaustin@student.42porto.>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/05 11:00:11 by kfaustin          #+#    #+#             */
-/*   Updated: 2023/05/21 20:12:25 by fvalli-v         ###   ########.fr       */
+/*   Updated: 2023/05/22 12:13:27 by kfaustin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -286,13 +286,24 @@ static void	do_multiples_pipe(t_msh *data)
 static void	exit_or_update_env(t_msh *data, char *cmd)
 {
 	if (abs_string_cmp(cmd, "cd"))
-		builtin_cd(data);
-	else if (abs_string_cmp(cmd, "export"))
-		builtin_export(data);
-	else if (abs_string_cmp(cmd, "unset"))
-		builtin_unset(data);
-	else
+	{
+		builtin_cd_update(data);
+		return ;
+	}
+	if (abs_string_cmp(cmd, "export"))
+	{
+		builtin_export_update(data);
+		return ;
+	}
+	if (abs_string_cmp(cmd, "unset"))
+	{
+		builtin_unset_update(data);
+		return ;
+	}
+	if (abs_string_cmp(cmd, "exit"))
+	{
 		builtin_exit(data);
+	}
 }
 
 static void	do_no_pipe(t_msh *data)

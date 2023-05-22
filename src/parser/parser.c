@@ -38,21 +38,21 @@ bool	check_unclosed_quotes(char *input)
 	return (false);
 }
 
-int    get_token(t_msh	*data, char **str)
+int	get_token(t_msh	*data, char **str)
 {
-    while (**str && ft_strchr(WSPACE, **str))
-        (*str)++;
-    if (**str== '|')
-        return (get_token_pipe(data, str));
-    else if (**str == '<')
-        return (redirin(data, str));
-    else if (**str == '>')
-        return (redirout(data, str));
-    else if (**str && ft_strchr(UNSUPMETACH, **str))
-        return (printf("Minishell does not support this operator %c\n",**str), (*str)++, 1);
-    else
-        get_token_word(data, str);
-    return (0);
+	while (**str && ft_strchr(WSPACE, **str))
+		(*str)++;
+	if (**str== '|')
+		return (get_token_pipe(data, str));
+	else if (**str == '<')
+		return (redirin(data, str));
+	else if (**str == '>')
+		return (redirout(data, str));
+	else if (**str && ft_strchr(UNSUPMETACH, **str))
+		return (printf("Minishell does not support this operator %c\n",**str), (*str)++, 1);
+	else
+		get_token_word(data, str);
+	return (0);
 }
 
 int size_lstArg(t_sCom *data)
@@ -136,89 +136,3 @@ int ft_parse(char *input, t_msh *data)
 	init_argv(data);
 	return (0);
 }
-
-//Main to test the parsing
-//int main(int argc, char **argv)
-//{
-//    t_msh   *data;
-//
-//    data = (t_msh *)malloc(sizeof(t_msh));
-//    data = (t_msh *)ft_memset(data, 0, sizeof(t_msh));
-//    data->lst_cmd = NULL;
-//    if (argc == 2)
-//    {
-//        if (ft_parse(argv[1], data))
-//            printf("error\n");
-//        printf("OK\n");
-//        print_lstCtable(data);
-//    }
-//    else
-//        printf("incorrect number of args\n");
-//    return (0);
-//}
-
-/*void	ft_parser(t_tokens *parser, char *str)
-{
-	int	i;
-
-	i = 0;
-	parser->tokens = ft_split(str, ' ');
-	parser->cmd = parser->tokens[i++];
-	parser->flag = parser->tokens[i++];
-	parser->complement = parser->tokens[i];
-}*/
-
-//void	ft_parser(char *input)
-//{
-//	int		i;
-//	int		n_pipes;
-//	char	**cmds;
-//
-//	i = -1;
-//	n_pipes = 0;
-//	while (input[++i])
-//		if (input[i] == '|')
-//			n_pipes++;
-//	if (n_pipes >= 1)
-//		cmds = ft_split(input, '|');
-//}
-/*void	ft_parser(t_tokens *parser, char *str)
-{
-	int	i;
-
-	i = 0;
-	parser->tokens = ft_split(str, ' ');
-	parser->cmd = parser->tokens[i++];
-	parser->flag = parser->tokens[i++];
-	parser->complement = parser->tokens[i];
-}*/
-//
-//void	ft_parser(char *input)
-//{
-//	int		i;
-//	int		j;
-//	int		n_pipes;
-//	char	**cmds;
-//
-//	cmds = NULL;
-//	i = -1;
-//	n_pipes = 0;
-//	while (input[++i])
-//		if (input[i] == '|')
-//			n_pipes++;
-//	printf("%d", n_pipes);
-//	if (n_pipes >= 1) {
-//		cmds = ft_split(input, '|');
-//	}
-//	i = -1;
-//	while (cmds[++i])
-//	{
-//		j = 0;
-//		while (cmds[i][j])
-//		{
-//			printf("%c", cmds[i][j]);
-//			j++;
-//		}
-//		printf("\n");
-//	}
-//}

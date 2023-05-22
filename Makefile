@@ -35,11 +35,11 @@ EXP		= expander.c
 
 BUILDIR	= ./src/builtins/
 BUILT	=	$(BUILDIR)env/env.c \
- 			$(BUILDIR)export/export.c \
- 			$(BUILDIR)unset/unset.c \
- 			$(BUILDIR)pwd/pwd.c \
- 			$(BUILDIR)cd/cd.c $(BUILDIR)cd/cd_update.c $(BUILDIR)cd/cd_utils.c\
+ 			$(BUILDIR)export/export.c $(BUILDIR)export/export_update.c \
+ 			$(BUILDIR)unset/unset.c $(BUILDIR)unset/unset_update.c\
+ 			$(BUILDIR)cd/cd.c $(BUILDIR)cd/cd_update.c \
  			$(BUILDIR)exit/exit.c \
+ 			$(BUILDIR)pwd/pwd.c \
  			$(BUILDIR)echo/echo.c
 
 OBJ		=	$(addprefix $(SRCDIR), $(SRC:.c=.o)) \
