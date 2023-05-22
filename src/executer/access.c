@@ -6,7 +6,7 @@
 /*   By: kfaustin <kfaustin@student.42porto.>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 14:51:46 by kfaustin          #+#    #+#             */
-/*   Updated: 2023/05/22 16:07:59 by kfaustin         ###   ########.fr       */
+/*   Updated: 2023/05/22 21:37:34 by fvalli-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ static char	*path_plus_cmd(char *path, char *cmd)
 	return (str);
 }
 
-char	*check_access_continue(char *path, char *cmd)
+char	*check_access(char *path, char *cmd)
 {
 	int		i;
 	char	*str;

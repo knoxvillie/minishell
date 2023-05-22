@@ -6,7 +6,7 @@
 /*   By: kfaustin <kfaustin@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 14:17:07 by kfaustin          #+#    #+#             */
-/*   Updated: 2023/05/22 14:35:49 by kfaustin         ###   ########.fr       */
+/*   Updated: 2023/05/22 22:28:49 by fvalli-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ void	free_all(t_msh *data)
 	free (data->ppt);
 	free_fd(data);
 	free_lstsCom(data);
+	close_pipes(data);
 	free (data);
 	unlink(".heredoc");
 }

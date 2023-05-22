@@ -6,12 +6,37 @@
 /*   By: fvalli-v <fvalli-v@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 21:11:46 by fvalli-v          #+#    #+#             */
-/*   Updated: 2023/05/21 08:33:29 by fvalli-v         ###   ########.fr       */
+/*   Updated: 2023/05/22 22:12:08 by fvalli-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 #include "../../includes/parser.h"
+
+
+int jump_sq_exp(char *str, int i, char **newstr, int *newi)
+{
+	int	j;
+
+	j = i;
+	if (str[j] == '\'')
+	{
+		while (str[j])
+		{
+			(*newstr)[*newi] = str[j];
+			(*newi)++;
+			str++;
+			i++;
+			if (str[j] == '\'')
+			{
+				(*newstr)[*newi] = str[j];
+				(*newi)++;
+				return (i + 1);
+			}
+		}
+	}
+	return (i);
+}
 
 
 int jump_sq(char *str, int i)
@@ -113,8 +138,8 @@ static void	expand_word_lstArg(t_msh *data, char *word)
 	newstr = (char *)malloc(sizeof(char) * (get_true_len(data, str) + 1));
 	while (str[++begin])
 	{
-		begin = jump_sq(str, begin);
-		if (str[begin] == '$')
+		begin = jump_sq_exp(str, begin, &newstr, &newi);
+		if (str[begin] == '$' && str[begin + 1])
 		{
 			end = begin + 1;
 			while (str[end]  != '\0' && str[end] != '$' && str[end] != '\'' && str[end] != '\"')
@@ -174,8 +199,8 @@ static void	expand_word_lstRedOut(t_msh *data, char *word)
 	newstr = (char *)malloc(sizeof(char) * (get_true_len(data, str) + 1));
 	while (str[++begin])
 	{
-		begin = jump_sq(str, begin);
-		if (str[begin] == '$')
+		begin = jump_sq_exp(str, begin, &newstr, &newi);
+		if (str[begin] == '$' && str[begin + 1])
 		{
 			end = begin + 1;
 			while (str[end]  != '\0' && str[end] != '$' && str[end] != '\'' && str[end] != '\"')
@@ -235,8 +260,8 @@ static void	expand_word_lstRedIn(t_msh *data, char *word)
 	newstr = (char *)malloc(sizeof(char) * (get_true_len(data, str) + 1));
 	while (str[++begin])
 	{
-		begin = jump_sq(str, begin);
-		if (str[begin] == '$')
+		begin = jump_sq_exp(str, begin, &newstr, &newi);
+		if (str[begin] == '$' && str[begin + 1])
 		{
 			end = begin + 1;
 			while (str[end]  != '\0' && str[end] != '$' && str[end] != '\'' && str[end] != '\"')
