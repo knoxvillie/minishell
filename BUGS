@@ -1,0 +1,16 @@
+<< kelvin cat - no heredoc se eu der crtl + c
+>
+^Ckfaustin@c1r8s8:~/Desktop/minishell$ << kelvin cat
+no primeiro funciona no segundo nao,
+
+---
+export $ buga com o expander
+---
+
+expander com single quotes bugado
+echo kelvin$arg
+echo 'kelvin$arg'
+
+---
+ls error execve
+ls -al error execve

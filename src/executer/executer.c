@@ -6,7 +6,7 @@
 /*   By: kfaustin <kfaustin@student.42porto.>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/05 11:00:11 by kfaustin          #+#    #+#             */
-/*   Updated: 2023/05/22 12:13:27 by kfaustin         ###   ########.fr       */
+/*   Updated: 2023/05/22 16:12:10 by kfaustin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ static void	execute_single_cmd(t_msh *data, char *path_cmd)
 	cmd = (char **)data->lst_cmd->argv;
 	if (execve(path_cmd, cmd, data->env) < 0)
 	{
-		printf("error on execve\n");
+		printf("msh: error on execve\n");
 		exit(1);
 	}
 		// msg erro + free all;
@@ -81,21 +81,24 @@ static void	execute_single_cmd(t_msh *data, char *path_cmd)
 static char	*execute_condition(t_msh *data)
 {
 	char	*cmd;
+	char	*path;
 	char	*path_cmd;
 
-	cmd = (char *)data->lst_cmd->argv[0];
-//	if (check_builtin(cmd))
-//	{
-//		do_builtin(data, cmd); APAGAR
-//		return (NULL);
-//	}
-	path_cmd = check_access(data, cmd);
-	if (!path_cmd)
+	cmd = strdup((char *)data->lst_cmd->argv[0]);
+	path = get_value_from_key(data->ppt->list, "PATH");
+	if (!path)
 	{
-		ft_putstr_fd(cmd, 1);
-		ft_putstr_fd(": command not found\n", 1);
-		return (NULL);
+		free (cmd);
+		free (path);
+		return (ft_putstr_fd("msh: No such file or dir\n", 2), NULL);
 	}
+	if (access(cmd, X_OK) == 0)
+		return (free(path), cmd);
+	path_cmd = check_access(path, cmd);
+	free (path);
+	free (cmd);
+	if (!path_cmd)
+		return (ft_putstr_fd("msh: command not found\n", 2), NULL);
 	return (path_cmd);
 }
 

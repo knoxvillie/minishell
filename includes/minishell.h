@@ -6,7 +6,7 @@
 /*   By: kfaustin <kfaustin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 11:29:44 by kfaustin          #+#    #+#             */
-/*   Updated: 2023/05/22 14:34:40 by kfaustin         ###   ########.fr       */
+/*   Updated: 2023/05/22 15:59:18 by kfaustin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,7 @@ void	builtin_exit(t_msh *data);
 
 // *** EXECUTER *** ------------------------------|
 // * *----------* *| (access.c):
-char	*check_access(t_msh *data, char *cmd);
+char	*check_access(char *path, char *cmd);
 // * *----------* *| (executer.c):
 void	do_execute(t_msh *data);
 void	close_pipes(t_msh *data);
