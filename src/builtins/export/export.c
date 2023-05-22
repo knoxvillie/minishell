@@ -6,7 +6,7 @@
 /*   By: kfaustin <kfaustin@student.42porto.>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 10:50:56 by kfaustin          #+#    #+#             */
-/*   Updated: 2023/05/18 12:37:29 by kfaustin         ###   ########.fr       */
+/*   Updated: 2023/05/21 18:38:19 by fvalli-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ static void	do_export(t_msh *data, char *arg)
 	free (table);
 }
 
-void	builtin_export(t_msh *data)
+/*void	builtin_export(t_msh *data)
 {
 	int		i;
 	char	*str;
@@ -102,6 +102,26 @@ void	builtin_export(t_msh *data)
 		export_only(data);
 		return ;
 	}
+	i = 0;
+	while (data->lst_cmd->argv[++i])
+	{
+		str = data->lst_cmd->argv[i];
+		if (!check_syntax_var_equal(data, str))
+			continue ;
+		do_export(data, str);
+	}
+	free_table(data->env);
+	init_env_table(data);
+}*/
+
+void	builtin_export(t_msh *data)
+{
+	int		i;
+	char	*str;
+
+	str = data->lst_cmd->argv[1];
+	if (str == NULL || abs_string_cmp(str, "#"))
+		return ;
 	i = 0;
 	while (data->lst_cmd->argv[++i])
 	{

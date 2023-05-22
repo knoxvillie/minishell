@@ -6,7 +6,7 @@
 /*   By: kfaustin <kfaustin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 11:29:44 by kfaustin          #+#    #+#             */
-/*   Updated: 2023/05/18 21:03:42 by fvalli-v         ###   ########.fr       */
+/*   Updated: 2023/05/21 21:14:20 by fvalli-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,9 @@
 # include <sys/wait.h>
 # include <signal.h>
 
+
+extern int	exit_status;
+
 typedef struct s_env	t_env;
 typedef struct s_sCom	t_sCom;
 
@@ -38,8 +41,8 @@ typedef struct s_sCom {
 } t_sCom;
 
 typedef struct s_redir {
-    int     type;
-    char    *filename;
+	int		type;
+	char	*filename;
 } t_redir;
 
 struct s_env
@@ -86,7 +89,11 @@ void	builtin_unset(t_msh *data);
 void	builtin_export(t_msh *data);
 void	builtin_env(t_msh *data);
 void	builtin_pwd(t_msh *data);
+// * *----------* *| (cd.c):
 void	builtin_cd(t_msh *data);
+void	builtin_cd_update(t_msh *data);
+char	*do_dot(t_msh *data);
+//-----------------|
 void	builtin_exit(t_msh *data);
 
 // *** EXECUTER *** ------------------------------|
@@ -119,8 +126,8 @@ void	init_env_table(t_msh *data);
 // * *----------* *| (prompt.c):
 char	*display_prompt(t_ppt *root);
 // * *----------* *| (signals.c):
-void	init_signal(void);
-void	handler_int(int sig_type);
+void	init_signal(int flag);
+void	init_signal_heredoc(void);
 // * *----------* *| (t_env_list.c):
 t_env	*init_env_node(char *key, char *value);
 t_env	*stack_env_list(t_env *var, t_env *node);
@@ -129,5 +136,9 @@ t_msh	*env_to_list(t_msh *data, char **env);
 char	*get_value_from_key(t_env *env, char *key);
 void	modify_value(t_msh *data, char *key, char **new_value);
 bool	is_key_in_env(t_env *env, char *key);
+// * *----------* *| (expander.c):
+void	expander(t_msh *data);
+
+
 
 #endif

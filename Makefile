@@ -30,18 +30,22 @@ PARSER	= parser.c parser_utils.c
 EXECDIR	= ./src/executer/
 EXEC	= access.c executer.c
 
+EXPDIR	= ./src/expander/
+EXP		= expander.c
+
 BUILDIR	= ./src/builtins/
 BUILT	=	$(BUILDIR)env/env.c \
  			$(BUILDIR)export/export.c \
  			$(BUILDIR)unset/unset.c \
  			$(BUILDIR)pwd/pwd.c \
- 			$(BUILDIR)cd/cd.c \
+ 			$(BUILDIR)cd/cd.c $(BUILDIR)cd/cd_update.c $(BUILDIR)cd/cd_utils.c\
  			$(BUILDIR)exit/exit.c \
  			$(BUILDIR)echo/echo.c
 
 OBJ		=	$(addprefix $(SRCDIR), $(SRC:.c=.o)) \
 			$(addprefix $(EXECDIR), $(EXEC:.c=.o)) \
 			$(addprefix $(PARSERDIR), $(PARSER:.c=.o)) \
+			$(addprefix $(EXPDIR), $(EXP:.c=.o)) \
 			$(BUILT:.c=.o)
 
 

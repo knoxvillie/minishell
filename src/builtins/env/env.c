@@ -15,9 +15,7 @@
 void	builtin_env(t_msh *data)
 {
 	t_env	*node;
-	t_env	*header;
 
-	header = data->ppt->list;
 	node = data->ppt->list;
 	while(node)
 	{
@@ -27,5 +25,4 @@ void	builtin_env(t_msh *data)
 		ft_putstr_fd("\n", 1);
 		node = node->next;
 	}
-	node = header;
 }

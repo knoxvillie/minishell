@@ -6,44 +6,50 @@
 /*   By: kfaustin <kfaustin@student.42porto.>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 10:57:37 by kfaustin          #+#    #+#             */
-/*   Updated: 2023/05/18 20:48:48 by fvalli-v         ###   ########.fr       */
+/*   Updated: 2023/05/21 13:19:04 by fvalli-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 #include "../includes/parser.h"
 
-extern int	exit_status;
+int	exit_status = 0;
 
 static void	do_minishell(t_msh *data)
 {
 	char	*input;
+	char	*trim;
 
 	while (true)
 	{
+		init_signal(0);
 		input = readline(display_prompt(data->ppt));
-		if (input == NULL) //-> ctrl + D
+		if (input == NULL)
 		{
 			ft_putstr_fd("exit\n", STDOUT_FILENO);
 			free (input);
 			break ;
 		}
-		if (*input == '\0')
+		trim = ft_strtrim(input, WSPACE);
+		if (*trim == '\0')
 		{
 			free(input);
+			free(trim);
 			continue ;
 		}
-		add_history(input);
-		if (ft_parse(input, data))
+		if (!ft_strchr(WSPACE, *input))
+			add_history(input);
+		free(input);
+		if (ft_parse(trim, data))
 		{
 			free_lstsCom(data);
-			free (input);
+			free (trim);
 			break ;
 		}
 		create_pipe(data);
 		do_execute(data);
 		free_lstsCom(data);
-		free (input);
+		free (trim);
 		//close all pipes and free the **fd
 	}
 }
@@ -59,7 +65,6 @@ int main(int argc, char **argv, char **env)
 	data = init_data(data, env);
 	rl_clear_history();
 	signal(SIGQUIT, SIG_IGN);
-	init_signal();
 	do_minishell(data);
 	free_over(data);
 	return (0);
