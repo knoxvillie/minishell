@@ -1,28 +1,40 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env.c                                              :+:      :+:    :+:   */
+/*   free2.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kfaustin <kfaustin@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/05/11 12:24:35 by kfaustin          #+#    #+#             */
-/*   Updated: 2023/05/22 14:21:47 by kfaustin         ###   ########.fr       */
+/*   Created: 2023/05/22 14:33:28 by kfaustin          #+#    #+#             */
+/*   Updated: 2023/05/22 14:36:25 by kfaustin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../../includes/minishell.h"
+#include "../includes/minishell.h"
 
-void	builtin_env(t_msh *data)
+void	free_t_env(t_env *list)
 {
-	t_env	*node;
+	t_env	*header;
 
-	node = data->ppt->list;
-	while (node)
+	while (list)
 	{
-		ft_putstr_fd(node->key, 1);
-		ft_putstr_fd("=", 1);
-		ft_putstr_fd(node->value, 1);
-		ft_putstr_fd("\n", 1);
-		node = node->next;
+		header = list->next;
+		free (list->key);
+		free (list->value);
+		free (list);
+		list = header;
 	}
+}
+
+void	free_fd(t_msh *data)
+{
+	int	i;
+
+	i = 0;
+	while (i < data->npipe)
+	{
+		free(data->fd[i]);
+		i++;
+	}
+	free(data->fd);
 }

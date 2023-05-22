@@ -6,7 +6,7 @@
 /*   By: kfaustin <kfaustin@student.42porto.>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/05 11:00:11 by kfaustin          #+#    #+#             */
-/*   Updated: 2023/05/18 22:32:39 by fvalli-v         ###   ########.fr       */
+/*   Updated: 2023/05/22 12:13:27 by kfaustin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,12 +70,6 @@ static void	execute_single_cmd(t_msh *data, char *path_cmd)
 	char	**cmd;
 
 	cmd = (char **)data->lst_cmd->argv;
-	if (!*cmd)
-	{
-		printf("Debug: there is no command (dont forget to delete this print)\n");
-		free_all(data);
-		exit(1);
-	}
 	if (execve(path_cmd, cmd, data->env) < 0)
 	{
 		printf("error on execve\n");
@@ -90,11 +84,11 @@ static char	*execute_condition(t_msh *data)
 	char	*path_cmd;
 
 	cmd = (char *)data->lst_cmd->argv[0];
-	if (check_builtin(cmd))
-	{
-		do_builtin(data, cmd);
-		return (NULL);
-	}
+//	if (check_builtin(cmd))
+//	{
+//		do_builtin(data, cmd); APAGAR
+//		return (NULL);
+//	}
 	path_cmd = check_access(data, cmd);
 	if (!path_cmd)
 	{
@@ -108,14 +102,16 @@ static char	*execute_condition(t_msh *data)
 void	do_heredoc(t_msh *data)
 {
 //	(void)data;
+	int 	tmp_fd;
 	char	*buff;
 	t_list	*tmp;
 	t_redir	*tmp_red;
-	int 	tmp_fd;
+
 
 	tmp = data->lst_cmd->lstOfRedirIn;
 	tmp_red = tmp->content;
 	tmp_fd = open(".heredoc", O_CREAT | O_WRONLY | O_TRUNC, S_IWUSR | S_IRUSR);
+	signal(SIGINT, SIG_DFL);
 	if (tmp_fd < 0)
 	{
 		ft_putstr_fd("Error while opening file.\n", 2);
@@ -124,12 +120,14 @@ void	do_heredoc(t_msh *data)
 	}
 	while (1)
 	{
-		write(1, "> ", 2);
-		buff = get_next_line(0);
+		buff = readline(">");
 		if (!buff)
-			exit(1);
-		buff[ft_strlen(buff) - 1] = '\0';
-		if (!ft_strncmp(tmp_red->filename, buff, ft_strlen(tmp_red->filename) + 1))
+		{
+			ft_putstr_fd("minishell: warning: here-document at line 1 delimited by end-of-file\n", 2);
+			break ;
+		}
+		buff[ft_strlen(buff)] = '\0';
+		if (abs_string_cmp(tmp_red->filename, buff))
 			break ;
 		ft_putendl_fd(buff, tmp_fd);
 		free(buff);
@@ -233,117 +231,123 @@ void	redirect_updt(int in, int out)
 
 void	do_pipe(t_msh *data)
 {
-	//fazer os dup e dup2 para conectar os processos pelos pipes.
-	//lembrar que o primeiro comando e o ultimo s'ao diferentes.
-	//no primeiro le do stdin e escreve no pipe (write end fd[i][1])
-	//o ultimo le do pipe e escreve no stdout
 	t_sCom	*tmp;
 
 	tmp = data->lst_cmd;
 	if (tmp->i == 0)
-	{
 		redirect_updt(tmp->ft_stdin,data->fd[0][1]);
-	}
 	else if (tmp->i == data->npipe)
-	{
 		redirect_updt(data->fd[data->npipe - 1][0],tmp->ft_stdout);
-	}
 	else
-	{
 		redirect_updt(data->fd[tmp->i - 1][0],data->fd[tmp->i][1]);
-	}
 	close_pipes(data);
 }
 
-//quando exit esta sendo chamado ele esta a fechar o child mas continua a rodar o main process
-//tenho que ver como resolver isto.
-// -> Acho que a checagem de builtins devem ser feitas antes do fork,
-//		se nao o env do filho e modificado e perdido.
-void	do_execute(t_msh *data)
+void	close_fd(t_msh *data)
+{
+	int	i;
+
+	i = 3;
+	while (i <= data->lst_cmd->ft_stdout || i <= data->lst_cmd->ft_stdin)
+	{
+		close(i);
+		i++;
+	}
+	redirect_updt(STDIN_FILENO, STDOUT_FILENO);
+}
+
+static void	do_multiples_pipe(t_msh *data)
 {
 	char	*path_cmd;
 	pid_t	pid;
-	int		i;
-	t_sCom	*tmp_lstcmd;
 
-	tmp_lstcmd = data->lst_cmd;
-	i = 0;
-	if (data->npipe > 0)
+	while(data->lst_cmd)
 	{
-		while(data->lst_cmd)
-		{
-			pid = fork();
-			if (pid == 0)
-			{
-				signal(SIGINT, SIG_DFL);
-				signal(SIGQUIT, SIG_IGN);
-				do_redir(data);
-				do_pipe(data);
-				if (check_builtin(data->lst_cmd->argv[0]))
-				{
-					do_builtin(data, data->lst_cmd->argv[0]);
-					close_pipes(data);
-					//free_all(data);
-					exit(1);
-				}
-				path_cmd = execute_condition(data);
-				if (!path_cmd)
-				{
-					//free_all(data);
-					exit(0);
-				}
-				execute_single_cmd(data, path_cmd);
-			}
-			data->lst_cmd = data->lst_cmd->next;
-		}
-	}
-	else
-	{
-		if (check_builtin(data->lst_cmd->argv[0]))
-		{
-			do_redir(data);
-			redirect_updt(data->lst_cmd->ft_stdin, data->lst_cmd->ft_stdout);
-			do_builtin(data, data->lst_cmd->argv[0]);
-			return ;
-		}
 		pid = fork();
 		if (pid == 0)
 		{
-			signal(SIGINT, SIG_DFL);
-			signal(SIGQUIT, SIG_IGN);
 			do_redir(data);
-			redirect_updt(data->lst_cmd->ft_stdin, data->lst_cmd->ft_stdout);
-			path_cmd = execute_condition(data);
-			if (!path_cmd)
+			do_pipe(data);
+			if (check_builtin(data->lst_cmd->argv[0]))
 			{
-				//free (path_cmd);
+				do_builtin(data, data->lst_cmd->argv[0]);
 				close_pipes(data);
 				exit(1);
 			}
+			path_cmd = execute_condition(data);
+			if (!path_cmd)
+				exit(0);
 			execute_single_cmd(data, path_cmd);
 		}
+		data->lst_cmd = data->lst_cmd->next;
 	}
-	close_pipes(data);
-	while (i < data->nsCom)
+}
+
+static void	exit_or_update_env(t_msh *data, char *cmd)
+{
+	if (abs_string_cmp(cmd, "cd"))
 	{
-		waitpid(0, NULL, 0);
-		i++;
+		builtin_cd_update(data);
+		return ;
 	}
+	if (abs_string_cmp(cmd, "export"))
+	{
+		builtin_export_update(data);
+		return ;
+	}
+	if (abs_string_cmp(cmd, "unset"))
+	{
+		builtin_unset_update(data);
+		return ;
+	}
+	if (abs_string_cmp(cmd, "exit"))
+	{
+		builtin_exit(data);
+	}
+}
+
+static void	do_no_pipe(t_msh *data)
+{
+	pid_t	pid;
+	char	*cmd;
+	char	*path_cmd;
+
+	cmd = data->lst_cmd->argv[0];
+	pid = fork();
+	if (pid == 0)
+	{
+		do_redir(data);
+		redirect_updt(data->lst_cmd->ft_stdin, data->lst_cmd->ft_stdout);
+		if (check_builtin(cmd))
+		{
+			do_builtin(data, cmd);
+			exit(1);
+		}
+		path_cmd = execute_condition(data);
+		if (!path_cmd)
+			exit(0);
+		execute_single_cmd(data, path_cmd);
+	}
+	if (check_builtin(cmd))
+		exit_or_update_env(data, cmd);
+}
+
+void	do_execute(t_msh *data)
+{
+	int		i;
+	t_sCom	*tmp_lstcmd;
+
+	init_signal(1);
+	tmp_lstcmd = data->lst_cmd;
+	i = -1;
+	if (data->npipe > 0)
+		do_multiples_pipe(data);
+	else
+		do_no_pipe(data);
+	close_pipes(data);
+	while (++i < data->nsCom)
+		waitpid(0, NULL, 0);
 	data->lst_cmd = tmp_lstcmd;
 }
 
-//void	do_execute(t_msh *data)
-//{
-//	char	*path_cmd;
-//	pid_t	pid;
-//
-//	path_cmd = execute_condition(data);
-//	if (!path_cmd)
-//		return ;
-//	pid = fork();
-//	if (pid == 0)
-//		execute_single_cmd(data, path_cmd);
-//	waitpid(pid, NULL, 0);
-//	free (path_cmd);
-//}
 

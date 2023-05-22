@@ -6,7 +6,7 @@
 /*   By: kfaustin <kfaustin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 11:29:44 by kfaustin          #+#    #+#             */
-/*   Updated: 2023/05/18 21:03:42 by fvalli-v         ###   ########.fr       */
+/*   Updated: 2023/05/22 14:34:40 by kfaustin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,9 @@
 # include <sys/wait.h>
 # include <signal.h>
 
+
+extern int	exit_status;
+
 typedef struct s_env	t_env;
 typedef struct s_sCom	t_sCom;
 
@@ -38,8 +41,8 @@ typedef struct s_sCom {
 } t_sCom;
 
 typedef struct s_redir {
-    int     type;
-    char    *filename;
+	int		type;
+	char	*filename;
 } t_redir;
 
 struct s_env
@@ -57,7 +60,6 @@ typedef struct s_ppt
 	char	*s_manager;
 	char	*home;
 	char	*path;
-	char	*abs_path;
 	t_env	*list;
 }		t_ppt;
 
@@ -82,11 +84,26 @@ typedef struct s_msh
 //
 // *** BUILTINS *** ------------------------------|
 void	builtins_echo(t_msh *data);
+// * *----------* *| (unset.c):
 void	builtin_unset(t_msh *data);
+bool	check_env_till_end(t_msh *data, char *str);
+bool	check_env_first_node(t_msh *data, char *str);
+bool	check_exp_till_end(t_msh *data, char *str);
+bool	check_exp_first_node(t_msh *data, char *str);
+// * *----------* *| (unset_update.c):
+void	builtin_unset_update(t_msh *data);
+bool	check_ue_syntax_up(char *str);
+bool	check_ue_syntax(char *str, char *mode);
+// * *----------* *| (export.c):
 void	builtin_export(t_msh *data);
+void	builtin_export_update(t_msh *data);
+// * *----------* *| (env.c):
 void	builtin_env(t_msh *data);
 void	builtin_pwd(t_msh *data);
+// * *----------* *| (cd.c):
 void	builtin_cd(t_msh *data);
+void	builtin_cd_update(t_msh *data);
+// * *----------* *| (exit.c):
 void	builtin_exit(t_msh *data);
 
 // *** EXECUTER *** ------------------------------|
@@ -106,6 +123,7 @@ void	free_over(t_msh *data);
 void	free_prompt(t_ppt *root);
 void	free_table(char **table);
 void	free_t_exp(t_env *list);
+// * *----------* *| (free2.c):
 void	free_t_env(t_env *list);
 void	free_fd(t_msh *data);
 // * *----------* *| (generic.c):
@@ -119,8 +137,8 @@ void	init_env_table(t_msh *data);
 // * *----------* *| (prompt.c):
 char	*display_prompt(t_ppt *root);
 // * *----------* *| (signals.c):
-void	init_signal(void);
-void	handler_int(int sig_type);
+void	init_signal(int flag);
+void	init_signal_heredoc(void);
 // * *----------* *| (t_env_list.c):
 t_env	*init_env_node(char *key, char *value);
 t_env	*stack_env_list(t_env *var, t_env *node);
@@ -129,5 +147,9 @@ t_msh	*env_to_list(t_msh *data, char **env);
 char	*get_value_from_key(t_env *env, char *key);
 void	modify_value(t_msh *data, char *key, char **new_value);
 bool	is_key_in_env(t_env *env, char *key);
+// * *----------* *| (expander.c):
+void	expander(t_msh *data);
+
+
 
 #endif

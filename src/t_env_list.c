@@ -6,7 +6,7 @@
 /*   By: kfaustin <kfaustin@student.42porto.>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/19 10:27:09 by kfaustin          #+#    #+#             */
-/*   Updated: 2023/05/17 09:46:45 by kfaustin         ###   ########.fr       */
+/*   Updated: 2023/05/22 14:40:04 by kfaustin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ static void	init_key_value(char **key, char **value, char *str)
 t_env	*init_env_node(char *key, char *value)
 {
 	t_env	*node;
+
 	node = (t_env *)malloc(sizeof(t_env));
 	if (!node)
 		put_str_exit("Error: Malloc of *node fails\n", 1);

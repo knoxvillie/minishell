@@ -29,6 +29,8 @@ static char	*check_access_continue(char *path, char *cmd)
 	char	*str;
 	char	**table_path;
 
+	if (access(cmd, F_OK) == 0)
+		return (cmd);
 	i = -1;
 	table_path = ft_split(path, ':');
 	while (table_path[++i])

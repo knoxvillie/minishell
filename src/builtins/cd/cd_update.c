@@ -1,71 +1,59 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cd.c                                               :+:      :+:    :+:   */
+/*   cd_update.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kfaustin <kfaustin@student.42porto.>       +#+  +:+       +#+        */
+/*   By: fvalli-v <fvalli-v@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/05/13 10:47:40 by kfaustin          #+#    #+#             */
-/*   Updated: 2023/05/22 14:23:12 by kfaustin         ###   ########.fr       */
+/*   Created: 2023/05/21 18:46:51 by fvalli-v          #+#    #+#             */
+/*   Updated: 2023/05/22 14:23:27 by kfaustin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../includes/minishell.h"
 
-static void	do_cd(t_msh *data);
+static void	do_cd_up(t_msh *data);
 
-static void	go_back(t_msh *data)
+static void	go_back_up(t_msh *data)
 {
 	char	*next_pwd;
 	char	*actual_pwd;
 
 	next_pwd = get_value_from_key(data->ppt->list, "OLDPWD");
 	if (chdir(next_pwd) != 0)
-	{
-		perror("chdir");
-		free (next_pwd);
-		return ;
-	}
+		return (free (next_pwd));
 	actual_pwd = get_value_from_key(data->ppt->list, "PWD");
 	modify_value(data, "OLDPWD", &actual_pwd);
 	modify_value(data, "PWD", &next_pwd);
 }
 
-static void	go_home(t_msh *data)
+static void	go_home_up(t_msh *data)
 {
 	char	*home;
 	char	*actual_pwd;
 
 	home = get_value_from_key(data->ppt->list, "HOME");
 	if (!home)
-		return (ft_putstr_fd("msh: cd: HOME not set\n", 2));
-	if (chdir(home) != 0)
-	{
-		perror("chdir");
-		free (home);
 		return ;
-	}
+	if (chdir(home) != 0)
+		return (free (home));
 	actual_pwd = get_value_from_key(data->ppt->list, "PWD");
 	modify_value(data, "OLDPWD", &actual_pwd);
 	modify_value(data, "PWD", &home);
 }
 
-static void	do_cd(t_msh *data)
+static void	do_cd_up(t_msh *data)
 {
 	char	*next_pwd;
 	char	*actual_pwd;
 
 	next_pwd = ft_strdup(data->lst_cmd->argv[1]);
 	if (abs_string_cmp(next_pwd, "-"))
-		return (free (next_pwd), go_back(data));
+		return (free (next_pwd), go_back_up(data));
 	if (abs_string_cmp(next_pwd, "~"))
-		return (free (next_pwd), go_home(data));
+		return (free (next_pwd), go_home_up(data));
 	if (chdir(next_pwd) != 0)
-	{
-		perror("chdir");
-		free (next_pwd);
-		return ;
-	}
+		return (free (next_pwd));
 	free (next_pwd);
 	next_pwd = getcwd(NULL, 0);
 	actual_pwd = get_value_from_key(data->ppt->list, "PWD");
@@ -73,7 +61,7 @@ static void	do_cd(t_msh *data)
 	modify_value(data, "PWD", &next_pwd);
 }
 
-void	builtin_cd(t_msh *data)
+void	builtin_cd_update(t_msh *data)
 {
 	int	number_cmds;
 
@@ -81,11 +69,9 @@ void	builtin_cd(t_msh *data)
 	while (data->lst_cmd->argv[number_cmds])
 		number_cmds++;
 	if (number_cmds > 2)
-		return (ft_putstr_fd("msh: cd: too many arguments\n", 2));
+		return ;
 	if (number_cmds == 1)
-		go_home(data);
+		go_home_up(data);
 	if (number_cmds == 2)
-		do_cd(data);
-	free_table(data->env);
-	init_env_table(data);
+		do_cd_up(data);
 }

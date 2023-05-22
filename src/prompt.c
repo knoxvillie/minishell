@@ -85,9 +85,7 @@ char	*display_prompt(t_ppt *root)
 		s_manager_prompt(root);
 	}
 	free (root->path);
-	free (root->abs_path);
-	root->abs_path = getcwd(NULL, 0);
-	root->path = ft_strdup(root->abs_path);
+	root->path = getcwd(NULL, 0);
 	path_prompt(root);
 	if (!root->path)
 		put_str_exit("Error: Path prompt is NULL\n", 1);

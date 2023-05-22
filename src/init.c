@@ -6,7 +6,7 @@
 /*   By: kfaustin <kfaustin@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 14:13:59 by kfaustin          #+#    #+#             */
-/*   Updated: 2023/05/18 14:15:29 by kfaustin         ###   ########.fr       */
+/*   Updated: 2023/05/22 14:37:21 by kfaustin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ t_msh	*init_data(t_msh *data, char **env)
 	data->ppt->n_exec = 0;
 	data->ppt->path = NULL;
 	data->ppt->prompt = NULL;
-	data->ppt->abs_path = NULL;
 	data->npipe = 0;
 	data->nsCom = 0;
 	data->fd = NULL;
@@ -49,7 +48,7 @@ static void	init_env_table_complement(t_msh *data, t_env *tmp)
 	{
 		j = -1;
 		data->env[i] = malloc(sizeof(char) * (ft_strlen(tmp->key)
-				+ ft_strlen(tmp->value) + 2));
+					+ ft_strlen(tmp->value) + 2));
 		while (tmp->key[++j])
 			data->env[i][j] = tmp->key[j];
 		data->env[i][j++] = '=';
