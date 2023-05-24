@@ -55,12 +55,12 @@ int	get_token(t_msh	*data, char **str)
 	return (0);
 }
 
-int size_lstArg(t_sCom *data)
+int size_lstarg(t_scom *data)
 {
     t_list *tmp;
     int		i;
 
-    tmp = data->lstArg;
+    tmp = data->lstarg;
     if (!tmp)
         return (0);
     i = 0;
@@ -75,17 +75,17 @@ int size_lstArg(t_sCom *data)
 void	init_argv(t_msh *data)
 {
 	int		i;
-	int		nsCom;
+	int		nscom;
 	t_list	*tmpArgLst;
-	t_sCom	*tmpsCom;
+	t_scom	*tmpsCom;
 
 	tmpsCom = data->lst_cmd;
-	nsCom = 0;
+	nscom = 0;
 	while (tmpsCom != NULL)
 	{
-		i = size_lstArg(tmpsCom);
-		tmpArgLst = tmpsCom->lstArg;
-		tmpsCom->i = nsCom;
+		i = size_lstarg(tmpsCom);
+		tmpArgLst = tmpsCom->lstarg;
+		tmpsCom->i = nscom;
 		tmpsCom->argv = (char **)malloc(sizeof(char *) * (i + 1));
 		if (!tmpsCom->argv)
 		{
@@ -104,17 +104,17 @@ void	init_argv(t_msh *data)
 			tmpArgLst = tmpArgLst->next;
 		}
 		tmpsCom->argv[i] = NULL;
-		nsCom++;
+		nscom++;
 		tmpsCom = tmpsCom->next;
 	}
-	data->nsCom = nsCom;
-	data->npipe = nsCom - 1;
+	data->nscom = nscom;
+	data->npipe = nscom - 1;
 }
 
 int ft_parse(char *input, t_msh *data)
 {
 	char	*str;
-	t_sCom	*tmp;
+	t_scom	*tmp;
 
 	str = input;
 	if (!check_unclosed_quotes(input))

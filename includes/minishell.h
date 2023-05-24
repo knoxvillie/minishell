@@ -6,7 +6,7 @@
 /*   By: kfaustin <kfaustin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 11:29:44 by kfaustin          #+#    #+#             */
-/*   Updated: 2023/05/22 15:59:18 by kfaustin         ###   ########.fr       */
+/*   Updated: 2023/05/24 12:30:57 by kfaustin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,34 +23,30 @@
 # include <sys/wait.h>
 # include <signal.h>
 
+extern int	g_exit_status;
 
-extern int	exit_status;
-
-typedef struct s_env	t_env;
-typedef struct s_sCom	t_sCom;
-
-typedef struct s_sCom {
-	int		i;
-	char	**argv;
-	t_list	*lstArg;
-	t_list	*lstOfRedirIn;
-	t_list	*lstOfRedirOut;
-	int		ft_stdin;
-	int		ft_stdout;
-	t_sCom	*next;
-} t_sCom;
+typedef struct s_scom {
+	int				i;
+	char			**argv;
+	t_list			*lstarg;
+	t_list			*lstofredirin;
+	t_list			*lstofredirout;
+	int				ft_stdin;
+	int				ft_stdout;
+	struct s_scom	*next;
+}		t_scom;
 
 typedef struct s_redir {
 	int		type;
 	char	*filename;
-} t_redir;
+}		t_redir;
 
 struct s_env
 {
-	char	*key;
-	char	*value;
-	t_env	*next;
-};
+	char			*key;
+	char			*value;
+	struct s_env	*next;
+}		t_env;
 
 typedef struct s_ppt
 {
@@ -72,10 +68,10 @@ typedef struct s_exp
 typedef struct s_msh
 {
 	int		npipe;
-	int		nsCom;
+	int		nscom;
 	int		**fd;
 	t_ppt	*ppt;
-	t_sCom	*lst_cmd;
+	t_scom	*lst_cmd;
 	char	**env;
 	t_exp	*export;
 }		t_msh;
@@ -149,7 +145,4 @@ void	modify_value(t_msh *data, char *key, char **new_value);
 bool	is_key_in_env(t_env *env, char *key);
 // * *----------* *| (expander.c):
 void	expander(t_msh *data);
-
-
-
 #endif

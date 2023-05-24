@@ -24,9 +24,9 @@
 # define UNSUPMETACH "&;()*{}\\"
 
 void	init_argv(t_msh *data);
-t_sCom	*ft_lstlastsCom(t_sCom *lst);
-t_sCom	*ft_lstnewsCom(void);
-void	ft_lstadd_backsCom(t_sCom **lst, t_sCom *new);
+t_scom	*ft_lstlastsCom(t_scom *lst);
+t_scom	*ft_lstnewsCom(void);
+void	ft_lstadd_backsCom(t_scom **lst, t_scom *new);
 
 int		redirout(t_msh	*data, char **str);
 int		redirin(t_msh	*data, char **str);
@@ -35,8 +35,8 @@ void	get_token_word(t_msh	*data, char **str);
 int		ft_parse(char	*input, t_msh	*data);
 void	free_lst(t_list *lst);
 void	free_lstsCom(t_msh *lst);
-int check_node_empty(t_sCom *lst);
-int check_nbr_pipes(t_sCom *lst);
+int check_node_empty(t_scom *lst);
+int check_nbr_pipes(t_scom *lst);
 
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: kfaustin <kfaustin@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 14:17:07 by kfaustin          #+#    #+#             */
-/*   Updated: 2023/05/22 22:28:49 by fvalli-v         ###   ########.fr       */
+/*   Updated: 2023/05/24 11:09:15 by kfaustin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,7 @@
 void	free_all(t_msh *data)
 {
 	free_t_env(data->ppt->list);
-	if (data->export->exp)
-		free_t_exp(data->export->exp);
+	free_t_exp(data->export->exp);
 	free (data->export);
 	free_table(data->env);
 	free_prompt(data->ppt);
@@ -32,13 +31,13 @@ void	free_all(t_msh *data)
 void	free_over(t_msh *data)
 {
 	free_t_env(data->ppt->list);
-	if (data->export->exp)
-		free_t_exp(data->export->exp);
+	free_t_exp(data->export->exp);
 	free (data->export);
 	free_table(data->env);
 	free_prompt(data->ppt);
 	free (data->ppt);
 	free_fd(data);
+	close_pipes(data);
 	free (data);
 	unlink(".heredoc");
 }
@@ -71,6 +70,8 @@ void	free_t_exp(t_env *list)
 {
 	t_env	*env;
 
+	if (list == NULL)
+		return ;
 	while (list)
 	{
 		free(list->key);

@@ -15,7 +15,7 @@ NAME	= minishell
 
 # Compiler and flags
 CC		= cc
-CFLAGS	= -Wall -Wextra -Werror -g
+CFLAGS	= -Wall -Wextra -Werror -g -fsanitize=address
 EFLAGS	= -lreadline
 RM		= rm -rf
 

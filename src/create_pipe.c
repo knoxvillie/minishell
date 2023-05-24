@@ -6,29 +6,24 @@
 /*   By: fvalli-v <fvalli-v@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/14 17:22:34 by fvalli-v          #+#    #+#             */
-/*   Updated: 2023/05/18 21:30:06 by fvalli-v         ###   ########.fr       */
+/*   Updated: 2023/05/24 11:13:39 by kfaustin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-
-/*
-==357880== 0 bytes in 1 blocks are definitely lost in loss record 1 of 62
-==357880==    at 0x483B7F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
-==357880==    by 0x401302: create_pipe (create_pipe.c:20)
-==357880==    by 0x401CA2: do_minishell (main.c:43)
-==357880==    by 0x401BDE: main (main.c:63)
-*/
 
 void	create_pipe(t_msh *data)
 {
 	int	i;
 
 	i = 0;
+	if (data->npipe == 0)
+		return ;
 	data->fd = (int **)malloc(sizeof(int *) * data->npipe);
 	if (!data->fd)
 	{
 		ft_putstr_fd("Error while trying to malloc.\n", STDERR_FILENO);
+		free_all(data);
 		exit(1);
 	}
 	while (i < data->npipe)
@@ -37,6 +32,7 @@ void	create_pipe(t_msh *data)
 		if (pipe(data->fd[i]) < 0)
 		{
 			ft_putstr_fd("Error while opening pipes\n", STDERR_FILENO);
+			free_all(data);
 			exit(1);
 		}
 		i++;

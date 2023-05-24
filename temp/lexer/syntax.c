@@ -110,7 +110,7 @@ bool	check_unclosed_quotes(char *input)
 }*/
 
 /*void    get_token(t_list **cTable, char **str) {
-    t_sCom *sCom;
+    t_scom *sCom;
     char *tmp;
 
     tmp = *str;

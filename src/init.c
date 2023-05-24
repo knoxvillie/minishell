@@ -28,7 +28,7 @@ t_msh	*init_data(t_msh *data, char **env)
 	data->ppt->path = NULL;
 	data->ppt->prompt = NULL;
 	data->npipe = 0;
-	data->nsCom = 0;
+	data->nscom = 0;
 	data->fd = NULL;
 	data->export = NULL;
 	env_to_list(data, env);

@@ -17,9 +17,9 @@
 # include "../../includes/minishell.h"
 # include "../../includes/parser.h"
 
-t_sCom	*ft_lstlastsCom(t_sCom *lst)
+t_scom	*ft_lstlastsCom(t_scom *lst)
 {
-    t_sCom	*temp;
+    t_scom	*temp;
 
     if (!lst)
         return (NULL);
@@ -31,27 +31,27 @@ t_sCom	*ft_lstlastsCom(t_sCom *lst)
     return (temp);
 }
 //
-t_sCom	*ft_lstnewsCom(void)
+t_scom	*ft_lstnewsCom(void)
 {
-	t_sCom	*new_node;
+	t_scom	*new_node;
 
-	new_node = (t_sCom *)malloc(sizeof(t_sCom));
+	new_node = (t_scom *)malloc(sizeof(t_scom));
 	if (!new_node)
 		return (NULL);
 	new_node->i = 0;
 	new_node->next = NULL;
-	new_node->lstArg = NULL;
+	new_node->lstarg = NULL;
 	new_node->argv = NULL;
-	new_node->lstOfRedirIn = NULL;
-	new_node->lstOfRedirOut = NULL;
+	new_node->lstofredirin = NULL;
+	new_node->lstofredirout = NULL;
 	new_node->ft_stdin = STDIN_FILENO;
 	new_node->ft_stdout = STDOUT_FILENO;
 	return (new_node);
 }
 
-void	ft_lstadd_backsCom(t_sCom **lst, t_sCom *new)
+void	ft_lstadd_backsCom(t_scom **lst, t_scom *new)
 {
-    t_sCom	*temp;
+    t_scom	*temp;
 
     if (!lst || !new) //lst nunca vai ser nulo aqui.
         return ;
@@ -81,7 +81,7 @@ void	free_lst(t_list *lst)
 
 void	free_lstsCom(t_msh *data)
 {
-	t_sCom	*next;
+	t_scom	*next;
 
 	if (data->lst_cmd == NULL)
 		return ;
@@ -89,28 +89,28 @@ void	free_lstsCom(t_msh *data)
 	{
 		next = data->lst_cmd->next;
 		free_table(data->lst_cmd->argv);
-		free_lst(data->lst_cmd->lstArg);
-		free_lst(data->lst_cmd->lstOfRedirIn);
-		free_lst(data->lst_cmd->lstOfRedirOut);
+		free_lst(data->lst_cmd->lstarg);
+		free_lst(data->lst_cmd->lstofredirin);
+		free_lst(data->lst_cmd->lstofredirout);
 		free(data->lst_cmd);
 		data->lst_cmd = next;
 	}
 }
 
-int check_node_empty(t_sCom *lst)
+int check_node_empty(t_scom *lst)
 {
-    t_sCom *temp;
+    t_scom *temp;
 
     temp = lst;
-    if (temp->lstArg == NULL && temp->lstOfRedirIn == NULL && temp->lstOfRedirOut == NULL)
+    if (temp->lstarg == NULL && temp->lstofredirin == NULL && temp->lstofredirout == NULL)
         return (1);
     else
         return (0);
 }
 
-int check_nbr_pipes(t_sCom *lst)
+int check_nbr_pipes(t_scom *lst)
 {
-    t_sCom *temp;
+    t_scom *temp;
     temp = lst;
     if (check_node_empty(temp))
     {
@@ -158,7 +158,7 @@ int jump_dq_and_sq(char **str, int i)
 int get_token_word_redir(t_msh	*data, char **str, int type)
 {
     int     i;
-    t_sCom *sCom;
+    t_scom *sCom;
     t_redir *red;
 
     red = (t_redir *)malloc(sizeof(t_redir));
@@ -180,9 +180,9 @@ int get_token_word_redir(t_msh	*data, char **str, int type)
     }
     red->filename[i] = '\0';
     if (type == GREATGREAT || type == GREAT)
-        return (ft_lstadd_back(&(sCom->lstOfRedirOut), ft_lstnew(red)), 0);
+        return (ft_lstadd_back(&(sCom->lstofredirout), ft_lstnew(red)), 0);
     else
-        return (ft_lstadd_back(&(sCom->lstOfRedirIn), ft_lstnew(red)), 0);
+        return (ft_lstadd_back(&(sCom->lstofredirin), ft_lstnew(red)), 0);
 }
 
 int redirout(t_msh	*data, char **str)
@@ -224,7 +224,7 @@ void get_token_word(t_msh *data, char **str)
 {
     char    *tmp;
     int     i;
-    t_sCom *sCom;
+    t_scom *sCom;
 
     sCom = ft_lstlastsCom(data->lst_cmd);
     tmp = ft_strdup(*str);
@@ -237,5 +237,5 @@ void get_token_word(t_msh *data, char **str)
     }
     tmp[i] = '\0';
     if (i != 0)
-		ft_lstadd_back(&(sCom->lstArg), ft_lstnew(tmp));
+		ft_lstadd_back(&(sCom->lstarg), ft_lstnew(tmp));
 }
