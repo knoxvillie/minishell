@@ -31,6 +31,7 @@ t_msh	*init_data(t_msh *data, char **env)
 	data->nscom = 0;
 	data->fd = NULL;
 	data->export = NULL;
+	data->heredoc = 0;
 	env_to_list(data, env);
 	init_export_env(data);
 	init_env_table(data);

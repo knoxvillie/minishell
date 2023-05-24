@@ -77,3 +77,22 @@ SUMMARY: AddressSanitizer: 11 byte(s) leaked in 1 allocation(s).
 Multipipes: (tudo bugado)
 exit | cat
 ls -al | grep kelvin
+
+
+
+echo fabio$fabio$PATH
+=================================================================
+==186707==ERROR: LeakSanitizer: detected memory leaks
+
+Direct leak of 6 byte(s) in 1 object(s) allocated from:
+    #0 0x7fa0c00b4867 in __interceptor_malloc ../../../../src/libsanitizer/asan/asan_malloc_linux.cpp:145
+    #1 0x55ea363cfcf2 in ft_substr (/home/fvalli-v/Documents/42Cursus/minishell/minishell+0x12cf2)
+    #2 0x55ea363c82a0 in get_len_move_i src/expander/expander.c:85
+    #3 0x55ea363c8587 in get_true_len src/expander/expander.c:112
+    #4 0x55ea363c87bd in expand_word_lstarg src/expander/expander.c:138
+    #5 0x55ea363ca4fa in expander src/expander/expander.c:321
+    #6 0x55ea363c63a0 in ft_parse src/parser/parser.c:135
+    #7 0x55ea363c222a in do_trim_parser src/main.c:30
+    #8 0x55ea363c2377 in do_minishell src/main.c:49
+    #9 0x55ea363c24e1 in main src/main.c:74
+    #10 0x7fa0bfc29d8f in __libc_start_call_main ../sysdeps/nptl/libc_start_call_main.h:58

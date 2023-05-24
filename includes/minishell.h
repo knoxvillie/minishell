@@ -70,6 +70,7 @@ typedef struct s_msh
 	int		npipe;
 	int		nscom;
 	int		**fd;
+	int		heredoc;
 	t_ppt	*ppt;
 	t_scom	*lst_cmd;
 	char	**env;

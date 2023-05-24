@@ -6,7 +6,7 @@
 /*   By: kfaustin <kfaustin@student.42porto.>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/05 11:00:11 by kfaustin          #+#    #+#             */
-/*   Updated: 2023/05/24 11:07:05 by kfaustin         ###   ########.fr       */
+/*   Updated: 2023/05/24 20:46:41 by fvalli-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,7 +137,7 @@ void	do_heredoc(t_msh *data)
 	}
 	close(tmp_fd);
 	free(buff);
-	data->lst_cmd->ft_stdin = open(".heredoc",O_RDWR);
+	data->lst_cmd->ft_stdin = open(".heredoc",O_RDONLY);
 }
 
 void	open_redir_in(t_msh *data)
@@ -230,14 +230,14 @@ void	do_pipe(t_msh *data)
 		redirect_updt(data->fd[data->npipe - 1][0],tmp->ft_stdout);
 	else
 		redirect_updt(data->fd[tmp->i - 1][0],data->fd[tmp->i][1]);
-	close_pipes(data);
+//	close_pipes(data);
 }
 
 void	close_fd(t_msh *data)
 {
 	int	i;
 
-	i = 3;
+	i = 0;
 	while (i <= data->lst_cmd->ft_stdout || i <= data->lst_cmd->ft_stdin)
 	{
 		close(i);
@@ -253,6 +253,8 @@ static void	do_multiples_pipe(t_msh *data)
 
 	while(data->lst_cmd)
 	{
+		if (data->heredoc)
+			wait(0);
 		pid = fork();
 		if (pid == 0)
 		{
@@ -268,6 +270,7 @@ static void	do_multiples_pipe(t_msh *data)
 			if (!path_cmd)
 				exit(0);
 			execute_single_cmd(data, path_cmd);
+//			close_fd(data);
 		}
 		data->lst_cmd = data->lst_cmd->next;
 	}

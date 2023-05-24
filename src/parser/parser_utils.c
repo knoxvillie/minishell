@@ -6,7 +6,7 @@
 /*   By: kfaustin <kfaustin@student.42porto.>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 10:39:42 by kfaustin          #+#    #+#             */
-/*   Updated: 2023/05/20 23:24:37 by fvalli-v         ###   ########.fr       */
+/*   Updated: 2023/05/24 20:01:29 by fvalli-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -198,7 +198,10 @@ int redirin(t_msh	*data, char **str)
 {
     (*str)++;
     if (**str == '<')
-        return ((*str)++, get_token_word_redir(data, str, LESSLESS));
+	{
+		data->heredoc = 1;
+		return ((*str)++, get_token_word_redir(data, str, LESSLESS));
+	}
     else
         return (get_token_word_redir(data, str, LESS));
 }

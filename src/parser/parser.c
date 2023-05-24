@@ -49,7 +49,7 @@ int	get_token(t_msh	*data, char **str)
 	else if (**str == '>')
 		return (redirout(data, str));
 	else if (**str && ft_strchr(UNSUPMETACH, **str))
-		return (printf("Minishell does not support this operator %c\n",**str), (*str)++, 1);
+		return (printf("Msh does not support this operator %c\n",**str), (*str)++, 1);
 	else
 		get_token_word(data, str);
 	return (0);
