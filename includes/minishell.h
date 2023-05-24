@@ -6,7 +6,7 @@
 /*   By: kfaustin <kfaustin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 11:29:44 by kfaustin          #+#    #+#             */
-/*   Updated: 2023/05/24 12:30:57 by kfaustin         ###   ########.fr       */
+/*   Updated: 2023/05/24 12:34:17 by kfaustin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ typedef struct s_redir {
 	char	*filename;
 }		t_redir;
 
-struct s_env
+typedef struct s_env
 {
 	char			*key;
 	char			*value;
