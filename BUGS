@@ -73,6 +73,38 @@ SUMMARY: AddressSanitizer: 11 byte(s) leaked in 1 allocation(s).
 
 SUMMARY: AddressSanitizer: 11 byte(s) leaked in 1 allocation(s).
 
+>>>>>>>> 4) echo $ (echo com epander leaks)
+kfaustin@c1r8s8:~/Desktop/minishell$ echo $kelvin
+
+=================================================================
+==82057==ERROR: LeakSanitizer: detected memory leaks
+
+Direct leak of 11 byte(s) in 2 object(s) allocated from:
+    #0 0x49761d in malloc (/nfs/homes/kfaustin/Desktop/minishell/minishell+0x49761d)
+    #1 0x4db709 in ft_strdup (/nfs/homes/kfaustin/Desktop/minishell/minishell+0x4db709)
+    #2 0x4d12d6 in get_token_word /nfs/homes/kfaustin/Desktop/minishell/src/parser/parser_utils.c:230:11
+    #3 0x4ced6d in get_token /nfs/homes/kfaustin/Desktop/minishell/src/parser/parser.c:54:3
+    #4 0x4cf46b in ft_parse /nfs/homes/kfaustin/Desktop/minishell/src/parser/parser.c:129:7
+    #5 0x4ca939 in do_trim_parser /nfs/homes/kfaustin/Desktop/minishell/src/main.c:32:6
+    #6 0x4ca691 in do_minishell /nfs/homes/kfaustin/Desktop/minishell/src/main.c:51:14
+    #7 0x4ca54a in main /nfs/homes/kfaustin/Desktop/minishell/src/main.c:76:2
+    #8 0x7f2c3a9ab082 in __libc_start_main /build/glibc-SzIz7B/glibc-2.31/csu/../csu/libc-start.c:308:16
+
+Direct leak of 9 byte(s) in 2 object(s) allocated from:
+    #0 0x49761d in malloc (/nfs/homes/kfaustin/Desktop/minishell/minishell+0x49761d)
+    #1 0x4db60b in ft_substr (/nfs/homes/kfaustin/Desktop/minishell/minishell+0x4db60b)
+    #2 0x4d5314 in get_len_move_i /nfs/homes/kfaustin/Desktop/minishell/src/expander/expander.c:85:8
+    #3 0x4d4f8e in get_true_len /nfs/homes/kfaustin/Desktop/minishell/src/expander/expander.c:112:17
+    #4 0x4d2859 in expand_word_lstarg /nfs/homes/kfaustin/Desktop/minishell/src/expander/expander.c:138:42
+    #5 0x4d1d3d in expander /nfs/homes/kfaustin/Desktop/minishell/src/expander/expander.c:321:4
+    #6 0x4cf4f5 in ft_parse /nfs/homes/kfaustin/Desktop/minishell/src/parser/parser.c:135:2
+    #7 0x4ca939 in do_trim_parser /nfs/homes/kfaustin/Desktop/minishell/src/main.c:32:6
+    #8 0x4ca691 in do_minishell /nfs/homes/kfaustin/Desktop/minishell/src/main.c:51:14
+    #9 0x4ca54a in main /nfs/homes/kfaustin/Desktop/minishell/src/main.c:76:2
+    #10 0x7f2c3a9ab082 in __libc_start_main /build/glibc-SzIz7B/glibc-2.31/csu/../csu/libc-start.c:308:16
+
+SUMMARY: AddressSanitizer: 20 byte(s) leaked in 4 allocation(s).
+
 
 Multipipes: (tudo bugado)
 exit | cat
@@ -96,3 +128,73 @@ Direct leak of 6 byte(s) in 1 object(s) allocated from:
     #8 0x55ea363c2377 in do_minishell src/main.c:49
     #9 0x55ea363c24e1 in main src/main.c:74
     #10 0x7fa0bfc29d8f in __libc_start_call_main ../sysdeps/nptl/libc_start_call_main.h:58
+
+BRINCANDO COM HEREDOC CAT E REDIRECTS NO MESMO PROGRAMA EM PROMPTS DIFERENTES
+NO EXIT OS LEAKS:
+Direct leak of 25 byte(s) in 4 object(s) allocated from:
+Direct leak of 25 byte(s) in 4 object(s) allocated from:
+    #0 0x49761d in malloc (/nfs/homes/kfaustin/Desktop/minishell/minishell+0x49761d)
+    #0 0x49761d in malloc (/nfs/homes/kfaustin/Desktop/minishell/minishell+0x49761d)
+    #1 0x4d4108 in expand_word_lstRedIn /nfs/homes/kfaustin/Desktop/minishell/src/expander/expander.c:260:19
+    #2 0x4d22e2 in expander /nfs/homes/kfaustin/Desktop/minishell/src/expander/expander.c:341:5
+    #1 0x4d4108 in expand_word_lstRedIn /nfs/homes/kfaustin/Desktop/minishell/src/expander/expander.c:260:19
+    #3 0x4cf3a5 in ft_parse /nfs/homes/kfaustin/Desktop/minishell/src/parser/parser.c:135:2
+    #4 0x4cb309 in do_trim_parser /nfs/homes/kfaustin/Desktop/minishell/src/main.c:32:6
+    #2 0x4d22e2 in expander /nfs/homes/kfaustin/Desktop/minishell/src/expander/expander.c:341:5
+    #5 0x4cb061 in do_minishell /nfs/homes/kfaustin/Desktop/minishell/src/main.c:51:14
+    #6 0x4caf1a in main /nfs/homes/kfaustin/Desktop/minishell/src/main.c:76:2
+    #3 0x4cf3a5 in ft_parse /nfs/homes/kfaustin/Desktop/minishell/src/parser/parser.c:135:2
+    #7 0x7fe5eb483082 in __libc_start_main /build/glibc-SzIz7B/glibc-2.31/csu/../csu/libc-start.c:308:16
+    #4 0x4cb309 in do_trim_parser /nfs/homes/kfaustin/Desktop/minishell/src/main.c:32:6
+
+    #5 0x4cb061 in do_minishell /nfs/homes/kfaustin/Desktop/minishell/src/main.c:51:14
+Direct leak of 11 byte(s) in 1 object(s) allocated from:
+    #0 0x49761d in malloc (/nfs/homes/kfaustin/Desktop/minishell/minishell+0x49761d)
+    #1 0x4db5b9 in ft_strdup (/nfs/homes/kfaustin/Desktop/minishell/minishell+0x4db5b9)
+    #6 0x4caf1a in main /nfs/homes/kfaustin/Desktop/minishell/src/main.c:76:2
+    #2 0x4d0713 in get_token_word_redir /nfs/homes/kfaustin/Desktop/minishell/src/parser/parser_utils.c:173:21
+    #3 0x4d0d6f in redirin /nfs/homes/kfaustin/Desktop/minishell/src/parser/parser_utils.c:201:27
+    #7 0x7fe5eb483082 in __libc_start_main /build/glibc-SzIz7B/glibc-2.31/csu/../csu/libc-start.c:308:16
+
+    #4 0x4ce972 in get_token /nfs/homes/kfaustin/Desktop/minishell/src/parser/parser.c:48:11
+    #5 0x4cf31b in ft_parse /nfs/homes/kfaustin/Desktop/minishell/src/parser/parser.c:129:7
+Direct leak of 11 byte(s) in 1 object(s) allocated from:
+    #6 0x4cb309 in do_trim_parser /nfs/homes/kfaustin/Desktop/minishell/src/main.c:32:6
+    #0 0x49761d in malloc (/nfs/homes/kfaustin/Desktop/minishell/minishell+0x49761d)
+    #7 0x4cb061 in do_minishell /nfs/homes/kfaustin/Desktop/minishell/src/main.c:51:14
+    #1 0x4db5b9 in ft_strdup (/nfs/homes/kfaustin/Desktop/minishell/minishell+0x4db5b9)
+    #8 0x4caf1a in main /nfs/homes/kfaustin/Desktop/minishell/src/main.c:76:2
+    #2 0x4d0713 in get_token_word_redir /nfs/homes/kfaustin/Desktop/minishell/src/parser/parser_utils.c:173:21
+    #9 0x7fe5eb483082 in __libc_start_main /build/glibc-SzIz7B/glibc-2.31/csu/../csu/libc-start.c:308:16
+    #3 0x4d0d6f in redirin /nfs/homes/kfaustin/Desktop/minishell/src/parser/parser_utils.c:201:27
+
+    #4 0x4ce972 in get_token /nfs/homes/kfaustin/Desktop/minishell/src/parser/parser.c:48:11
+    #5 0x4cf31b in ft_parse /nfs/homes/kfaustin/Desktop/minishell/src/parser/parser.c:129:7
+Direct leak of 11 byte(s) in 2 object(s) allocated from:
+    #6 0x4cb309 in do_trim_parser /nfs/homes/kfaustin/Desktop/minishell/src/main.c:32:6
+    #0 0x49761d in malloc (/nfs/homes/kfaustin/Desktop/minishell/minishell+0x49761d)
+    #7 0x4cb061 in do_minishell /nfs/homes/kfaustin/Desktop/minishell/src/main.c:51:14
+    #8 0x4caf1a in main /nfs/homes/kfaustin/Desktop/minishell/src/main.c:76:2
+    #1 0x4d34a8 in expand_word_lstRedOut /nfs/homes/kfaustin/Desktop/minishell/src/expander/expander.c:199:19
+    #9 0x7fe5eb483082 in __libc_start_main /build/glibc-SzIz7B/glibc-2.31/csu/../csu/libc-start.c:308:16
+    #2 0x4d1f35 in expander /nfs/homes/kfaustin/Desktop/minishell/src/expander/expander.c:330:4
+
+    #3 0x4cf3a5 in ft_parse /nfs/homes/kfaustin/Desktop/minishell/src/parser/parser.c:135:2
+Direct leak of 11 byte(s) in 2 object(s) allocated from:
+    #4 0x4cb309 in do_trim_parser /nfs/homes/kfaustin/Desktop/minishell/src/main.c:32:6
+    #5 0x4cb061 in do_minishell /nfs/homes/kfaustin/Desktop/minishell/src/main.c:51:14
+    #0 0x49761d in malloc (/nfs/homes/kfaustin/Desktop/minishell/minishell+0x49761d)
+    #6 0x4caf1a in main /nfs/homes/kfaustin/Desktop/minishell/src/main.c:76:2
+    #1 0x4d34a8 in expand_word_lstRedOut /nfs/homes/kfaustin/Desktop/minishell/src/expander/expander.c:199:19
+    #7 0x7fe5eb483082 in __libc_start_main /build/glibc-SzIz7B/glibc-2.31/csu/../csu/libc-start.c:308:16
+    #2 0x4d1f35 in expander /nfs/homes/kfaustin/Desktop/minishell/src/expander/expander.c:330:4
+
+    #3 0x4cf3a5 in ft_parse /nfs/homes/kfaustin/Desktop/minishell/src/parser/parser.c:135:2
+SUMMARY: AddressSanitizer: 47 byte(s) leaked in 7 allocation(s).
+    #4 0x4cb309 in do_trim_parser /nfs/homes/kfaustin/Desktop/minishell/src/main.c:32:6
+    #5 0x4cb061 in do_minishell /nfs/homes/kfaustin/Desktop/minishell/src/main.c:51:14
+    #6 0x4caf1a in main /nfs/homes/kfaustin/Desktop/minishell/src/main.c:76:2
+    #7 0x7fe5eb483082 in __libc_start_main /build/glibc-SzIz7B/glibc-2.31/csu/../csu/libc-start.c:308:16
+
+SUMMARY: AddressSanitizer: 47 byte(s) leaked in 7 allocation(s).
+

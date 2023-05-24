@@ -6,12 +6,14 @@
 /*   By: kfaustin <kfaustin@student.42porto.>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 10:57:37 by kfaustin          #+#    #+#             */
-/*   Updated: 2023/05/24 12:08:19 by kfaustin         ###   ########.fr       */
+/*   Updated: 2023/05/24 14:01:44 by kfaustin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 #include "../includes/parser.h"
+
+int g_exit_status;
 
 /* Returns -1 to continue, 0 to break, 1 to do nothing */
 static int	do_trim_parser(t_msh *data, char *input, char **trim)
@@ -66,8 +68,8 @@ int	main(int argc, char **argv, char **env)
 	if (argc > 1)
 		return (ft_putstr_fd("msh: invalid number of arguments\n", 2), 1);
 	(void) argv;
-	data = (t_msh *) malloc(sizeof(t_msh));
-	data = (t_msh *) ft_memset(data, 0, sizeof(t_msh));
+	data = (t_msh *)malloc(sizeof(t_msh));
+	data = (t_msh *)ft_memset(data, 0, sizeof(t_msh));
 	data = init_data(data, env);
 	rl_clear_history();
 	signal(SIGQUIT, SIG_IGN);

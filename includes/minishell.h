@@ -6,7 +6,7 @@
 /*   By: kfaustin <kfaustin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 11:29:44 by kfaustin          #+#    #+#             */
-/*   Updated: 2023/05/24 12:34:17 by kfaustin         ###   ########.fr       */
+/*   Updated: 2023/05/24 14:42:48 by kfaustin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,8 @@ typedef struct s_scom {
 }		t_scom;
 
 typedef struct s_redir {
-	int		type;
-	char	*filename;
+	int			type;
+	char		*filename;
 }		t_redir;
 
 typedef struct s_env
@@ -102,6 +102,7 @@ void	builtin_cd(t_msh *data);
 void	builtin_cd_update(t_msh *data);
 // * *----------* *| (exit.c):
 void	builtin_exit(t_msh *data);
+void	builtin_exit_update(t_msh *data);
 
 // *** EXECUTER *** ------------------------------|
 // * *----------* *| (access.c):
@@ -114,6 +115,11 @@ void	close_pipes(t_msh *data);
 // *** SRC *** -----------------------------------|
 // * *----------* *| (create_pipe.c):
 void	create_pipe(t_msh *data);
+void	do_pipe(t_msh *data);
+// * *----------* *| (dobuiltin.c):
+void	exit_or_update_env(t_msh *data, char *cmd);
+void	do_builtin(t_msh *data, char *cmd);
+bool	check_builtin(char *cmd);
 // * *----------* *| (free.c):
 void	free_all(t_msh *data);
 void	free_over(t_msh *data);
@@ -133,6 +139,14 @@ t_msh	*init_data(t_msh *data, char **env);
 void	init_env_table(t_msh *data);
 // * *----------* *| (prompt.c):
 char	*display_prompt(t_ppt *root);
+// * *----------* *| (redirect.c):
+void	do_heredoc(t_msh *data);
+void	open_redir_in(t_msh *data);
+void	open_redir_out(t_msh *data);
+// * *----------* *| (redirect2.c):
+void	open_redir(t_msh *data);
+void	do_redir(t_msh *data);
+void	redirect_updt(int in, int out);
 // * *----------* *| (signals.c):
 void	init_signal(int flag);
 void	init_signal_heredoc(void);

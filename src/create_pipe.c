@@ -38,3 +38,17 @@ void	create_pipe(t_msh *data)
 		i++;
 	}
 }
+
+void	do_pipe(t_msh *data)
+{
+	t_scom	*tmp;
+
+	tmp = data->lst_cmd;
+	if (tmp->i == 0)
+		redirect_updt(tmp->ft_stdin,data->fd[0][1]);
+	else if (tmp->i == data->npipe)
+		redirect_updt(data->fd[data->npipe - 1][0],tmp->ft_stdout);
+	else
+		redirect_updt(data->fd[tmp->i - 1][0],data->fd[tmp->i][1]);
+	close_pipes(data);
+}
