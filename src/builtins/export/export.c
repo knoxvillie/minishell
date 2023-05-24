@@ -91,7 +91,6 @@ static void	do_export(t_msh *data, char *arg)
 	free (table);
 }
 
-/*export $ ta bugado por conta do expander acho*/
 void	builtin_export(t_msh *data)
 {
 	int		i;

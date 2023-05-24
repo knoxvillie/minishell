@@ -6,7 +6,7 @@
 /*   By: kfaustin <kfaustin@student.42porto.>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 10:57:37 by kfaustin          #+#    #+#             */
-/*   Updated: 2023/05/22 14:38:46 by kfaustin         ###   ########.fr       */
+/*   Updated: 2023/05/24 12:08:19 by kfaustin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ static void	do_minishell(t_msh *data)
 		create_pipe(data);
 		do_execute(data);
 		free_lstsCom(data);
+		//free_fd(data);
 		free (trim);
 	}
 }
@@ -62,7 +63,8 @@ int	main(int argc, char **argv, char **env)
 {
 	t_msh	*data;
 
-	(void) argc;
+	if (argc > 1)
+		return (ft_putstr_fd("msh: invalid number of arguments\n", 2), 1);
 	(void) argv;
 	data = (t_msh *) malloc(sizeof(t_msh));
 	data = (t_msh *) ft_memset(data, 0, sizeof(t_msh));

@@ -6,7 +6,7 @@
 /*   By: fvalli-v <fvalli-v@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/21 18:46:51 by fvalli-v          #+#    #+#             */
-/*   Updated: 2023/05/22 14:23:27 by kfaustin         ###   ########.fr       */
+/*   Updated: 2023/05/24 09:38:23 by kfaustin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ static void	go_home_up(t_msh *data)
 
 	home = get_value_from_key(data->ppt->list, "HOME");
 	if (!home)
-		return ;
+		return (free(home));
 	if (chdir(home) != 0)
 		return (free (home));
 	actual_pwd = get_value_from_key(data->ppt->list, "PWD");

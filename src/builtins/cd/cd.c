@@ -6,7 +6,7 @@
 /*   By: kfaustin <kfaustin@student.42porto.>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/13 10:47:40 by kfaustin          #+#    #+#             */
-/*   Updated: 2023/05/22 14:23:12 by kfaustin         ###   ########.fr       */
+/*   Updated: 2023/05/24 10:44:04 by kfaustin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ static void	go_home(t_msh *data)
 
 	home = get_value_from_key(data->ppt->list, "HOME");
 	if (!home)
-		return (ft_putstr_fd("msh: cd: HOME not set\n", 2));
+		return (free (home), ft_putstr_fd("msh: HOME not set\n", 2));
 	if (chdir(home) != 0)
 	{
 		perror("chdir");

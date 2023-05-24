@@ -6,7 +6,7 @@
 /*   By: kfaustin <kfaustin@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/22 14:33:28 by kfaustin          #+#    #+#             */
-/*   Updated: 2023/05/22 14:36:25 by kfaustin         ###   ########.fr       */
+/*   Updated: 2023/05/24 11:06:05 by kfaustin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,11 +26,28 @@ void	free_t_env(t_env *list)
 	}
 }
 
+void	close_pipes(t_msh *data)
+{
+	int i;
+
+	if (data->npipe == 0)
+		return ;
+	i = 0;
+	while (i < data->npipe)
+	{
+		close(data->fd[i][0]);
+		close(data->fd[i][1]);
+		i++;
+	}
+}
+
 void	free_fd(t_msh *data)
 {
 	int	i;
 
 	i = 0;
+	if (data->fd == NULL)
+		return ;
 	while (i < data->npipe)
 	{
 		free(data->fd[i]);

@@ -1,0 +1,79 @@
+LEAKS:
+
+SINGLE COMMANDS:
+>>>>>>>>>>> 1) car > kelvin (INVALID COMMAND REDIRECT)
+==70136==ERROR: LeakSanitizer: detected memory leaks
+
+Direct leak of 7 byte(s) in 1 object(s) allocated from:
+    #0 0x49761d in malloc (/nfs/homes/kfaustin/Desktop/minishell/minishell+0x49761d)
+    #1 0x4d35f8 in expand_word_lstRedOut /nfs/homes/kfaustin/Desktop/minishell/src/expander/expander.c:199:19
+    #2 0x4d2085 in expander /nfs/homes/kfaustin/Desktop/minishell/src/expander/expander.c:330:4
+    #3 0x4cf4f5 in ft_parse /nfs/homes/kfaustin/Desktop/minishell/src/parser/parser.c:135:2
+    #4 0x4ca939 in do_trim_parser /nfs/homes/kfaustin/Desktop/minishell/src/main.c:30:6
+    #5 0x4ca691 in do_minishell /nfs/homes/kfaustin/Desktop/minishell/src/main.c:49:14
+    #6 0x4ca54a in main /nfs/homes/kfaustin/Desktop/minishell/src/main.c:74:2
+    #7 0x7f0244475082 in __libc_start_main /build/glibc-SzIz7B/glibc-2.31/csu/../csu/libc-start.c:308:16
+
+SUMMARY: AddressSanitizer: 7 byte(s) leaked in 1 allocation(s).
+
+>>>>>>>>>>>> 2) cat > file (LEAKS DEPOIS DO EXIT)
+
+==70262==ERROR: LeakSanitizer: detected memory leaks
+==70237==ERROR: LeakSanitizer: detected memory leaks
+
+
+Direct leak of 7 byte(s) in 1 object(s) allocated from:
+Direct leak of 7 byte(s) in 1 object(s) allocated from:
+    #0 0x49761d in malloc (/nfs/homes/kfaustin/Desktop/minishell/minishell+0x49761d)
+    #0 0x49761d in malloc (/nfs/homes/kfaustin/Desktop/minishell/minishell+0x49761d)
+    #1 0x4d35f8 in expand_word_lstRedOut /nfs/homes/kfaustin/Desktop/minishell/src/expander/expander.c:199:19
+    #1 0x4d35f8 in expand_word_lstRedOut /nfs/homes/kfaustin/Desktop/minishell/src/expander/expander.c:199:19
+    #2 0x4d2085 in expander /nfs/homes/kfaustin/Desktop/minishell/src/expander/expander.c:330:4
+    #2 0x4d2085 in expander /nfs/homes/kfaustin/Desktop/minishell/src/expander/expander.c:330:4
+    #3 0x4cf4f5 in ft_parse /nfs/homes/kfaustin/Desktop/minishell/src/parser/parser.c:135:2
+    #4 0x4ca939 in do_trim_parser /nfs/homes/kfaustin/Desktop/minishell/src/main.c:30:6
+    #5 0x4ca691 in do_minishell /nfs/homes/kfaustin/Desktop/minishell/src/main.c:49:14
+    #3 0x4cf4f5 in ft_parse /nfs/homes/kfaustin/Desktop/minishell/src/parser/parser.c:135:2
+    #4 0x4ca939 in do_trim_parser /nfs/homes/kfaustin/Desktop/minishell/src/main.c:30:6
+    #6 0x4ca54a in main /nfs/homes/kfaustin/Desktop/minishell/src/main.c:74:2
+    #5 0x4ca691 in do_minishell /nfs/homes/kfaustin/Desktop/minishell/src/main.c:49:14
+    #7 0x7f2a74b2b082 in __libc_start_main /build/glibc-SzIz7B/glibc-2.31/csu/../csu/libc-start.c:308:16
+
+    #6 0x4ca54a in main /nfs/homes/kfaustin/Desktop/minishell/src/main.c:74:2
+SUMMARY: AddressSanitizer: 7 byte(s) leaked in 1 allocation(s).
+    #7 0x7f2a74b2b082 in __libc_start_main /build/glibc-SzIz7B/glibc-2.31/csu/../csu/libc-start.c:308:16
+
+SUMMARY: AddressSanitizer: 7 byte(s) leaked in 1 allocation(s).
+
+>>>>>>>>>>>> 3) << kelvin cat (DA LEAK DEPOIS DO EXIT)
+
+Direct leak of 11 byte(s) in 1 object(s) allocated from:
+    #0 0x49761d in malloc (/nfs/homes/kfaustin/Desktop/minishell/minishell+0x49761d)
+    #1 0x4db539 in ft_strdup (/nfs/homes/kfaustin/Desktop/minishell/minishell+0x4db539)
+    #0 0x49761d in malloc (/nfs/homes/kfaustin/Desktop/minishell/minishell+0x49761d)
+    #1 0x4db539 in ft_strdup (/nfs/homes/kfaustin/Desktop/minishell/minishell+0x4db539)
+    #2 0x4d0863 in get_token_word_redir /nfs/homes/kfaustin/Desktop/minishell/src/parser/parser_utils.c:173:21
+    #3 0x4d0ebf in redirin /nfs/homes/kfaustin/Desktop/minishell/src/parser/parser_utils.c:201:27
+    #2 0x4d0863 in get_token_word_redir /nfs/homes/kfaustin/Desktop/minishell/src/parser/parser_utils.c:173:21
+    #3 0x4d0ebf in redirin /nfs/homes/kfaustin/Desktop/minishell/src/parser/parser_utils.c:201:27
+    #4 0x4ceac2 in get_token /nfs/homes/kfaustin/Desktop/minishell/src/parser/parser.c:48:11
+    #5 0x4cf46b in ft_parse /nfs/homes/kfaustin/Desktop/minishell/src/parser/parser.c:129:7
+    #4 0x4ceac2 in get_token /nfs/homes/kfaustin/Desktop/minishell/src/parser/parser.c:48:11
+    #6 0x4ca939 in do_trim_parser /nfs/homes/kfaustin/Desktop/minishell/src/main.c:30:6
+    #7 0x4ca691 in do_minishell /nfs/homes/kfaustin/Desktop/minishell/src/main.c:49:14
+    #8 0x4ca54a in main /nfs/homes/kfaustin/Desktop/minishell/src/main.c:74:2
+    #5 0x4cf46b in ft_parse /nfs/homes/kfaustin/Desktop/minishell/src/parser/parser.c:129:7
+    #9 0x7fefe973e082 in __libc_start_main /build/glibc-SzIz7B/glibc-2.31/csu/../csu/libc-start.c:308:16
+
+SUMMARY: AddressSanitizer: 11 byte(s) leaked in 1 allocation(s).
+    #6 0x4ca939 in do_trim_parser /nfs/homes/kfaustin/Desktop/minishell/src/main.c:30:6
+    #7 0x4ca691 in do_minishell /nfs/homes/kfaustin/Desktop/minishell/src/main.c:49:14
+    #8 0x4ca54a in main /nfs/homes/kfaustin/Desktop/minishell/src/main.c:74:2
+    #9 0x7fefe973e082 in __libc_start_main /build/glibc-SzIz7B/glibc-2.31/csu/../csu/libc-start.c:308:16
+
+SUMMARY: AddressSanitizer: 11 byte(s) leaked in 1 allocation(s).
+
+
+Multipipes: (tudo bugado)
+exit | cat
+ls -al | grep kelvin

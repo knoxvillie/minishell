@@ -6,7 +6,7 @@
 /*   By: kfaustin <kfaustin@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/19 10:37:33 by kfaustin          #+#    #+#             */
-/*   Updated: 2023/05/18 14:40:32 by kfaustin         ###   ########.fr       */
+/*   Updated: 2023/05/24 10:37:27 by kfaustin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,16 +14,18 @@
 
 char	*get_value_from_key(t_env *env, char *key)
 {
+	t_env	*node;
 	char	*str;
 
-	while (env)
+	node = env;
+	while (node)
 	{
-		if (abs_string_cmp(key, env->key))
+		if (abs_string_cmp(key, node->key))
 		{
-			str = ft_strdup(env->value);
+			str = ft_strdup(node->value);
 			return (str);
 		}
-		env = env->next;
+		node = node->next;
 	}
 	return (NULL);
 }

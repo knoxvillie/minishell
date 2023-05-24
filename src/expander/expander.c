@@ -6,12 +6,37 @@
 /*   By: fvalli-v <fvalli-v@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 21:11:46 by fvalli-v          #+#    #+#             */
-/*   Updated: 2023/05/21 08:33:29 by fvalli-v         ###   ########.fr       */
+/*   Updated: 2023/05/22 22:12:08 by fvalli-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 #include "../../includes/parser.h"
+
+
+int jump_sq_exp(char *str, int i, char **newstr, int *newi)
+{
+	int	j;
+
+	j = i;
+	if (str[j] == '\'')
+	{
+		while (str[j])
+		{
+			(*newstr)[*newi] = str[j];
+			(*newi)++;
+			str++;
+			i++;
+			if (str[j] == '\'')
+			{
+				(*newstr)[*newi] = str[j];
+				(*newi)++;
+				return (i + 1);
+			}
+		}
+	}
+	return (i);
+}
 
 
 int jump_sq(char *str, int i)
@@ -95,7 +120,7 @@ static int	get_true_len(t_msh *data, char *str)
 	return (len_total);
 }
 
-static void	expand_word_lstArg(t_msh *data, char *word)
+static void	expand_word_lstarg(t_msh *data, char *word)
 {
 	int		begin;
 	int		end;
@@ -113,8 +138,8 @@ static void	expand_word_lstArg(t_msh *data, char *word)
 	newstr = (char *)malloc(sizeof(char) * (get_true_len(data, str) + 1));
 	while (str[++begin])
 	{
-		begin = jump_sq(str, begin);
-		if (str[begin] == '$')
+		begin = jump_sq_exp(str, begin, &newstr, &newi);
+		if (str[begin] == '$' && str[begin + 1])
 		{
 			end = begin + 1;
 			while (str[end]  != '\0' && str[end] != '$' && str[end] != '\'' && str[end] != '\"')
@@ -146,12 +171,12 @@ static void	expand_word_lstArg(t_msh *data, char *word)
 	if (*newstr == '\0')
 	{
 		free(newstr);
-		data->lst_cmd->lstArg->content = NULL;
+		data->lst_cmd->lstarg->content = NULL;
 	}
 	else
 	{
-		free(data->lst_cmd->lstArg->content);
-		data->lst_cmd->lstArg->content = newstr;
+		free(data->lst_cmd->lstarg->content);
+		data->lst_cmd->lstarg->content = newstr;
 	}
 }
 
@@ -169,13 +194,13 @@ static void	expand_word_lstRedOut(t_msh *data, char *word)
 
 	newi = 0;
 	begin = -1;
-	temp = (t_redir *)data->lst_cmd->lstOfRedirOut->content;
+	temp = (t_redir *)data->lst_cmd->lstofredirout->content;
 	str = word;
 	newstr = (char *)malloc(sizeof(char) * (get_true_len(data, str) + 1));
 	while (str[++begin])
 	{
-		begin = jump_sq(str, begin);
-		if (str[begin] == '$')
+		begin = jump_sq_exp(str, begin, &newstr, &newi);
+		if (str[begin] == '$' && str[begin + 1])
 		{
 			end = begin + 1;
 			while (str[end]  != '\0' && str[end] != '$' && str[end] != '\'' && str[end] != '\"')
@@ -230,13 +255,13 @@ static void	expand_word_lstRedIn(t_msh *data, char *word)
 
 	newi = 0;
 	begin = -1;
-	temp = (t_redir *)data->lst_cmd->lstOfRedirIn->content;
+	temp = (t_redir *)data->lst_cmd->lstofredirin->content;
 	str = word;
 	newstr = (char *)malloc(sizeof(char) * (get_true_len(data, str) + 1));
 	while (str[++begin])
 	{
-		begin = jump_sq(str, begin);
-		if (str[begin] == '$')
+		begin = jump_sq_exp(str, begin, &newstr, &newi);
+		if (str[begin] == '$' && str[begin + 1])
 		{
 			end = begin + 1;
 			while (str[end]  != '\0' && str[end] != '$' && str[end] != '\'' && str[end] != '\"')
@@ -280,7 +305,7 @@ static void	expand_word_lstRedIn(t_msh *data, char *word)
 
 void expander(t_msh *data)
 {
-	t_sCom	*lst;
+	t_scom	*lst;
 	t_list	*tmp;
 	t_redir	*temp;
 //	char	*word;
@@ -290,34 +315,34 @@ void expander(t_msh *data)
 	lst = data->lst_cmd;
 	while (data->lst_cmd)
 	{
-		tmp = data->lst_cmd->lstArg;
-		while(data->lst_cmd->lstArg)
+		tmp = data->lst_cmd->lstarg;
+		while(data->lst_cmd->lstarg)
 		{
-			expand_word_lstArg(data, data->lst_cmd->lstArg->content);
-			data->lst_cmd->lstArg = data->lst_cmd->lstArg->next;
+			expand_word_lstarg(data, data->lst_cmd->lstarg->content);
+			data->lst_cmd->lstarg = data->lst_cmd->lstarg->next;
 		}
-		data->lst_cmd->lstArg = tmp;
+		data->lst_cmd->lstarg = tmp;
 
-		tmp = data->lst_cmd->lstOfRedirOut;
-		while(data->lst_cmd->lstOfRedirOut)
+		tmp = data->lst_cmd->lstofredirout;
+		while(data->lst_cmd->lstofredirout)
 		{
-			temp = (t_redir *)(data->lst_cmd->lstOfRedirOut->content);
+			temp = (t_redir *)(data->lst_cmd->lstofredirout->content);
 			expand_word_lstRedOut(data, temp->filename);
-			data->lst_cmd->lstOfRedirOut = data->lst_cmd->lstOfRedirOut->next;
+			data->lst_cmd->lstofredirout = data->lst_cmd->lstofredirout->next;
 		}
-		data->lst_cmd->lstOfRedirOut = tmp;
+		data->lst_cmd->lstofredirout = tmp;
 
-		tmp = data->lst_cmd->lstOfRedirIn;
-		while(data->lst_cmd->lstOfRedirIn)
+		tmp = data->lst_cmd->lstofredirin;
+		while(data->lst_cmd->lstofredirin)
 		{
-			temp = (t_redir *)(data->lst_cmd->lstOfRedirIn->content);
+			temp = (t_redir *)(data->lst_cmd->lstofredirin->content);
 			if (temp->type == LESS)
 			{
 				expand_word_lstRedIn(data, temp->filename);
 			}
-			data->lst_cmd->lstOfRedirIn = data->lst_cmd->lstOfRedirIn->next;
+			data->lst_cmd->lstofredirin = data->lst_cmd->lstofredirin->next;
 		}
-		data->lst_cmd->lstOfRedirIn = tmp;
+		data->lst_cmd->lstofredirin = tmp;
 		i++;
 		data->lst_cmd = data->lst_cmd->next;
 	}

@@ -12,13 +12,13 @@
 
 #include "../../../includes/minishell.h"
 
-static void	free_print_exit(t_msh *data, char *s, int fd, char *f)
+static void	free_print_exit(t_msh *data, char *msg, int fd, char *f)
 {
 	int	flag;
 
 	flag = ft_atoi(f);
 	free_all(data);
-	ft_putstr_fd(s, fd);
+	ft_putstr_fd(msg, fd);
 	exit ((unsigned char)flag);
 }
 
@@ -27,7 +27,7 @@ void	builtin_exit(t_msh *data)
 	char	**arg;
 
 	arg = data->lst_cmd->argv;
-	if (arg[0] && arg[1] == NULL)
+	if (arg[1] == NULL)
 		free_print_exit(data, "exit\n", 1, "0");
 	if (!ptr_is_digit(arg[1]))
 		free_print_exit(data, "msh: exit: numeric argument required\n", 2, "2");

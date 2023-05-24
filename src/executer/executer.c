@@ -6,17 +6,17 @@
 /*   By: kfaustin <kfaustin@student.42porto.>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/05 11:00:11 by kfaustin          #+#    #+#             */
-/*   Updated: 2023/05/22 12:13:27 by kfaustin         ###   ########.fr       */
+/*   Updated: 2023/05/24 11:07:05 by kfaustin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 #include "../../includes/parser.h"
 
-int	number_of_pipes(t_sCom *data)
+int	number_of_pipes(t_scom *data)
 {
 	short	i;
-	t_sCom	*tmp;
+	t_scom	*tmp;
 
 	tmp = data;
 	i = 0;
@@ -72,7 +72,7 @@ static void	execute_single_cmd(t_msh *data, char *path_cmd)
 	cmd = (char **)data->lst_cmd->argv;
 	if (execve(path_cmd, cmd, data->env) < 0)
 	{
-		printf("error on execve\n");
+		printf("msh: error on execve\n");
 		exit(1);
 	}
 		// msg erro + free all;
@@ -81,21 +81,24 @@ static void	execute_single_cmd(t_msh *data, char *path_cmd)
 static char	*execute_condition(t_msh *data)
 {
 	char	*cmd;
+	char	*path;
 	char	*path_cmd;
 
-	cmd = (char *)data->lst_cmd->argv[0];
-//	if (check_builtin(cmd))
-//	{
-//		do_builtin(data, cmd); APAGAR
-//		return (NULL);
-//	}
-	path_cmd = check_access(data, cmd);
-	if (!path_cmd)
+	cmd = strdup((char *)data->lst_cmd->argv[0]);
+	path = get_value_from_key(data->ppt->list, "PATH");
+	if (!path)
 	{
-		ft_putstr_fd(cmd, 1);
-		ft_putstr_fd(": command not found\n", 1);
-		return (NULL);
+		free (cmd);
+		free (path);
+		return (ft_putstr_fd("msh: No such file or dir\n", 2), NULL);
 	}
+	if (access(cmd, X_OK) == 0)
+		return (free(path), cmd);
+	path_cmd = check_access(path, cmd);
+	free (path);
+	free (cmd);
+	if (!path_cmd)
+		return (ft_putstr_fd("msh: command not found\n", 2), NULL);
 	return (path_cmd);
 }
 
@@ -108,7 +111,7 @@ void	do_heredoc(t_msh *data)
 	t_redir	*tmp_red;
 
 
-	tmp = data->lst_cmd->lstOfRedirIn;
+	tmp = data->lst_cmd->lstofredirin;
 	tmp_red = tmp->content;
 	tmp_fd = open(".heredoc", O_CREAT | O_WRONLY | O_TRUNC, S_IWUSR | S_IRUSR);
 	signal(SIGINT, SIG_DFL);
@@ -142,7 +145,7 @@ void	open_redir_in(t_msh *data)
 	t_list	*tmp;
 	t_redir	*tmp_red;
 
-	tmp = data->lst_cmd->lstOfRedirIn;
+	tmp = data->lst_cmd->lstofredirin;
 	while(tmp)
 	{
 		tmp_red = tmp->content;
@@ -171,7 +174,7 @@ void	open_redir_out(t_msh *data)
 	t_list	*tmp;
 	t_redir	*tmp_red;
 
-	tmp = data->lst_cmd->lstOfRedirOut;
+	tmp = data->lst_cmd->lstofredirout;
 	while(tmp)
 	{
 		tmp_red = tmp->content;
@@ -210,19 +213,6 @@ void	do_redir(t_msh *data)
 	open_redir(data);
 }
 
-void	close_pipes(t_msh *data)
-{
-	int i;
-
-	i = 0;
-	while (i < data->npipe)
-	{
-		close(data->fd[i][0]);
-		close(data->fd[i][1]);
-		i++;
-	}
-}
-
 void	redirect_updt(int in, int out)
 {
 	dup2(in, STDIN_FILENO);
@@ -231,7 +221,7 @@ void	redirect_updt(int in, int out)
 
 void	do_pipe(t_msh *data)
 {
-	t_sCom	*tmp;
+	t_scom	*tmp;
 
 	tmp = data->lst_cmd;
 	if (tmp->i == 0)
@@ -325,7 +315,10 @@ static void	do_no_pipe(t_msh *data)
 		}
 		path_cmd = execute_condition(data);
 		if (!path_cmd)
+		{
+			free_all(data);
 			exit(0);
+		}
 		execute_single_cmd(data, path_cmd);
 	}
 	if (check_builtin(cmd))
@@ -335,7 +328,7 @@ static void	do_no_pipe(t_msh *data)
 void	do_execute(t_msh *data)
 {
 	int		i;
-	t_sCom	*tmp_lstcmd;
+	t_scom	*tmp_lstcmd;
 
 	init_signal(1);
 	tmp_lstcmd = data->lst_cmd;
@@ -345,7 +338,7 @@ void	do_execute(t_msh *data)
 	else
 		do_no_pipe(data);
 	close_pipes(data);
-	while (++i < data->nsCom)
+	while (++i < data->nscom)
 		waitpid(0, NULL, 0);
 	data->lst_cmd = tmp_lstcmd;
 }
