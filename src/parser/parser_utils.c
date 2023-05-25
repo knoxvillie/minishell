@@ -6,7 +6,7 @@
 /*   By: kfaustin <kfaustin@student.42porto.>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 10:39:42 by kfaustin          #+#    #+#             */
-/*   Updated: 2023/05/24 23:39:06 by fvalli-v         ###   ########.fr       */
+/*   Updated: 2023/05/25 23:33:21 by fvalli-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,18 +19,16 @@
 
 t_scom	*ft_lstlastsCom(t_scom *lst)
 {
-    t_scom	*temp;
+	t_scom	*temp;
 
-    if (!lst)
-        return (NULL);
-    temp = lst;
-    while (temp->next != NULL)
-    {
-        temp = temp->next;
-    }
-    return (temp);
+	if (!lst)
+		return (NULL);
+	temp = lst;
+	while (temp->next != NULL)
+		temp = temp->next;
+	return (temp);
 }
-//
+
 t_scom	*ft_lstnewsCom(void)
 {
 	t_scom	*new_node;

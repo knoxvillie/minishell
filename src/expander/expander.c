@@ -6,14 +6,16 @@
 /*   By: fvalli-v <fvalli-v@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 21:11:46 by fvalli-v          #+#    #+#             */
-/*   Updated: 2023/05/25 16:00:34 by kfaustin         ###   ########.fr       */
+/*   Updated: 2023/05/26 00:36:33 by fvalli-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 #include "../../includes/parser.h"
 
-char	quote_value(char c, char quote)
+
+
+static char	quote_value(char c, char quote)
 {
 	if (ft_strrchr("\"\'", c) && !quote)
 		return (c);
@@ -22,31 +24,39 @@ char	quote_value(char c, char quote)
 	return (quote);
 }
 
-static int	total_expand_continue(t_msh *data, char *arg, int *i, int *len)
+int	is_alnumunder(int c)
+{
+	if (ft_isalpha(c) == 1 || ft_isdigit(c) == 1 || c == '_')
+		return (1);
+	else
+		return (0);
+}
+
+static void	size_expand_2(t_msh *data, char *arg, int *i, int *len)
 {
 	int		j;
-	char	*temp;
+	char	*key;
 	char	*value;
 
 	j = 0;
 	if (arg[*i + 1] != '?')
 	{
-		while (isalnumextra(arg[*i + 1 + j]))
+		while (is_alnumunder(arg[*i + 1 + j]))
 			j++;
-		temp = ft_substr(arg, *i + 1, j);
-		value = get_info_env(&mini->env, temp);
-		if (j == 0)
-			value = "$";
-		if (value)
-			*len += ft_strlen(value);
-		free(temp);
+		key = ft_substr(arg, *i + 1, j);
+		value = get_value_from_key(data->ppt->list, key);
+		if (value == NULL)
+			value = ft_strdup("$");
+		*len += (int)ft_strlen(value);
+		free(key);
+		free (value);
 		*i += j;
 	}
 	else
 	{
-		temp = ft_itoa(g_exit_status);
-		*len += ft_strlen(temp);
-		free(temp);
+		key = ft_itoa(g_exit_status);
+		*len += (int)ft_strlen(key);
+		free(key);
 		*i += 1;
 	}
 }
@@ -64,378 +74,130 @@ static int	size_expand(t_msh *data, char *arg)
 	{
 		quote = quote_value(arg[i], quote);
 		if (arg[i] == '$' && quote != '\'')
-			total_expand_continue(data, arg, &i, &len);
+			size_expand_2(data, arg, &i, &len);
 		else
 			len++;
 	}
 	return (len);
 }
 
-static void	do_expand_lstarg(t_msh *data, t_list *arglist)
+static void	expand_exit_status(t_msh *data, char **ppt, int *i)
 {
-	char	*arg_exp;
-	bool	once;
+	int		k;
+	char	*value;
+
+	value = ft_itoa(g_exit_status);
+	k = -1;
+	while (value[++k])
+		(*ppt)[data->num++] = value[k];
+	free(value);
+	*i += 1;
+}
+
+static void	do_expander(t_msh *data, char *arg, char **ptr, int *i)
+{
+	char	*key;
+	char	*value;
+	int		len;
+	int		k;
+
+	if (arg[*i + 1] != '?')
+	{
+		len = 0;
+		while (is_alnumunder(arg[*i + 1 + len]))
+			len++;
+		key = ft_substr(arg, *i + 1, len);
+		value = get_value_from_key(data->ppt->list, key);
+		if (value == NULL)
+			value = ft_strdup("$");
+		free(key);
+		*i += len;
+		k = -1;
+		while (value[++k])
+			(*ptr)[data->num++] = value[k];
+		free (value);
+	}
+	else
+		expand_exit_status(data, ptr, i);
+}
+
+static void	check_expander(t_msh *data, void **content)
+{
+	int		i;
+	char	quote;
+	char	*arg;
+	char	*expanded;
+
+	i = -1;
+	quote = '\0';
+	arg = (char *)(*content);
+	data->num = 0;
+	expanded = (char *)malloc(sizeof(char) * (size_expand(data, arg) + 1));
+	while (arg[++i])
+	{
+		quote = quote_value(arg[i], quote);
+		if (arg[i] == '$' && quote != '\'')
+			do_expander(data, arg, &expanded, &i);
+		else
+			expanded[data->num++] = arg[i];
+	}
+	expanded[data->num] = '\0';
+	free (*content);
+	*content = expanded;
+}
+
+static void	do_expand_lstarg(t_msh *data)
+{
 	t_list	*tmp;
 
-	tmp = arglist;
-	once = false;
-	while (tmp)
+	tmp = data->lst_cmd->lstarg;
+	while(tmp)
 	{
 		if (ft_strrchr((char *)tmp->content, '$'))
-		{
-			arg_exp = (char *)malloc(sizeof(char) * (size_expand(data, (char *)tmp->content) + 1));
-			
-		}
-			once = true;
+			check_expander(data, &tmp->content);
 		tmp = tmp->next;
 	}
-	if (tmp == NULL && once)
-		return ;
-	tmp = arglist;
+}
+static void	do_expand_redOut(t_msh *data)
+{
+	t_list	*tmp;
+	t_redir	*tmpRed;
 
+	tmp = data->lst_cmd->lstofredirout;
+	while(tmp)
+	{
+		tmpRed = (t_redir *)(tmp->content);
+		if (ft_strrchr(tmpRed->filename, '$'))
+			check_expander(data, (void **)(&tmpRed->filename));
+		tmp = tmp->next;
+	}
+}
+
+static void	do_expand_redIn(t_msh *data)
+{
+	t_list	*tmp;
+	t_redir	*tmpRed;
+
+	tmp = data->lst_cmd->lstofredirin;
+	while(tmp)
+	{
+		tmpRed = (t_redir *)(tmp->content);
+		if (ft_strrchr(tmpRed->filename, '$') && tmpRed->type == LESS)
+			check_expander(data, (void **)(&tmpRed->filename));
+		tmp = tmp->next;
+	}
 }
 
 void	expander(t_msh *data)
 {
-	char	quote;
-	char	*arg_expanded;
 	t_scom	*tmp;
 
 	tmp = data->lst_cmd;
-	arg_expanded = (char *)malloc(sizeof(char) * (size_expand()))
 	while (tmp)
 	{
-		do_expander_lstarg(data);
+		do_expand_lstarg(data);
+		do_expand_redOut(data);
+		do_expand_redIn(data);
 		tmp = tmp->next;
 	}
 }
-
-/*
-int jump_sq_exp(char *str, int i, char **newstr, int *newi)
-{
-	int	j;
-
-	j = i;
-	if (str[j] == '\'')
-	{
-		while (str[j])
-		{
-			(*newstr)[*newi] = str[j];
-			(*newi)++;
-			str++;
-			i++;
-			if (str[j] == '\'')
-			{
-				(*newstr)[*newi] = str[j];
-				(*newi)++;
-				return (i + 1);
-			}
-		}
-	}
-	return (i);
-}
-
-
-int jump_sq(char *str, int i)
-{
-	int	j;
-
-	j = i;
-	if (str[j] == '\'')
-	{
-		while (str[j])
-		{
-			str++;
-			i++;
-			if (str[j] == '\'')
-				return (i);
-		}
-	}
-	return (i);
-}
-
-static int	get_len_move_i(t_msh *data, char *str, int *begin)
-{
-	int		len;
-	int		end;
-	char	*tmp;
-	char	*value;
-
-	end = *begin;
-	while (str[end] != '\0' && str[end] != '$' && str[end] != '\'' && str[end] != '\"')
-	{
-		end++;
-//		(*begin)++;
-	}
-	tmp = ft_substr(str, *begin, (end - *begin));
-	value = get_value_from_key(data->export->env, tmp);
-	if (value)
-	{
-		len = ft_strlen(value);
-		free(tmp);
-		free (value);
-		*begin = end;
-		return (len);
-	}
-	free(tmp);
-	*begin = end;
-	return (0);
-}
-
-static int	get_true_len(t_msh *data, char *str)
-{
-	int		i;
-	int		len_total;
-
-	i = 0;
-	len_total = 0;
-	while (str[i])
-	{
-		i = jump_sq(str, i);
-		if (str[i] == '$')
-		{
-			i++;
-			len_total += get_len_move_i(data, str, &i);
-		}
-		else
-		{
-			len_total++;
-			i++;
-		}
-	}
-	return (len_total);
-}
-
-static void	expand_word_lstarg(t_msh *data, char *word)
-{
-	int		begin;
-	int		end;
-	char	*str;
-	char	*newstr;
-	char	*tmpstr;
-	char	*value;
-	int		i;
-	int 	newi;
-
-
-	newi = 0;
-	begin = -1;
-	str = word;
-	newstr = (char *)malloc(sizeof(char) * (get_true_len(data, str) + 1));
-	while (str[++begin])
-	{
-		begin = jump_sq_exp(str, begin, &newstr, &newi);
-		if (str[begin] == '$' && str[begin + 1])
-		{
-			end = begin + 1;
-			while (str[end]  != '\0' && str[end] != '$' && str[end] != '\'' && str[end] != '\"')
-				end++;
-			tmpstr = ft_substr(str, begin + 1, (end - 1 - begin));
-			value = get_value_from_key(data->export->env, tmpstr);
-			if (value)
-			{
-				i = 0;
-				while (value[i])
-				{
-					newstr[newi] = value[i];
-					begin++;
-					i++;
-					newi++;
-				}
-			}
-			else
-			{
-				free(tmpstr);
-				begin = end - 1;
-				continue ;
-			}
-			begin = end - 1;
-			free(value);
-			free(tmpstr);
-		}
-		else
-		{
-			newstr[newi] = str[begin];
-			newi++;
-		}
-	}
-	newstr[newi] = '\0';
-	if (*newstr == '\0')
-	{
-//		free(newstr);
-		data->lst_cmd->lstarg->content = newstr;
-	}
-	else
-	{
-		free(data->lst_cmd->lstarg->content);
-		data->lst_cmd->lstarg->content = newstr;
-	}
-}
-
-static void	expand_word_lstRedOut(t_msh *data, char *word)
-{
-	int		begin;
-	int		end;
-	char	*str;
-	char	*newstr;
-	char	*tmpstr;
-	char	*value;
-	t_redir	*temp;
-	int		i;
-	int 	newi;
-
-	newi = 0;
-	begin = -1;
-	temp = (t_redir *)data->lst_cmd->lstofredirout->content;
-	str = word;
-	newstr = (char *)malloc(sizeof(char) * (get_true_len(data, str) + 1));
-	while (str[++begin])
-	{
-		begin = jump_sq_exp(str, begin, &newstr, &newi);
-		if (str[begin] == '$' && str[begin + 1])
-		{
-			end = begin + 1;
-			while (str[end]  != '\0' && str[end] != '$' && str[end] != '\'' && str[end] != '\"')
-				end++;
-			tmpstr = ft_substr(str, begin + 1, (end - 1 - begin));
-			value = get_value_from_key(data->export->env, tmpstr);
-			if (value)
-			{
-				i = 0;
-				while (value[i])
-				{
-					newstr[newi] = value[i];
-					begin++;
-					i++;
-					newi++;
-				}
-			}
-			begin = end - 1;
-			free(value);
-			free(tmpstr);
-		}
-		else
-		{
-			newstr[newi] = str[begin];
-			newi++;
-		}
-	}
-	newstr[newi] = '\0';
-	if (*newstr == '\0')
-	{
-		free(newstr);
-		temp->filename = NULL;
-	}
-	else
-	{
-		free(temp->filename);
-		temp->filename = newstr;
-	}
-}
-
-static void	expand_word_lstRedIn(t_msh *data, char *word)
-{
-	int		begin;
-	int		end;
-	char	*str;
-	char	*newstr;
-	char	*tmpstr;
-	char	*value;
-	t_redir	*temp;
-	int		i;
-	int 	newi;
-
-	newi = 0;
-	begin = -1;
-	temp = (t_redir *)data->lst_cmd->lstofredirin->content;
-	str = word;
-	newstr = (char *)malloc(sizeof(char) * (get_true_len(data, str) + 1));
-	while (str[++begin])
-	{
-		begin = jump_sq_exp(str, begin, &newstr, &newi);
-		if (str[begin] == '$' && str[begin + 1])
-		{
-			end = begin + 1;
-			while (str[end]  != '\0' && str[end] != '$' && str[end] != '\'' && str[end] != '\"')
-				end++;
-			tmpstr = ft_substr(str, begin + 1, (end - 1 - begin));
-			value = get_value_from_key(data->export->env, tmpstr);
-			if (value)
-			{
-				i = 0;
-				while (value[i])
-				{
-					newstr[newi] = value[i];
-					begin++;
-					i++;
-					newi++;
-				}
-			}
-			begin = end - 1;
-			free(value);
-			free(tmpstr);
-		}
-		else
-		{
-			newstr[newi] = str[begin];
-			newi++;
-		}
-	}
-	newstr[newi] = '\0';
-	if (*newstr == '\0')
-	{
-		free(newstr);
-		temp->filename = NULL;
-	}
-	else
-	{
-		free(temp->filename);
-		temp->filename = newstr;
-	}
-}
-
-void expander(t_msh *data)
-{
-	t_scom	*lst;
-	t_list	*tmp;
-	t_redir	*temp;
-	int		i;
-
-	i = 0;
-	lst = data->lst_cmd;
-	while (data->lst_cmd)
-	{
-		tmp = data->lst_cmd->lstarg;
-		while(data->lst_cmd->lstarg)
-		{
-			expand_word_lstarg(data, data->lst_cmd->lstarg->content);
-			data->lst_cmd->lstarg = data->lst_cmd->lstarg->next;
-		}
-		data->lst_cmd->lstarg = tmp;
-
-		tmp = data->lst_cmd->lstofredirout;
-		while(data->lst_cmd->lstofredirout)
-		{
-			temp = (t_redir *)(data->lst_cmd->lstofredirout->content);
-			expand_word_lstRedOut(data, temp->filename);
-			data->lst_cmd->lstofredirout = data->lst_cmd->lstofredirout->next;
-		}
-		data->lst_cmd->lstofredirout = tmp;
-
-		tmp = data->lst_cmd->lstofredirin;
-		while(data->lst_cmd->lstofredirin)
-		{
-			temp = (t_redir *)(data->lst_cmd->lstofredirin->content);
-			if (temp->type == LESS)
-			{
-				expand_word_lstRedIn(data, temp->filename);
-			}
-			data->lst_cmd->lstofredirin = data->lst_cmd->lstofredirin->next;
-		}
-		data->lst_cmd->lstofredirin = tmp;
-		i++;
-		data->lst_cmd = data->lst_cmd->next;
-	}
-	data->lst_cmd = lst;
-}
-*/

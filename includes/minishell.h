@@ -77,6 +77,7 @@ typedef struct s_msh
 	int		**fd;
 	int		heredoc;
 	char	**env;
+	int		num;
 	t_ppt	*ppt;
 	t_scom	*lst_cmd;
 	t_exp	*export;
@@ -117,6 +118,8 @@ void	do_execute(t_msh *data);
 void	close_pipes(t_msh *data);
 // *** PARSER *** --------------------------------|
 //
+// *** EXPANDER *** ------------------------------|
+void	expander(t_msh *data);
 // *** SRC *** -----------------------------------|
 // * *----------* *| (create_pipe.c):
 void	create_pipe(t_msh *data);
@@ -164,6 +167,4 @@ t_msh	*env_to_list(t_msh *data, char **env);
 char	*get_value_from_key(t_env *env, char *key);
 void	modify_value(t_msh *data, char *key, char **new_value);
 bool	is_key_in_env(t_env *env, char *key);
-// * *----------* *| (expander.c):
-void	expander(t_msh *data);
 #endif
