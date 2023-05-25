@@ -6,7 +6,7 @@
 /*   By: kfaustin <kfaustin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 11:29:44 by kfaustin          #+#    #+#             */
-/*   Updated: 2023/05/24 14:42:48 by kfaustin         ###   ########.fr       */
+/*   Updated: 2023/05/25 10:18:01 by kfaustin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,15 +65,20 @@ typedef struct s_exp
 	t_env	*exp;
 }		t_exp;
 
+typedef struct s_expan
+{
+	int		size;
+}		t_expan;
+
 typedef struct s_msh
 {
 	int		npipe;
 	int		nscom;
 	int		**fd;
 	int		heredoc;
+	char	**env;
 	t_ppt	*ppt;
 	t_scom	*lst_cmd;
-	char	**env;
 	t_exp	*export;
 }		t_msh;
 
@@ -125,11 +130,11 @@ void	free_all(t_msh *data);
 void	free_over(t_msh *data);
 void	free_prompt(t_ppt *root);
 void	free_table(char **table);
-void	free_t_exp(t_env *list);
 void	free_fork(t_msh *data);
 // * *----------* *| (free2.c):
 void	free_t_env(t_env *list);
 void	free_fd(t_msh *data);
+void	free_t_exp(t_env *list);
 // * *----------* *| (generic.c):
 void	put_str_exit(char *str, int flag);
 bool	abs_string_cmp(char *s1, char *s2);

@@ -63,21 +63,7 @@ void	ft_lstadd_backsCom(t_scom **lst, t_scom *new)
         temp->next = new;
     }
 }
-//void	free_lst(t_list *lst)
-//{
-//	t_list	*next;
-//
-//	if (lst == NULL)
-//		return ;
-//	while (lst)
-//	{
-//		next = lst->next;
-//		if (lst->content)
-//			free(lst->content);
-//		free(lst);
-//		lst = next;
-//	}
-//}
+
 void	free_lst(t_scom *lst)
 {
 	t_list	*next;

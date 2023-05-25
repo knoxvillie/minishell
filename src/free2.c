@@ -6,7 +6,7 @@
 /*   By: kfaustin <kfaustin@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/22 14:33:28 by kfaustin          #+#    #+#             */
-/*   Updated: 2023/05/24 22:16:29 by fvalli-v         ###   ########.fr       */
+/*   Updated: 2023/05/25 10:17:39 by kfaustin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,4 +55,21 @@ void	free_fd(t_msh *data)
 	}
 	free(data->fd);
 	data->fd = NULL;
+}
+
+void	free_t_exp(t_env *list)
+{
+	t_env	*env;
+
+	if (list == NULL)
+		return ;
+	while (list)
+	{
+		free(list->key);
+		if (list->value != NULL)
+			free (list->value);
+		env = list->next;
+		free(list);
+		list = env;
+	}
 }

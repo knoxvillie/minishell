@@ -6,14 +6,111 @@
 /*   By: fvalli-v <fvalli-v@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 21:11:46 by fvalli-v          #+#    #+#             */
-/*   Updated: 2023/05/25 01:19:18 by fvalli-v         ###   ########.fr       */
+/*   Updated: 2023/05/25 16:00:34 by kfaustin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 #include "../../includes/parser.h"
 
+char	quote_value(char c, char quote)
+{
+	if (ft_strrchr("\"\'", c) && !quote)
+		return (c);
+	else if (ft_strrchr("\"\'", c) && quote == c)
+		return (0);
+	return (quote);
+}
 
+static int	total_expand_continue(t_msh *data, char *arg, int *i, int *len)
+{
+	int		j;
+	char	*temp;
+	char	*value;
+
+	j = 0;
+	if (arg[*i + 1] != '?')
+	{
+		while (isalnumextra(arg[*i + 1 + j]))
+			j++;
+		temp = ft_substr(arg, *i + 1, j);
+		value = get_info_env(&mini->env, temp);
+		if (j == 0)
+			value = "$";
+		if (value)
+			*len += ft_strlen(value);
+		free(temp);
+		*i += j;
+	}
+	else
+	{
+		temp = ft_itoa(g_exit_status);
+		*len += ft_strlen(temp);
+		free(temp);
+		*i += 1;
+	}
+}
+
+static int	size_expand(t_msh *data, char *arg)
+{
+	int		i;
+	int		len;
+	char	quote;
+
+	i = -1;
+	len = 0;
+	quote = '\0';
+	while (arg && arg[++i])
+	{
+		quote = quote_value(arg[i], quote);
+		if (arg[i] == '$' && quote != '\'')
+			total_expand_continue(data, arg, &i, &len);
+		else
+			len++;
+	}
+	return (len);
+}
+
+static void	do_expand_lstarg(t_msh *data, t_list *arglist)
+{
+	char	*arg_exp;
+	bool	once;
+	t_list	*tmp;
+
+	tmp = arglist;
+	once = false;
+	while (tmp)
+	{
+		if (ft_strrchr((char *)tmp->content, '$'))
+		{
+			arg_exp = (char *)malloc(sizeof(char) * (size_expand(data, (char *)tmp->content) + 1));
+			
+		}
+			once = true;
+		tmp = tmp->next;
+	}
+	if (tmp == NULL && once)
+		return ;
+	tmp = arglist;
+
+}
+
+void	expander(t_msh *data)
+{
+	char	quote;
+	char	*arg_expanded;
+	t_scom	*tmp;
+
+	tmp = data->lst_cmd;
+	arg_expanded = (char *)malloc(sizeof(char) * (size_expand()))
+	while (tmp)
+	{
+		do_expander_lstarg(data);
+		tmp = tmp->next;
+	}
+}
+
+/*
 int jump_sq_exp(char *str, int i, char **newstr, int *newi)
 {
 	int	j;
@@ -56,18 +153,6 @@ int jump_sq(char *str, int i)
 	}
 	return (i);
 }
-
-/*	$fabio=10
-	      01234567890
-	str = valli$fabio$kelvin > is_key_in_env
-	vai ate '$' ||  || '\"' || '\''
-	se encontrar '\'', pula ate o proximo '\''
-	get_value_from_key
-	strlen(value)
-	newstr = malloc
-	anda str e copia str para newstr
-	free(str)
-	result = valli10*/
 
 static int	get_len_move_i(t_msh *data, char *str, int *begin)
 {
@@ -309,13 +394,11 @@ static void	expand_word_lstRedIn(t_msh *data, char *word)
 	}
 }
 
-
 void expander(t_msh *data)
 {
 	t_scom	*lst;
 	t_list	*tmp;
 	t_redir	*temp;
-//	char	*word;
 	int		i;
 
 	i = 0;
@@ -355,3 +438,4 @@ void expander(t_msh *data)
 	}
 	data->lst_cmd = lst;
 }
+*/
