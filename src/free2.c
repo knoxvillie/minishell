@@ -6,7 +6,7 @@
 /*   By: kfaustin <kfaustin@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/22 14:33:28 by kfaustin          #+#    #+#             */
-/*   Updated: 2023/05/24 11:06:05 by kfaustin         ###   ########.fr       */
+/*   Updated: 2023/05/24 22:16:29 by fvalli-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,4 +54,5 @@ void	free_fd(t_msh *data)
 		i++;
 	}
 	free(data->fd);
+	data->fd = NULL;
 }

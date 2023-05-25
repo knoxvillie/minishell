@@ -6,7 +6,7 @@
 /*   By: kfaustin <kfaustin@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 14:26:11 by kfaustin          #+#    #+#             */
-/*   Updated: 2023/05/24 14:29:16 by kfaustin         ###   ########.fr       */
+/*   Updated: 2023/05/25 00:48:30 by fvalli-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	do_heredoc(t_msh *data)
 	if (tmp_fd < 0)
 	{
 		ft_putstr_fd("Error while opening file.\n", 2);
-		free_all(data);
+		free_fork(data);
 		exit(1);
 	}
 	while (1)
@@ -56,9 +56,9 @@ void	open_redir_in(t_msh *data)
 	t_redir	*tmp_red;
 
 	tmp = data->lst_cmd->lstofredirin;
-	while(tmp)
+	while(data->lst_cmd->lstofredirin)
 	{
-		tmp_red = tmp->content;
+		tmp_red = data->lst_cmd->lstofredirin->content;
 		if (tmp_red->type == LESS)
 		{
 			data->lst_cmd->ft_stdin = open(tmp_red->filename,O_RDONLY);
@@ -67,7 +67,7 @@ void	open_redir_in(t_msh *data)
 				ft_putstr_fd("msh: ", 2);
 				ft_putstr_fd(tmp_red->filename, 2);
 				ft_putstr_fd(": no such file or directory\n", 2);
-				free_all(data);
+				free_fork(data);
 				exit(1);
 			}
 		}
@@ -75,8 +75,9 @@ void	open_redir_in(t_msh *data)
 		{
 			do_heredoc(data);
 		}
-		tmp = tmp->next;
+		data->lst_cmd->lstofredirin = data->lst_cmd->lstofredirin->next;
 	}
+	data->lst_cmd->lstofredirin = tmp;
 }
 
 void	open_redir_out(t_msh *data)
@@ -94,7 +95,7 @@ void	open_redir_out(t_msh *data)
 			if (data->lst_cmd->ft_stdout < 0)
 			{
 				ft_putstr_fd("Error while opening file.\n", 2);
-				free_all(data);
+				free_fork(data);
 				exit(1);
 			}
 		}
@@ -104,7 +105,7 @@ void	open_redir_out(t_msh *data)
 			if (data->lst_cmd->ft_stdout < 0)
 			{
 				ft_putstr_fd("Error while opening file.\n", 2);
-				free_all(data);
+				free_fork(data);
 				exit(1);
 			}
 		}

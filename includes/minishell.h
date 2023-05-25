@@ -126,6 +126,7 @@ void	free_over(t_msh *data);
 void	free_prompt(t_ppt *root);
 void	free_table(char **table);
 void	free_t_exp(t_env *list);
+void	free_fork(t_msh *data);
 // * *----------* *| (free2.c):
 void	free_t_env(t_env *list);
 void	free_fd(t_msh *data);

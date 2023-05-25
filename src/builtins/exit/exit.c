@@ -6,7 +6,7 @@
 /*   By: kfaustin <kfaustin@student.42porto.>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/13 10:26:35 by kfaustin          #+#    #+#             */
-/*   Updated: 2023/05/24 12:54:16 by kfaustin         ###   ########.fr       */
+/*   Updated: 2023/05/25 00:24:22 by fvalli-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,8 @@ static void	free_print_exit(t_msh *data, char *msg, int fd, char *value_txt)
 	g_exit_status = ft_atoi(value_txt);
 	ft_putstr_fd("exit\n", fd);
 	ft_putstr_fd(msg, fd);
-	free_all(data);
+	free_fork(data);
+//	free_all(data);
 	exit ((unsigned char)g_exit_status);
 }
 

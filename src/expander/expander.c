@@ -6,7 +6,7 @@
 /*   By: fvalli-v <fvalli-v@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 21:11:46 by fvalli-v          #+#    #+#             */
-/*   Updated: 2023/05/22 22:12:08 by fvalli-v         ###   ########.fr       */
+/*   Updated: 2023/05/25 01:19:18 by fvalli-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,7 @@ static int	get_len_move_i(t_msh *data, char *str, int *begin)
 		*begin = end;
 		return (len);
 	}
+	free(tmp);
 	*begin = end;
 	return (0);
 }
@@ -157,6 +158,12 @@ static void	expand_word_lstarg(t_msh *data, char *word)
 					newi++;
 				}
 			}
+			else
+			{
+				free(tmpstr);
+				begin = end - 1;
+				continue ;
+			}
 			begin = end - 1;
 			free(value);
 			free(tmpstr);
@@ -170,8 +177,8 @@ static void	expand_word_lstarg(t_msh *data, char *word)
 	newstr[newi] = '\0';
 	if (*newstr == '\0')
 	{
-		free(newstr);
-		data->lst_cmd->lstarg->content = NULL;
+//		free(newstr);
+		data->lst_cmd->lstarg->content = newstr;
 	}
 	else
 	{

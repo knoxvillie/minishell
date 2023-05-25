@@ -6,7 +6,7 @@
 /*   By: kfaustin <kfaustin@student.42porto.>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 10:39:42 by kfaustin          #+#    #+#             */
-/*   Updated: 2023/05/24 20:01:29 by fvalli-v         ###   ########.fr       */
+/*   Updated: 2023/05/24 23:39:06 by fvalli-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,19 +63,76 @@ void	ft_lstadd_backsCom(t_scom **lst, t_scom *new)
         temp->next = new;
     }
 }
-void	free_lst(t_list *lst)
+//void	free_lst(t_list *lst)
+//{
+//	t_list	*next;
+//
+//	if (lst == NULL)
+//		return ;
+//	while (lst)
+//	{
+//		next = lst->next;
+//		if (lst->content)
+//			free(lst->content);
+//		free(lst);
+//		lst = next;
+//	}
+//}
+void	free_lst(t_scom *lst)
 {
 	t_list	*next;
 
-	if (lst == NULL)
+	if (lst->lstarg == NULL)
 		return ;
-	while (lst)
+	while (lst->lstarg)
 	{
-		next = lst->next;
-		if (lst->content)
-			free(lst->content);
-		free(lst);
-		lst = next;
+		next = lst->lstarg->next;
+		if (lst->lstarg->content)
+			free(lst->lstarg->content);
+		free(lst->lstarg);
+		lst->lstarg = next;
+	}
+}
+
+void	free_lst_redirin(t_scom *lst)
+{
+	t_list	*next;
+	t_redir *tmp;
+
+	if (lst->lstofredirin == NULL)
+		return ;
+	while (lst->lstofredirin)
+	{
+		next = lst->lstofredirin->next;
+		if (lst->lstofredirin->content)
+		{
+			tmp = lst->lstofredirin->content;
+			free(tmp->filename);
+			free(lst->lstofredirin->content);
+		}
+		free(lst->lstofredirin);
+		lst->lstofredirin = next;
+	}
+}
+
+void	free_lst_redirout(t_scom *lst)
+{
+	t_list	*next;
+	t_redir *tmp;
+
+	if (lst->lstofredirout == NULL)
+		return ;
+	while (lst->lstofredirout)
+	{
+		next = lst->lstofredirout->next;
+		if (lst->lstofredirout->content)
+		{
+			tmp = lst->lstofredirout->content;
+			free(tmp->filename);
+			free(lst->lstofredirout->content);
+		}
+		free(lst->lstofredirout);
+		lst->lstofredirout = next;
 	}
 }
 
@@ -89,9 +146,9 @@ void	free_lstsCom(t_msh *data)
 	{
 		next = data->lst_cmd->next;
 		free_table(data->lst_cmd->argv);
-		free_lst(data->lst_cmd->lstarg);
-		free_lst(data->lst_cmd->lstofredirin);
-		free_lst(data->lst_cmd->lstofredirout);
+		free_lst(data->lst_cmd);
+		free_lst_redirin(data->lst_cmd);
+		free_lst_redirout(data->lst_cmd);
 		free(data->lst_cmd);
 		data->lst_cmd = next;
 	}
@@ -169,7 +226,9 @@ int get_token_word_redir(t_msh	*data, char **str, int type)
     if (**str && (ft_strchr(METACH, **str) || ft_strchr(UNSUPMETACH, **str)))
         return (printf("syntax error near unexpected token `%c\'\n",**str), 1);
     if (**str == '\0')
-        return (printf("syntax error near unexpected token `newline\'\n"), 1);
+	{
+		return (printf("syntax error near unexpected token `newline\'\n"), 1);
+	}
     red->filename = ft_strdup(*str);
     i = 0;
     while (**str && !ft_strchr(WSPACE, **str) && !ft_strchr(METACH, **str) && !ft_strchr(UNSUPMETACH, **str))

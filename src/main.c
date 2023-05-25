@@ -6,7 +6,7 @@
 /*   By: kfaustin <kfaustin@student.42porto.>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 10:57:37 by kfaustin          #+#    #+#             */
-/*   Updated: 2023/05/24 14:01:44 by kfaustin         ###   ########.fr       */
+/*   Updated: 2023/05/24 22:18:45 by fvalli-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ static void	do_minishell(t_msh *data)
 		create_pipe(data);
 		do_execute(data);
 		free_lstsCom(data);
-		//free_fd(data);
+		free_fd(data);
 		free (trim);
 	}
 }

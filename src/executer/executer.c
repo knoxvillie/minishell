@@ -6,7 +6,7 @@
 /*   By: kfaustin <kfaustin@student.42porto.>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/05 11:00:11 by kfaustin          #+#    #+#             */
-/*   Updated: 2023/05/24 15:01:00 by kfaustin         ###   ########.fr       */
+/*   Updated: 2023/05/25 00:18:28 by fvalli-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,8 @@ static char	*execute_condition(t_msh *data)
 	char	*path;
 	char	*path_cmd;
 
+	if (*data->lst_cmd->argv == NULL)
+		return (NULL);
 	cmd = strdup((char *)data->lst_cmd->argv[0]);
 	path = get_value_from_key(data->ppt->list, "PATH");
 	if (!path)
@@ -65,10 +67,12 @@ static void	do_multiples_pipe(t_msh *data)
 		{
 			do_redir(data);
 			do_pipe(data);
+			redirect_updt(data->lst_cmd->ft_stdin, data->lst_cmd->ft_stdout);
 			if (check_builtin(data->lst_cmd->argv[0]))
 			{
 				do_builtin(data, data->lst_cmd->argv[0]);
 				close_pipes(data);
+				free_all(data);
 				exit(1);
 			}
 			path_cmd = execute_condition(data);
@@ -95,6 +99,7 @@ static void	do_no_pipe(t_msh *data)
 		if (check_builtin(cmd))
 		{
 			do_builtin(data, cmd);
+			free_all(data);
 			exit(1);
 		}
 		path_cmd = execute_condition(data);
