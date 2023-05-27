@@ -111,13 +111,13 @@ int ft_parse(char *input, t_msh *data)
 	t_scom	*tmp;
 
 	str = input;
+	tmp = ft_lstnewsCom();
+	ft_lstadd_backsCom(&(data->lst_cmd), tmp);
 	if (!check_unclosed_quotes(input))
 	{
 		ft_putstr_fd("Error: Unclosed quotes found\n", 2);
 		return (1);
 	}
-	tmp = ft_lstnewsCom();
-	ft_lstadd_backsCom(&(data->lst_cmd), tmp);
 	while (*str)
 	{
 		if (get_token(data, &str))

@@ -6,7 +6,7 @@
 /*   By: kfaustin <kfaustin@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 14:13:59 by kfaustin          #+#    #+#             */
-/*   Updated: 2023/05/22 14:37:21 by kfaustin         ###   ########.fr       */
+/*   Updated: 2023/05/27 15:31:05 by kfaustin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ t_msh	*init_data(t_msh *data, char **env)
 	data->fd = NULL;
 	data->export = NULL;
 	data->heredoc = 0;
+	data->pid = NULL;
 	env_to_list(data, env);
 	init_export_env(data);
 	init_env_table(data);

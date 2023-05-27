@@ -185,7 +185,7 @@ echo bonjour ; |                    ok
  echo test > file test1                 ok
  $                          OK
  not_cmd bonjour > salut            OK
- env puis export puis env # vars aren't sorted
+ env puis export puis env # vars aren't sorted          OK
  cat Makefile | grep pr | head -n 5 | cd test (mybin) # check status code
  cat Makefile | grep pr | head -n 5 | cat test (bin) # check status code
  cat Makefile | grep pr | head -n 5 | hello (NA) # check status code
