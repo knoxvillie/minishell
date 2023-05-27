@@ -112,7 +112,6 @@ static void	do_no_pipe(t_msh *data)
 
 void	do_execute(t_msh *data)
 {
-//	int		i;
 	t_scom	*tmp_lstcmd;
 
 	init_signal(1);
@@ -121,10 +120,7 @@ void	do_execute(t_msh *data)
 		do_multiples_pipe(data);
 	else
 		do_no_pipe(data);
-//	i = -1;
 	close_pipes(data);
-//	while (++i < data->nscom)
-//		waitpid(0, NULL, 0);
 	get_exit_status(data);
 	data->lst_cmd = tmp_lstcmd;
 }

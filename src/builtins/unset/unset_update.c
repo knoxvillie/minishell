@@ -30,7 +30,7 @@ bool	check_ue_syntax(char *str, char *mode)
 	begin_alfa = false;
 	while (str[i] && str[i] != '=')
 	{
-		if (!ft_isalnum(str[i]))
+		if (!is_alnumunder(str[i]))
 		{
 			print_unset_error(str, mode);
 			return (false);
@@ -56,7 +56,7 @@ bool	check_ue_syntax_up(char *str)
 	begin_alfa = false;
 	while (str[i] && str[i] != '=')
 	{
-		if (!ft_isalnum(str[i]))
+		if (!is_alnumunder(str[i]))
 			return (false);
 		if (ft_isdigit(str[i]) && !begin_alfa)
 			return (false);

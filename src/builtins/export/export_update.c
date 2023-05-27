@@ -31,7 +31,7 @@ static bool	check_syntax_up(t_msh *data, char *str)
 	{
 		if (str[i] == '=' && i != 0)
 			break ;
-		if (!ft_isalnum(str[i]))
+		if (!is_alnumunder(str[i]))
 			return (false);
 	}
 	if (str[i] == '\0')

@@ -6,7 +6,7 @@
 /*   By: kfaustin <kfaustin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 11:29:44 by kfaustin          #+#    #+#             */
-/*   Updated: 2023/05/27 14:22:23 by kfaustin         ###   ########.fr       */
+/*   Updated: 2023/05/27 15:08:49 by kfaustin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,6 +122,7 @@ void	close_pipes(t_msh *data);
 // *** EXPANDER *** ------------------------------|
 void	expander(t_msh *data);
 void	check_expander(t_msh *data, void **content);
+int		is_alnumunder(int c);
 // *** SRC *** -----------------------------------|
 // * *----------* *| (create_pipe.c):
 void	create_pipe(t_msh *data);

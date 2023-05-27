@@ -56,7 +56,7 @@ static bool	check_syntax_var_equal(t_msh *data, char *str)
 	{
 		if (str[i] == '=' && i != 0)
 			break ;
-		if (!ft_isalnum(str[i]))
+		if (!is_alnumunder(str[i]))
 		{
 			ft_putstr_fd("msh: Export: not a valid identifier\n", 2);
 			return (false);
