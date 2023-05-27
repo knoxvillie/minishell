@@ -6,14 +6,14 @@
 /*   By: fvalli-v <fvalli-v@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 21:11:46 by fvalli-v          #+#    #+#             */
-/*   Updated: 2023/05/27 12:04:35 by kfaustin         ###   ########.fr       */
+/*   Updated: 2023/05/27 17:10:40 by kfaustin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 #include "../../includes/parser.h"
 
-static bool full_dolar(const char *arg)
+static bool	full_dolar(const char *arg)
 {
 	int	i;
 
@@ -169,39 +169,40 @@ static void	do_expand_lstarg(t_msh *data)
 	t_list	*tmp;
 
 	tmp = data->lst_cmd->lstarg;
-	while(tmp)
+	while (tmp)
 	{
 		if (ft_strrchr((char *)tmp->content, '$'))
 			check_expander(data, &tmp->content);
 		tmp = tmp->next;
 	}
 }
-static void	do_expand_redOut(t_msh *data)
+
+static void	do_expand_redout(t_msh *data)
 {
 	t_list	*tmp;
-	t_redir	*tmpRed;
+	t_redir	*tmpred;
 
 	tmp = data->lst_cmd->lstofredirout;
-	while(tmp)
+	while (tmp)
 	{
-		tmpRed = (t_redir *)(tmp->content);
-		if (ft_strrchr(tmpRed->filename, '$'))
-			check_expander(data, (void **)(&tmpRed->filename));
+		tmpred = (t_redir *)(tmp->content);
+		if (ft_strrchr(tmpred->filename, '$'))
+			check_expander(data, (void **)(&tmpred->filename));
 		tmp = tmp->next;
 	}
 }
 
-static void	do_expand_redIn(t_msh *data)
+static void	do_expand_redin(t_msh *data)
 {
 	t_list	*tmp;
-	t_redir	*tmpRed;
+	t_redir	*tmpred;
 
 	tmp = data->lst_cmd->lstofredirin;
-	while(tmp)
+	while (tmp)
 	{
-		tmpRed = (t_redir *)(tmp->content);
-		if (ft_strrchr(tmpRed->filename, '$') && tmpRed->type == LESS)
-			check_expander(data, (void **)(&tmpRed->filename));
+		tmpred = (t_redir *)(tmp->content);
+		if (ft_strrchr(tmpred->filename, '$') && tmpred->type == LESS)
+			check_expander(data, (void **)(&tmpred->filename));
 		tmp = tmp->next;
 	}
 }
@@ -214,8 +215,8 @@ void	expander(t_msh *data)
 	while (tmp)
 	{
 		do_expand_lstarg(data);
-		do_expand_redOut(data);
-		do_expand_redIn(data);
+		do_expand_redout(data);
+		do_expand_redin(data);
 		tmp = tmp->next;
 	}
 }

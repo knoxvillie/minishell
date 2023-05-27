@@ -6,7 +6,7 @@
 /*   By: kfaustin <kfaustin@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/22 14:33:28 by kfaustin          #+#    #+#             */
-/*   Updated: 2023/05/25 10:17:39 by kfaustin         ###   ########.fr       */
+/*   Updated: 2023/05/27 17:04:30 by kfaustin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	free_t_env(t_env *list)
 
 void	close_pipes(t_msh *data)
 {
-	int i;
+	int	i;
 
 	if (data->npipe == 0)
 		return ;

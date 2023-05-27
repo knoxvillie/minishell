@@ -6,7 +6,7 @@
 /*   By: kfaustin <kfaustin@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/09 13:20:00 by kfaustin          #+#    #+#             */
-/*   Updated: 2023/04/24 12:02:05 by kfaustin         ###   ########.fr       */
+/*   Updated: 2023/05/27 16:36:33 by kfaustin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,10 +88,10 @@ char	**ft_split(char const *s, char c)
 	char	**arr;
 
 	i = 0;
-	j = 0;
+	j = -1;
 	if (!s)
 		return (NULL);
-	arr = (char **)malloc((ft_wordcount(s, c) + 1) * sizeof(char *));
+	arr = (char **)malloc((sizeof(char *) * (ft_wordcount(s, c) + 1)));
 	if (!arr)
 		return (NULL);
 	while (s[i])
@@ -99,10 +99,16 @@ char	**ft_split(char const *s, char c)
 		while (s[i] == c && s[i] != '\0')
 			i++;
 		if (s[i] != '\0')
-			arr[j++] = ft_getword(s, c, i++);
+			arr[++j] = ft_getword(s, c, i++);
 		while (s[i] != c && s[i] != '\0')
 			i++;
 	}
-	arr[j] = NULL;
+	arr[++j] = NULL;
 	return (arr);
 }
+
+/*int	main(void)
+{
+	ft_split("var=kelvin", '=');
+	return 0;
+}*/

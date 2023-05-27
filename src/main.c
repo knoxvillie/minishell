@@ -6,14 +6,14 @@
 /*   By: kfaustin <kfaustin@student.42porto.>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 10:57:37 by kfaustin          #+#    #+#             */
-/*   Updated: 2023/05/27 15:39:16 by kfaustin         ###   ########.fr       */
+/*   Updated: 2023/05/27 17:04:53 by kfaustin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 #include "../includes/parser.h"
 
-int g_exit_status;
+int	g_exit_status;
 
 /* Returns -1 to continue, 0 to break, 1 to do nothing */
 static int	do_trim_parser(t_msh *data, char *input, char **trim)
@@ -31,7 +31,7 @@ static int	do_trim_parser(t_msh *data, char *input, char **trim)
 	free(input);
 	if (ft_parse(*trim, data))
 	{
-		free_lstsCom(data);
+		free_lstscom(data);
 		free (*trim);
 		return (0);
 	}
@@ -55,7 +55,7 @@ static void	do_minishell(t_msh *data)
 			break ;
 		create_pipe(data);
 		do_execute(data);
-		free_lstsCom(data);
+		free_lstscom(data);
 		free(data->pid);
 		data->pid = NULL;
 		free_fd(data);

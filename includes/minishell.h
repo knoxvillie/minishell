@@ -6,7 +6,7 @@
 /*   By: kfaustin <kfaustin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 11:29:44 by kfaustin          #+#    #+#             */
-/*   Updated: 2023/05/27 15:08:49 by kfaustin         ###   ########.fr       */
+/*   Updated: 2023/05/27 15:55:19 by kfaustin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ typedef struct s_msh
 	int		heredoc;
 	char	**env;
 	int		num;
-	pid_t		*pid;
+	pid_t	*pid;
 	t_ppt	*ppt;
 	t_scom	*lst_cmd;
 	t_exp	*export;
@@ -168,9 +168,9 @@ t_env	*stack_env_list(t_env *var, t_env *node);
 t_msh	*env_to_list(t_msh *data, char **env);
 // * *----------* *| (t_env_list2.c):
 char	*get_value_from_key(t_env *env, char *key);
+void	modify_value_exp(t_msh *data, char *key, char **new_value);
 void	modify_value(t_msh *data, char *key, char **new_value);
 bool	is_key_in_env(t_env *env, char *key);
-
 // * *----------* *| (handle_exit.c):
 void	get_exit_status(t_msh *data);
 

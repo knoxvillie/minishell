@@ -25,7 +25,7 @@ void	free_all(t_msh *data)
 	free (data->ppt);
 	close_pipes(data);
 	free_fd(data);
-	free_lstsCom(data);
+	free_lstscom(data);
 	free (data);
 	unlink(".heredoc");
 }
@@ -41,7 +41,7 @@ void	free_fork(t_msh *data)
 	free_prompt(data->ppt);
 	free (data->ppt);
 	free_fd(data);
-	free_lstsCom(data);
+	free_lstscom(data);
 	free (data);
 	unlink(".heredoc");
 }

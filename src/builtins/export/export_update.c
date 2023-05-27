@@ -6,7 +6,7 @@
 /*   By: kfaustin <kfaustin@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/22 11:27:39 by kfaustin          #+#    #+#             */
-/*   Updated: 2023/05/22 14:06:06 by kfaustin         ###   ########.fr       */
+/*   Updated: 2023/05/27 16:58:01 by kfaustin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,21 +46,26 @@ static void	do_export_up(t_msh *data, char *arg)
 {
 	char	**table;
 	char	*value;
+	char	*key;
 	t_env	*node;
 
 	table = ft_split(arg, '=');
-	value = table[1];
-	if (value == NULL)
+	key = ft_strdup(table[0]);
+	if (table[1] == NULL)
 		value = ft_strdup("\0");
-	if (is_key_in_env(data->ppt->list, table[0]))
+	else
+		value = ft_strdup(table[1]);
+	free_table(table);
+	if (is_key_in_env(data->ppt->list, key))
+		return (modify_value(data, key, &value), free(key));
+	if (is_key_in_env(data->export->exp, key))
 	{
-		modify_value(data, table[0], &value);
-		free (table);
-		return ;
+		modify_value_exp(data, key, &value);
+		return (free(key));
 	}
 	node = init_env_node(table[0], value);
 	data->ppt->list = stack_env_list(data->ppt->list, node);
-	free (table);
+	free_table(table);
 }
 
 void	builtin_export_update(t_msh *data)

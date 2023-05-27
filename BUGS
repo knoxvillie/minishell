@@ -189,11 +189,11 @@ echo bonjour ; |                    ok
  cat Makefile | grep pr | head -n 5 | cd test (mybin) # check status code
  cat Makefile | grep pr | head -n 5 | cat test (bin) # check status code
  cat Makefile | grep pr | head -n 5 | hello (NA) # check status code
- echo bonjour >>> test
- echo bonjour > > out
- echo 2 >> out1 > out2
- echo 2 > out1 >> out2
- cat < test # with non-existent test
+ echo bonjour >>> test                                      OK
+ echo bonjour > > out                                           OK
+ echo 2 >> out1 > out2                      OK
+ echo 2 > out1 >> out2                                          OK
+ cat < test # with non-existent test                OK
  export var; export var=test
  echo bonjour > $test # with test not defined
  file_name_in_current_dir

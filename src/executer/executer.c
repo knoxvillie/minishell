@@ -6,7 +6,7 @@
 /*   By: kfaustin <kfaustin@student.42porto.>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/05 11:00:11 by kfaustin          #+#    #+#             */
-/*   Updated: 2023/05/27 14:47:05 by kfaustin         ###   ########.fr       */
+/*   Updated: 2023/05/27 16:22:40 by kfaustin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,17 +48,27 @@ static char	*execute_condition(t_msh *data)
 	if (!path_cmd)
 	{
 		ft_putstr_fd("msh: command not found\n", 2);
-		g_exit_status = 127;
-		return (NULL);
+		return (g_exit_status = 127, NULL);
 	}
 	return (path_cmd);
+}
+
+void	check_builtin_aux(t_msh *data)
+{
+	if (check_builtin(data->lst_cmd->argv[0]))
+	{
+		do_builtin(data, data->lst_cmd->argv[0]);
+		close_pipes(data);
+		free_all(data);
+		exit(0);
+	}
 }
 
 static void	do_multiples_pipe(t_msh *data)
 {
 	char	*path_cmd;
 
-	while(data->lst_cmd)
+	while (data->lst_cmd)
 	{
 		if (data->heredoc)
 			wait(0);
@@ -68,13 +78,7 @@ static void	do_multiples_pipe(t_msh *data)
 			do_redir(data);
 			do_pipe(data);
 			redirect_updt(data->lst_cmd->ft_stdin, data->lst_cmd->ft_stdout);
-			if (check_builtin(data->lst_cmd->argv[0]))
-			{
-				do_builtin(data, data->lst_cmd->argv[0]);
-				close_pipes(data);
-				free_all(data);
-				exit(0);
-			}
+			check_builtin_aux(data);
 			path_cmd = execute_condition(data);
 			if (!path_cmd)
 				exit(g_exit_status);

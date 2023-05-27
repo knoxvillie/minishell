@@ -6,7 +6,7 @@
 /*   By: kfaustin <kfaustin@student.42porto.>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/21 14:25:58 by kfaustin          #+#    #+#             */
-/*   Updated: 2023/05/27 14:34:22 by kfaustin         ###   ########.fr       */
+/*   Updated: 2023/05/27 17:15:19 by kfaustin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,77 +42,77 @@ int	get_token(t_msh	*data, char **str)
 {
 	while (**str && ft_strchr(WSPACE, **str))
 		(*str)++;
-	if (**str== '|')
+	if (**str == '|')
 		return (get_token_pipe(data, str));
 	else if (**str == '<')
 		return (redirin(data, str));
 	else if (**str == '>')
 		return (redirout(data, str));
 	else if (**str && ft_strchr(UNSUPMETACH, **str))
-		return (printf("Msh does not support this operator %c\n",**str), (*str)++, 1);
+		return (printf("Msh does not sup this op. %c\n", **str), (*str)++, 1);
 	else
 		get_token_word(data, str);
 	return (0);
 }
 
-int size_lstarg(t_scom *data)
+int	size_lstarg(t_scom *data)
 {
-    t_list *tmp;
-    int		i;
+	int		i;
+	t_list	*tmp;
 
-    tmp = data->lstarg;
-    if (!tmp)
-        return (0);
-    i = 0;
-    while (tmp != NULL)
-    {
-        tmp = tmp->next;
-        i++;
-    }
-    return (i);
+	tmp = data->lstarg;
+	if (!tmp)
+		return (0);
+	i = 0;
+	while (tmp != NULL)
+	{
+		tmp = tmp->next;
+		i++;
+	}
+	return (i);
 }
 
 void	init_argv(t_msh *data)
 {
 	int		i;
 	int		nscom;
-	t_list	*tmpArgLst;
-	t_scom	*tmpsCom;
+	t_list	*tmparglst;
+	t_scom	*tmpscom;
 
-	tmpsCom = data->lst_cmd;
+	tmpscom = data->lst_cmd;
 	nscom = 0;
-	while (tmpsCom != NULL)
+	while (tmpscom != NULL)
 	{
-		i = size_lstarg(tmpsCom);
-		tmpArgLst = tmpsCom->lstarg;
-		tmpsCom->i = nscom;
-		tmpsCom->argv = (char **)malloc(sizeof(char *) * (i + 1));
+		i = size_lstarg(tmpscom);
+		tmparglst = tmpscom->lstarg;
+		tmpscom->i = nscom;
+		tmpscom->argv = (char **)malloc(sizeof(char *) * (i + 1));
 		i = 0;
-		while (tmpArgLst != NULL)
+		while (tmparglst != NULL)
 		{
-			if (tmpArgLst->content)
+			if (tmparglst->content)
 			{
-				tmpsCom->argv[i] = ft_strdup((char *)tmpArgLst->content);
+				tmpscom->argv[i] = ft_strdup((char *)tmparglst->content);
 				i++;
 			}
-			tmpArgLst = tmpArgLst->next;
+			tmparglst = tmparglst->next;
 		}
-		tmpsCom->argv[i] = NULL;
+		tmpscom->argv[i] = NULL;
 		nscom++;
-		tmpsCom = tmpsCom->next;
+		tmpscom = tmpscom->next;
 	}
 	data->nscom = nscom;
 	data->npipe = nscom - 1;
 }
 
-int ft_parse(char *input, t_msh *data)
+int	ft_parse(char *input, t_msh *data)
 {
 	char	*str;
 	t_scom	*tmp;
 
 	str = input;
-	tmp = ft_lstnewsCom();
-	ft_lstadd_backsCom(&(data->lst_cmd), tmp);
+	tmp = ft_lstnewscom();
+	ft_lstadd_backscom(&(data->lst_cmd), tmp);
 	if (!check_unclosed_quotes(input))
 	{
 		ft_putstr_fd("Error: Unclosed quotes found\n", 2);

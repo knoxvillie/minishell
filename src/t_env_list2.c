@@ -6,7 +6,7 @@
 /*   By: kfaustin <kfaustin@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/19 10:37:33 by kfaustin          #+#    #+#             */
-/*   Updated: 2023/05/24 10:37:27 by kfaustin         ###   ########.fr       */
+/*   Updated: 2023/05/27 15:54:33 by kfaustin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,23 @@ char	*get_value_from_key(t_env *env, char *key)
 		node = node->next;
 	}
 	return (NULL);
+}
+
+void	modify_value_exp(t_msh *data, char *key, char **new_value)
+{
+	t_env	*node;
+
+	node = data->export->exp;
+	while (node)
+	{
+		if (abs_string_cmp(key, node->key))
+		{
+			free (node->value);
+			node->value = *new_value;
+			return ;
+		}
+		node = node->next;
+	}
 }
 
 void	modify_value(t_msh *data, char *key, char **new_value)

@@ -6,50 +6,62 @@
 /*   By: kfaustin <kfaustin@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 14:26:11 by kfaustin          #+#    #+#             */
-/*   Updated: 2023/05/27 12:30:59 by kfaustin         ###   ########.fr       */
+/*   Updated: 2023/05/27 17:46:36 by kfaustin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 #include "../includes/parser.h"
 
-void	do_heredoc(t_msh *data)
+void	error_file(t_msh *data, int fd, char *filename)
 {
-	int 	tmp_fd;
-	char	*buff;
-	t_list	*tmp;
-	t_redir	*tmp_red;
-
-
-	tmp = data->lst_cmd->lstofredirin;
-	tmp_red = tmp->content;
-	tmp_fd = open(".heredoc", O_CREAT | O_WRONLY | O_TRUNC, S_IWUSR | S_IRUSR);
-	signal(SIGINT, SIG_DFL);
-	if (tmp_fd < 0)
+	if (fd < 0)
 	{
-		ft_putstr_fd("Error while opening file.\n", 2);
+		ft_putstr_fd("msh: ", 2);
+		ft_putstr_fd(filename, 2);
+		ft_putstr_fd(": no such file or directory\n", 2);
 		free_fork(data);
 		exit(1);
 	}
+}
+
+void	loop_heredoc(t_msh *data, char *filename, int fd)
+{
+	char	*buff;
+
 	while (1)
 	{
 		buff = readline(">");
 		if (!buff)
 		{
-			ft_putstr_fd("msh: warning: here-doc at line 1 delimited by end-of-file\n", 2);
+			ft_putstr_fd("msh: warning: here-doc at line 1 deli. by eof\n", 2);
 			break ;
 		}
 		buff[ft_strlen(buff)] = '\0';
-		if (abs_string_cmp(tmp_red->filename, buff))
+		if (abs_string_cmp(filename, buff))
 			break ;
 		if (ft_strrchr(buff, '$'))
 			check_expander(data, (void **)(&buff));
-		ft_putendl_fd(buff, tmp_fd);
+		ft_putendl_fd(buff, fd);
 		free(buff);
 	}
-	close(tmp_fd);
 	free(buff);
-	data->lst_cmd->ft_stdin = open(".heredoc",O_RDWR);
+}
+
+void	do_heredoc(t_msh *data)
+{
+	int		tmp_fd;
+	t_list	*tmp;
+	t_redir	*tmp_red;
+
+	tmp = data->lst_cmd->lstofredirin;
+	tmp_red = tmp->content;
+	tmp_fd = open(".heredoc", O_CREAT | O_WRONLY | O_TRUNC, S_IWUSR | S_IRUSR);
+	signal(SIGINT, SIG_DFL);
+	error_file(data, tmp_fd, ".heredoc");
+	loop_heredoc(data, tmp_red->filename, tmp_fd);
+	close(tmp_fd);
+	data->lst_cmd->ft_stdin = open(".heredoc", O_RDWR);
 }
 
 void	open_redir_in(t_msh *data)
@@ -58,20 +70,13 @@ void	open_redir_in(t_msh *data)
 	t_redir	*tmp_red;
 
 	tmp = data->lst_cmd->lstofredirin;
-	while(data->lst_cmd->lstofredirin)
+	while (data->lst_cmd->lstofredirin)
 	{
 		tmp_red = data->lst_cmd->lstofredirin->content;
 		if (tmp_red->type == LESS)
 		{
-			data->lst_cmd->ft_stdin = open(tmp_red->filename,O_RDONLY);
-			if (data->lst_cmd->ft_stdin < 0)
-			{
-				ft_putstr_fd("msh: ", 2);
-				ft_putstr_fd(tmp_red->filename, 2);
-				ft_putstr_fd(": no such file or directory\n", 2);
-				free_fork(data);
-				exit(1);
-			}
+			data->lst_cmd->ft_stdin = open(tmp_red->filename, O_RDONLY);
+			error_file(data, data->lst_cmd->ft_stdin, tmp_red->filename);
 		}
 		else if (tmp_red->type == LESSLESS)
 		{
@@ -88,30 +93,21 @@ void	open_redir_out(t_msh *data)
 	t_redir	*tmp_red;
 
 	tmp = data->lst_cmd->lstofredirout;
-	while(tmp)
+	while (tmp)
 	{
 		tmp_red = tmp->content;
 		if (tmp_red->type == GREAT)
 		{
-			data->lst_cmd->ft_stdout = open(tmp_red->filename,O_RDWR | O_CREAT | O_TRUNC, S_IRUSR | S_IWUSR);
-			if (data->lst_cmd->ft_stdout < 0)
-			{
-				ft_putstr_fd("Error while opening file.\n", 2);
-				free_fork(data);
-				exit(1);
-			}
+			data->lst_cmd->ft_stdout = open(tmp_red->filename,
+					O_RDWR | O_CREAT | O_TRUNC, S_IRUSR | S_IWUSR);
+			error_file(data, data->lst_cmd->ft_stdout, tmp_red->filename);
 		}
 		else if (tmp_red->type == GREATGREAT)
 		{
-			data->lst_cmd->ft_stdout = open(tmp_red->filename,O_RDWR | O_CREAT | O_APPEND, S_IRUSR | S_IWUSR);
-			if (data->lst_cmd->ft_stdout < 0)
-			{
-				ft_putstr_fd("Error while opening file.\n", 2);
-				free_fork(data);
-				exit(1);
-			}
+			data->lst_cmd->ft_stdout = open(tmp_red->filename,
+					O_RDWR | O_CREAT | O_APPEND, S_IRUSR | S_IWUSR);
+			error_file(data, data->lst_cmd->ft_stdout, tmp_red->filename);
 		}
 		tmp = tmp->next;
 	}
 }
-

@@ -6,7 +6,7 @@
 /*   By: fvalli-v <fvalli-v@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/14 17:22:34 by fvalli-v          #+#    #+#             */
-/*   Updated: 2023/05/24 11:13:39 by kfaustin         ###   ########.fr       */
+/*   Updated: 2023/05/27 17:03:22 by kfaustin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,10 +45,10 @@ void	do_pipe(t_msh *data)
 
 	tmp = data->lst_cmd;
 	if (tmp->i == 0)
-		redirect_updt(tmp->ft_stdin,data->fd[0][1]);
+		redirect_updt(tmp->ft_stdin, data->fd[0][1]);
 	else if (tmp->i == data->npipe)
-		redirect_updt(data->fd[data->npipe - 1][0],tmp->ft_stdout);
+		redirect_updt(data->fd[data->npipe - 1][0], tmp->ft_stdout);
 	else
-		redirect_updt(data->fd[tmp->i - 1][0],data->fd[tmp->i][1]);
+		redirect_updt(data->fd[tmp->i - 1][0], data->fd[tmp->i][1]);
 	close_pipes(data);
 }
