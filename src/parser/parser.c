@@ -6,37 +6,12 @@
 /*   By: kfaustin <kfaustin@student.42porto.>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/21 14:25:58 by kfaustin          #+#    #+#             */
-/*   Updated: 2023/05/27 17:15:19 by kfaustin         ###   ########.fr       */
+/*   Updated: 2023/05/27 18:10:19 by kfaustin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 #include "../../includes/parser.h"
-
-bool	check_unclosed_quotes(char *input)
-{
-	char	inside_q;
-
-	inside_q = '\0';
-	while (*input)
-	{
-		while (*input && !inside_q)
-		{
-			if (*input == '\'' || *input == '\"')
-				inside_q = *input;
-			input++;
-		}
-		while (*input && inside_q)
-		{
-			if (*input == inside_q)
-				inside_q = '\0';
-			input++;
-		}
-	}
-	if (!inside_q)
-		return (true);
-	return (false);
-}
 
 int	get_token(t_msh	*data, char **str)
 {
@@ -72,6 +47,12 @@ int	size_lstarg(t_scom *data)
 	return (i);
 }
 
+void	init_argv_norm(t_msh *data, int nscom)
+{
+	data->nscom = nscom;
+	data->npipe = nscom - 1;
+}
+
 void	init_argv(t_msh *data)
 {
 	int		i;
@@ -91,18 +72,14 @@ void	init_argv(t_msh *data)
 		while (tmparglst != NULL)
 		{
 			if (tmparglst->content)
-			{
-				tmpscom->argv[i] = ft_strdup((char *)tmparglst->content);
-				i++;
-			}
+				tmpscom->argv[i++] = ft_strdup((char *)tmparglst->content);
 			tmparglst = tmparglst->next;
 		}
 		tmpscom->argv[i] = NULL;
 		nscom++;
 		tmpscom = tmpscom->next;
 	}
-	data->nscom = nscom;
-	data->npipe = nscom - 1;
+	init_argv_norm(data, nscom);
 }
 
 int	ft_parse(char *input, t_msh *data)

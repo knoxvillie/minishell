@@ -6,7 +6,7 @@
 /*   By: kfaustin <kfaustin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 11:29:44 by kfaustin          #+#    #+#             */
-/*   Updated: 2023/05/27 15:55:19 by kfaustin         ###   ########.fr       */
+/*   Updated: 2023/05/27 18:40:09 by kfaustin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,15 +114,43 @@ void	builtin_exit_update(t_msh *data);
 // *** EXECUTER *** ------------------------------|
 // * *----------* *| (access.c):
 char	*check_access(char *path, char *cmd);
+void	execute_execve(t_msh *data, char *path_cmd);
 // * *----------* *| (executer.c):
 void	do_execute(t_msh *data);
 void	close_pipes(t_msh *data);
 // *** PARSER *** --------------------------------|
-//
+int		get_token(t_msh	*data, char **str);
+int		size_lstarg(t_scom *data);
+void	init_argv_norm(t_msh *data, int nscom);
+void	init_argv(t_msh *data);
+int		ft_parse(char *input, t_msh *data);
+bool	check_unclosed_quotes(char *input);
+t_scom	*ft_lstlastscom(t_scom *lst);
+t_scom	*ft_lstnewscom(void);
+void	ft_lstadd_backscom(t_scom **lst, t_scom *new);
+void	free_lst(t_scom *lst);
+void	free_lst_redirin(t_scom *lst);
+void	free_lst_redirout(t_scom *lst);
+void	free_lstscom(t_msh *data);
+int		check_node_empty(t_scom *lst);
+int		check_nbr_pipes(t_scom *lst);
+int		jump_dq_and_sq(char **str, int i);
+int		get_token_aux(t_redir *red, t_scom *scom, char **str, int type);
+int		get_token_word_redir(t_msh	*data, char **str, int type);
+int		redirout(t_msh	*data, char **str);
+int		redirin(t_msh	*data, char **str);
 // *** EXPANDER *** ------------------------------|
 void	expander(t_msh *data);
 void	check_expander(t_msh *data, void **content);
 int		is_alnumunder(int c);
+bool	full_dolar(const char *arg);
+char	quote_value(char c, char quote);
+void	size_expand_2_aux(int *len, int *i);
+void	size_expand_2(t_msh *data, char *arg, int *i, int *len);
+int		size_expand(t_msh *data, char *arg);
+void	expand_exit_status(t_msh *data, char **ppt, int *i);
+void	do_expander_if(t_msh *data, char *value, char **ptr);
+void	do_expander(t_msh *data, char *arg, char **ptr, int *i);
 // *** SRC *** -----------------------------------|
 // * *----------* *| (create_pipe.c):
 void	create_pipe(t_msh *data);

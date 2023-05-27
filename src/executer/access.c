@@ -6,11 +6,23 @@
 /*   By: kfaustin <kfaustin@student.42porto.>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 14:51:46 by kfaustin          #+#    #+#             */
-/*   Updated: 2023/05/22 21:37:34 by fvalli-v         ###   ########.fr       */
+/*   Updated: 2023/05/27 18:38:30 by kfaustin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+
+void	execute_execve(t_msh *data, char *path_cmd)
+{
+	char	**cmd;
+
+	cmd = (char **)data->lst_cmd->argv;
+	if (execve(path_cmd, cmd, data->env) < 0)
+	{
+		printf("msh: error on execve\n");
+		exit(1);
+	}
+}
 
 static char	*path_plus_cmd(char *path, char *cmd)
 {

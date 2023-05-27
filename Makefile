@@ -25,13 +25,13 @@ SRC		= create_pipe.c dobuiltin.c free.c free2.c generic.c init.c main.c prompt.c
 			redirect.c redirect2.c signals.c t_env_list.c t_env_list2.c handle_exit.c
 
 PARSERDIR= ./src/parser/
-PARSER	= parser.c parser_utils.c
+PARSER	= parser.c parser2.c parser3.c parser4.c parser_utils.c
 
 EXECDIR	= ./src/executer/
 EXEC	= access.c executer.c
 
 EXPDIR	= ./src/expander/
-EXP		= expander.c
+EXP		= expander.c expander2.c expander3.c
 
 BUILDIR	= ./src/builtins/
 BUILT	=	$(BUILDIR)env/env.c \

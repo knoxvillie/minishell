@@ -12,18 +12,6 @@
 
 #include "../../includes/minishell.h"
 
-static void	execute_execve(t_msh *data, char *path_cmd)
-{
-	char	**cmd;
-
-	cmd = (char **)data->lst_cmd->argv;
-	if (execve(path_cmd, cmd, data->env) < 0)
-	{
-		printf("msh: error on execve\n");
-		exit(1);
-	}
-}
-
 static char	*execute_condition(t_msh *data)
 {
 	char	*cmd;
