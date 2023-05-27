@@ -6,14 +6,26 @@
 /*   By: fvalli-v <fvalli-v@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 21:11:46 by fvalli-v          #+#    #+#             */
-/*   Updated: 2023/05/26 00:36:33 by fvalli-v         ###   ########.fr       */
+/*   Updated: 2023/05/27 12:04:35 by kfaustin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 #include "../../includes/parser.h"
 
+static bool full_dolar(const char *arg)
+{
+	int	i;
 
+	i = 0;
+	while (arg && arg[i])
+	{
+		if (arg[i] != '$')
+			return (false);
+		i++;
+	}
+	return (true);
+}
 
 static char	quote_value(char c, char quote)
 {
@@ -45,9 +57,10 @@ static void	size_expand_2(t_msh *data, char *arg, int *i, int *len)
 			j++;
 		key = ft_substr(arg, *i + 1, j);
 		value = get_value_from_key(data->ppt->list, key);
-		if (value == NULL)
+		if (j == 0)
 			value = ft_strdup("$");
-		*len += (int)ft_strlen(value);
+		if (value)
+			*len += (int)ft_strlen(value);
 		free(key);
 		free (value);
 		*i += j;
@@ -108,26 +121,31 @@ static void	do_expander(t_msh *data, char *arg, char **ptr, int *i)
 			len++;
 		key = ft_substr(arg, *i + 1, len);
 		value = get_value_from_key(data->ppt->list, key);
-		if (value == NULL)
+		if (len == 0)
 			value = ft_strdup("$");
 		free(key);
 		*i += len;
-		k = -1;
-		while (value[++k])
-			(*ptr)[data->num++] = value[k];
-		free (value);
+		if (value)
+		{
+			k = -1;
+			while (value[++k])
+				(*ptr)[data->num++] = value[k];
+			free (value);
+		}
 	}
 	else
 		expand_exit_status(data, ptr, i);
 }
 
-static void	check_expander(t_msh *data, void **content)
+void	check_expander(t_msh *data, void **content)
 {
 	int		i;
 	char	quote;
 	char	*arg;
 	char	*expanded;
 
+	if (full_dolar((char *)(*content)))
+		return ;
 	i = -1;
 	quote = '\0';
 	arg = (char *)(*content);

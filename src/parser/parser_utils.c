@@ -6,7 +6,7 @@
 /*   By: kfaustin <kfaustin@student.42porto.>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 10:39:42 by kfaustin          #+#    #+#             */
-/*   Updated: 2023/05/25 23:33:21 by fvalli-v         ###   ########.fr       */
+/*   Updated: 2023/05/27 12:41:46 by kfaustin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -208,10 +208,10 @@ int get_token_word_redir(t_msh	*data, char **str, int type)
     while (**str && ft_strchr(WSPACE, **str))
         (*str)++;
     if (**str && (ft_strchr(METACH, **str) || ft_strchr(UNSUPMETACH, **str)))
-        return (printf("syntax error near unexpected token `%c\'\n",**str), 1);
+        return (free(red), printf("syntax error near unexpected token `%c\'\n",**str), 1);
     if (**str == '\0')
 	{
-		return (printf("syntax error near unexpected token `newline\'\n"), 1);
+		return (free(red), printf("syntax error near unexpected token `newline\'\n"), 1);
 	}
     red->filename = ft_strdup(*str);
     i = 0;

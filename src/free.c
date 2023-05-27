@@ -6,7 +6,7 @@
 /*   By: kfaustin <kfaustin@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 14:17:07 by kfaustin          #+#    #+#             */
-/*   Updated: 2023/05/25 10:05:21 by kfaustin         ###   ########.fr       */
+/*   Updated: 2023/05/27 14:17:12 by kfaustin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 void	free_all(t_msh *data)
 {
+	free(data->pid);
 	free_t_env(data->ppt->list);
 	free_t_exp(data->export->exp);
 	free (data->export);
@@ -30,6 +31,7 @@ void	free_all(t_msh *data)
 
 void	free_fork(t_msh *data)
 {
+	free(data->pid);
 	free_t_env(data->ppt->list);
 	free_t_exp(data->export->exp);
 	free (data->export);
@@ -44,6 +46,7 @@ void	free_fork(t_msh *data)
 
 void	free_over(t_msh *data)
 {
+	free(data->pid);
 	free_t_env(data->ppt->list);
 	free_t_exp(data->export->exp);
 	free (data->export);

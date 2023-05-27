@@ -6,7 +6,7 @@
 /*   By: kfaustin <kfaustin@student.42porto.>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/05 11:00:11 by kfaustin          #+#    #+#             */
-/*   Updated: 2023/05/25 00:18:28 by fvalli-v         ###   ########.fr       */
+/*   Updated: 2023/05/27 14:47:05 by kfaustin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,8 +47,9 @@ static char	*execute_condition(t_msh *data)
 	free (cmd);
 	if (!path_cmd)
 	{
-		return (ft_putstr_fd("msh: command not found\n", 2), NULL);
+		ft_putstr_fd("msh: command not found\n", 2);
 		g_exit_status = 127;
+		return (NULL);
 	}
 	return (path_cmd);
 }
@@ -56,14 +57,13 @@ static char	*execute_condition(t_msh *data)
 static void	do_multiples_pipe(t_msh *data)
 {
 	char	*path_cmd;
-	pid_t	pid;
 
 	while(data->lst_cmd)
 	{
 		if (data->heredoc)
 			wait(0);
-		pid = fork();
-		if (pid == 0)
+		data->pid[data->lst_cmd->i] = fork();
+		if (data->pid[data->lst_cmd->i] == 0)
 		{
 			do_redir(data);
 			do_pipe(data);
@@ -73,11 +73,11 @@ static void	do_multiples_pipe(t_msh *data)
 				do_builtin(data, data->lst_cmd->argv[0]);
 				close_pipes(data);
 				free_all(data);
-				exit(1);
+				exit(0);
 			}
 			path_cmd = execute_condition(data);
 			if (!path_cmd)
-				exit(0);
+				exit(g_exit_status);
 			execute_execve(data, path_cmd);
 		}
 		data->lst_cmd = data->lst_cmd->next;
@@ -86,13 +86,12 @@ static void	do_multiples_pipe(t_msh *data)
 
 static void	do_no_pipe(t_msh *data)
 {
-	pid_t	pid;
 	char	*cmd;
 	char	*path_cmd;
 
 	cmd = data->lst_cmd->argv[0];
-	pid = fork();
-	if (pid == 0)
+	data->pid[0] = fork();
+	if (data->pid[0] == 0)
 	{
 		do_redir(data);
 		redirect_updt(data->lst_cmd->ft_stdin, data->lst_cmd->ft_stdout);
@@ -100,11 +99,11 @@ static void	do_no_pipe(t_msh *data)
 		{
 			do_builtin(data, cmd);
 			free_all(data);
-			exit(1);
+			exit(0);
 		}
 		path_cmd = execute_condition(data);
 		if (!path_cmd)
-			exit(0);
+			exit(g_exit_status);
 		execute_execve(data, path_cmd);
 	}
 	if (check_builtin(cmd))
@@ -113,7 +112,7 @@ static void	do_no_pipe(t_msh *data)
 
 void	do_execute(t_msh *data)
 {
-	int		i;
+//	int		i;
 	t_scom	*tmp_lstcmd;
 
 	init_signal(1);
@@ -122,9 +121,10 @@ void	do_execute(t_msh *data)
 		do_multiples_pipe(data);
 	else
 		do_no_pipe(data);
-	i = -1;
+//	i = -1;
 	close_pipes(data);
-	while (++i < data->nscom)
-		waitpid(0, NULL, 0);
+//	while (++i < data->nscom)
+//		waitpid(0, NULL, 0);
+	get_exit_status(data);
 	data->lst_cmd = tmp_lstcmd;
 }

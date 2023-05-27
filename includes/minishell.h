@@ -6,7 +6,7 @@
 /*   By: kfaustin <kfaustin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 11:29:44 by kfaustin          #+#    #+#             */
-/*   Updated: 2023/05/25 10:18:01 by kfaustin         ###   ########.fr       */
+/*   Updated: 2023/05/27 14:22:23 by kfaustin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,7 @@ typedef struct s_msh
 	int		heredoc;
 	char	**env;
 	int		num;
+	pid_t		*pid;
 	t_ppt	*ppt;
 	t_scom	*lst_cmd;
 	t_exp	*export;
@@ -120,6 +121,7 @@ void	close_pipes(t_msh *data);
 //
 // *** EXPANDER *** ------------------------------|
 void	expander(t_msh *data);
+void	check_expander(t_msh *data, void **content);
 // *** SRC *** -----------------------------------|
 // * *----------* *| (create_pipe.c):
 void	create_pipe(t_msh *data);
@@ -167,4 +169,8 @@ t_msh	*env_to_list(t_msh *data, char **env);
 char	*get_value_from_key(t_env *env, char *key);
 void	modify_value(t_msh *data, char *key, char **new_value);
 bool	is_key_in_env(t_env *env, char *key);
+
+// * *----------* *| (handle_exit.c):
+void	get_exit_status(t_msh *data);
+
 #endif

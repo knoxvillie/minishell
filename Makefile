@@ -22,7 +22,7 @@ RM		= rm -rf
 # Sources, objects and dir
 SRCDIR	= ./src/
 SRC		= create_pipe.c dobuiltin.c free.c free2.c generic.c init.c main.c prompt.c \
-			redirect.c redirect2.c signals.c t_env_list.c t_env_list2.c
+			redirect.c redirect2.c signals.c t_env_list.c t_env_list2.c handle_exit.c
 
 PARSERDIR= ./src/parser/
 PARSER	= parser.c parser_utils.c

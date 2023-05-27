@@ -6,7 +6,7 @@
 /*   By: kfaustin <kfaustin@student.42porto.>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/21 14:25:58 by kfaustin          #+#    #+#             */
-/*   Updated: 2023/05/25 23:33:25 by fvalli-v         ###   ########.fr       */
+/*   Updated: 2023/05/27 14:34:22 by kfaustin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,15 +87,9 @@ void	init_argv(t_msh *data)
 		tmpArgLst = tmpsCom->lstarg;
 		tmpsCom->i = nscom;
 		tmpsCom->argv = (char **)malloc(sizeof(char *) * (i + 1));
-		if (!tmpsCom->argv)
+		i = 0;
+		while (tmpArgLst != NULL)
 		{
-			ft_putstr_fd("Error: Malloc of argList is null", 2);
-			// free and exit
-		}
-        i = 0;
-        while (tmpArgLst != NULL)
-        {
-			//caso primeiro elemento de tmpArgLst->content seja nulo n'ao faz ft_strdup
 			if (tmpArgLst->content)
 			{
 				tmpsCom->argv[i] = ft_strdup((char *)tmpArgLst->content);
@@ -131,8 +125,8 @@ int ft_parse(char *input, t_msh *data)
 	}
 	if (check_nbr_pipes(data->lst_cmd))
 		return (1);
-	//
 	expander(data);
 	init_argv(data);
+	data->pid = (pid_t *)malloc(sizeof(pid_t) * data->nscom);
 	return (0);
 }

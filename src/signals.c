@@ -19,6 +19,7 @@ static void	handler_false(int sig_type)
 	rl_on_new_line();
 	rl_replace_line("", 0);
 	rl_redisplay();
+	g_exit_status = 130;
 }
 
 static void	handler_true(int sig_type)

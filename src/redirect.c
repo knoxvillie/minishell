@@ -6,7 +6,7 @@
 /*   By: kfaustin <kfaustin@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 14:26:11 by kfaustin          #+#    #+#             */
-/*   Updated: 2023/05/25 00:48:30 by fvalli-v         ###   ########.fr       */
+/*   Updated: 2023/05/27 12:30:59 by kfaustin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,8 @@ void	do_heredoc(t_msh *data)
 		buff[ft_strlen(buff)] = '\0';
 		if (abs_string_cmp(tmp_red->filename, buff))
 			break ;
+		if (ft_strrchr(buff, '$'))
+			check_expander(data, (void **)(&buff));
 		ft_putendl_fd(buff, tmp_fd);
 		free(buff);
 	}
