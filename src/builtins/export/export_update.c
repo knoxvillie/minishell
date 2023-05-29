@@ -6,7 +6,7 @@
 /*   By: kfaustin <kfaustin@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/22 11:27:39 by kfaustin          #+#    #+#             */
-/*   Updated: 2023/05/27 16:58:01 by kfaustin         ###   ########.fr       */
+/*   Updated: 2023/05/27 19:09:59 by kfaustin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,13 +59,9 @@ static void	do_export_up(t_msh *data, char *arg)
 	if (is_key_in_env(data->ppt->list, key))
 		return (modify_value(data, key, &value), free(key));
 	if (is_key_in_env(data->export->exp, key))
-	{
-		modify_value_exp(data, key, &value);
-		return (free(key));
-	}
-	node = init_env_node(table[0], value);
+		ft_unset(data, key);
+	node = init_env_node(key, value);
 	data->ppt->list = stack_env_list(data->ppt->list, node);
-	free_table(table);
 }
 
 void	builtin_export_update(t_msh *data)
@@ -88,4 +84,5 @@ void	builtin_export_update(t_msh *data)
 			continue ;
 		do_export_up(data, str);
 	}
+	g_exit_status = 0;
 }

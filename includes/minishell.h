@@ -6,7 +6,7 @@
 /*   By: kfaustin <kfaustin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 11:29:44 by kfaustin          #+#    #+#             */
-/*   Updated: 2023/05/27 18:40:09 by kfaustin         ###   ########.fr       */
+/*   Updated: 2023/05/27 19:00:02 by kfaustin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,6 +101,7 @@ bool	check_ue_syntax(char *str, char *mode);
 // * *----------* *| (export.c):
 void	builtin_export(t_msh *data);
 void	builtin_export_update(t_msh *data);
+void	ft_unset(t_msh *data, char *key);
 // * *----------* *| (env.c):
 void	builtin_env(t_msh *data);
 void	builtin_pwd(t_msh *data);

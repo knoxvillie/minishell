@@ -6,7 +6,7 @@
 /*   By: kfaustin <kfaustin@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 15:31:15 by kfaustin          #+#    #+#             */
-/*   Updated: 2023/05/27 15:58:20 by kfaustin         ###   ########.fr       */
+/*   Updated: 2023/05/27 19:10:19 by kfaustin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,4 +25,5 @@ void	builtin_pwd(t_msh *data)
 	ft_putstr_fd(path, 1);
 	ft_putstr_fd("\n", 1);
 	free (path);
+	g_exit_status = 0;
 }

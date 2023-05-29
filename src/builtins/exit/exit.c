@@ -6,7 +6,7 @@
 /*   By: kfaustin <kfaustin@student.42porto.>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/13 10:26:35 by kfaustin          #+#    #+#             */
-/*   Updated: 2023/05/27 15:58:39 by kfaustin         ###   ########.fr       */
+/*   Updated: 2023/05/27 19:17:00 by kfaustin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,8 @@
 static void	free_print_exit(t_msh *data, char *msg, int fd, char *value_txt)
 {
 	g_exit_status = ft_atoi(value_txt);
-	ft_putstr_fd("exit\n", fd);
+	if (data->npipe == 0)
+		ft_putstr_fd("exit\n", fd);
 	ft_putstr_fd(msg, fd);
 	free_fork(data);
 	exit ((unsigned char)g_exit_status);

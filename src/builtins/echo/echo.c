@@ -6,7 +6,7 @@
 /*   By: kfaustin <kfaustin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 11:20:55 by kfaustin          #+#    #+#             */
-/*   Updated: 2023/05/22 14:17:08 by kfaustin         ###   ########.fr       */
+/*   Updated: 2023/05/27 19:06:26 by kfaustin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,4 +100,5 @@ void	builtins_echo(t_msh *data)
 	do_echo(arg, i);
 	if (i == 1)
 		ft_putchar_fd('\n', 1);
+	g_exit_status = 0;
 }

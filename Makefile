@@ -35,7 +35,7 @@ EXP		= expander.c expander2.c expander3.c
 
 BUILDIR	= ./src/builtins/
 BUILT	=	$(BUILDIR)env/env.c \
- 			$(BUILDIR)export/export.c $(BUILDIR)export/export_update.c \
+ 			$(BUILDIR)export/export.c $(BUILDIR)export/export_update.c $(BUILDIR)export/exptoenv.c \
  			$(BUILDIR)unset/unset.c $(BUILDIR)unset/unset_update.c\
  			$(BUILDIR)cd/cd.c $(BUILDIR)cd/cd_update.c \
  			$(BUILDIR)exit/exit.c \

@@ -1,29 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env.c                                              :+:      :+:    :+:   */
+/*   exptoenv.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kfaustin <kfaustin@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/05/11 12:24:35 by kfaustin          #+#    #+#             */
-/*   Updated: 2023/05/27 19:06:53 by kfaustin         ###   ########.fr       */
+/*   Created: 2023/05/27 18:48:39 by kfaustin          #+#    #+#             */
+/*   Updated: 2023/05/29 09:41:53 by kfaustin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../includes/minishell.h"
 
-void	builtin_env(t_msh *data)
+void	ft_unset(t_msh *data, char *key)
 {
-	t_env	*node;
-
-	node = data->ppt->list;
-	while (node)
-	{
-		ft_putstr_fd(node->key, 1);
-		ft_putstr_fd("=", 1);
-		ft_putstr_fd(node->value, 1);
-		ft_putstr_fd("\n", 1);
-		node = node->next;
-	}
-	g_exit_status = 0;
+	if (check_exp_first_node(data, key))
+		return ;
+	if (check_exp_till_end(data, key))
+		return ;
 }

@@ -6,7 +6,7 @@
 /*   By: kfaustin <kfaustin@student.42porto.>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/05 11:00:11 by kfaustin          #+#    #+#             */
-/*   Updated: 2023/05/27 16:22:40 by kfaustin         ###   ########.fr       */
+/*   Updated: 2023/05/27 19:09:17 by kfaustin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ void	check_builtin_aux(t_msh *data)
 		do_builtin(data, data->lst_cmd->argv[0]);
 		close_pipes(data);
 		free_all(data);
-		exit(0);
+		exit(g_exit_status);
 	}
 }
 
@@ -91,7 +91,7 @@ static void	do_no_pipe(t_msh *data)
 		{
 			do_builtin(data, cmd);
 			free_all(data);
-			exit(0);
+			exit(g_exit_status);
 		}
 		path_cmd = execute_condition(data);
 		if (!path_cmd)

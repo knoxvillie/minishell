@@ -6,7 +6,7 @@
 /*   By: kfaustin <kfaustin@student.42porto.>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/13 10:47:40 by kfaustin          #+#    #+#             */
-/*   Updated: 2023/05/24 10:44:04 by kfaustin         ###   ########.fr       */
+/*   Updated: 2023/05/27 19:05:05 by kfaustin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,4 +88,5 @@ void	builtin_cd(t_msh *data)
 		do_cd(data);
 	free_table(data->env);
 	init_env_table(data);
+	g_exit_status = 0;
 }

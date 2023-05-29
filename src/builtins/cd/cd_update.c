@@ -6,7 +6,7 @@
 /*   By: fvalli-v <fvalli-v@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/21 18:46:51 by fvalli-v          #+#    #+#             */
-/*   Updated: 2023/05/24 09:38:23 by kfaustin         ###   ########.fr       */
+/*   Updated: 2023/05/27 19:05:20 by kfaustin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,4 +74,5 @@ void	builtin_cd_update(t_msh *data)
 		go_home_up(data);
 	if (number_cmds == 2)
 		do_cd_up(data);
+	g_exit_status = 0;
 }
